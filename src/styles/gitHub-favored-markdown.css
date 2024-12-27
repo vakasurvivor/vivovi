@@ -1,0 +1,48 @@
+section[data-footnotes] {
+  margin-block-end: 1.5rem;
+}
+
+a[data-footnote-ref] {
+  @apply transition-colors hover:text-blue-600 hover:dark:text-blue-500;
+  text-decoration-line: none;
+  font-feature-settings: 'tnum';
+  color: var(--tw-prose-body);
+  &::before {
+    content: '\2006[';
+  }
+  &::after {
+    content: ']\2005';
+  }
+}
+
+ol:has(li[id^='user-content-fn-']) {
+  list-style: none;
+  padding-left: 2rem;
+  counter-reset: item;
+  font-size: 0.875em;
+  line-height: 1.4285714;
+
+  li {
+    position: relative;
+    counter-increment: item;
+    /* padding-left: 8px; */
+
+    &::before {
+      content: '[' counter(item) ']';
+      display: inline-block;
+      vertical-align: top;
+      position: absolute;
+      translate: -100%;
+      width: 2rem;
+      font-feature-settings: 'tnum';
+    }
+
+    cite > a {
+      border-style: none;
+    }
+  }
+
+  p {
+    margin-block: 0;
+  }
+}

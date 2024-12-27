@@ -1,0 +1,87 @@
+/* 文章を引用する場合のスタイル */
+figure[data-blockquote-container] {
+  border-inline-start-width: 3px;
+  border-color: var(--tw-prose-quote-borders);
+
+  blockquote[data-blockquote-content] {
+    color: var(--tw-prose-body);
+
+    p:where(:not([lang='ja'])) {
+      &:first-of-type::before {
+        content: '\201C\00A0';
+      }
+
+      &:last-of-type::after {
+        content: '\200A\201D';
+      }
+
+      &:has(+ p[lang='ja'])::after {
+        content: '\200A\201D';
+      }
+
+      & + p[lang='ja']::before {
+        content: '「';
+      }
+    }
+
+    p[lang='ja'] {
+      font-style: normal;
+
+      &:first-of-type::before {
+        content: '「';
+      }
+
+      &:last-of-type::after {
+        content: '」\00A0（DeepL翻訳）';
+      }
+    }
+  }
+
+  figcaption[data-blockquote-credit] {
+    padding-inline-start: 1rem;
+
+    a {
+      border-color: currentColor;
+      @apply hover:border-transparent;
+    }
+  }
+}
+
+/* 画像を引用する場合のスタイル */
+figure[data-blockquote-container]:has(img) {
+  @apply rounded-lg border border-border/40 bg-shiki-light-bg shadow-md dark:bg-shiki-dark-bg;
+
+  blockquote[data-blockquote-content] {
+    padding-inline-start: 0;
+
+    p {
+      margin-block: 0;
+
+      &:first-of-type::before {
+        content: none;
+      }
+      &:first-of-type::after {
+        content: none;
+      }
+    }
+
+    img {
+      margin-block: 0px;
+      box-shadow: none;
+    }
+  }
+
+  figcaption[data-blockquote-credit] {
+    padding: 0;
+    margin: 0;
+
+    p {
+      margin-block: 0.5rem;
+      padding-inline: 0.5rem;
+      a {
+        border-color: currentColor;
+        @apply hover:border-transparent;
+      }
+    }
+  }
+}

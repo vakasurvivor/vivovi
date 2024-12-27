@@ -1,0 +1,332 @@
+---
+slug: nextjs-linkcard
+title: Next.js リンクカードを実装する
+description: 手順を解説しています
+createdAt: 2024-09-17
+tags: [Next.js, React, MDX]
+eyecatch: eyecatch.png
+---
+
+## はじめに
+
+リンクカードを実装する。実装する上で回避するポイント。
+
+小規模サイトでは、必要十分かと思います。nextjs環境では、APIルート経由でmeta情報を取得する。
+
+クライアント側では、サーバー側で取得する方法。ssgでビルドする。サーバー側で取得する必要がある。シンプル。
+
+## はじめに
+
+### CORS オリジン間リソース共有 とは？
+
+CORS（Cross-Origin Resource Sharing）は、ウェブブラウザが異なるオリジン（ドメイン、プロトコル、またはポート）からリソースをリクエストする際に、セキュリティを確保するための仕組みです。
+通常、ウェブブラウザはセキュリティ上の理由から、異なるオリジンからのリソースの読み込みを制限しています。これを「同一オリジンポリシー」と呼びます。
+
+https://developer.mozilla.org/ja/docs/Web/HTTP/CORS
+
+### 同一オリジンポリシー
+
+同一オリジンポリシーは、ウェブページが自身のオリジンと異なるオリジンからリソースを読み込むことを制限するセキュリティ機能です。
+例えば、`https://example.com`から読み込まれたウェブページは、`https://another-domain.com`からリソースを読み込むことができません。
+
+CORSは、この同一オリジンポリシーを緩和するための仕組みです。
+具体的には、サーバーが特定のオリジンからのリクエストを許可するために、HTTPヘッダーを使用してブラウザに指示を出します。
+例えば、`https://api.example.com`というAPIがあり、`https://my-website.com`からそのAPIにアクセスしたい場合、
+APIサーバーは以下のようなHTTPヘッダーを返すことで、`https://my-website.com`からのリクエストを許可します：
+
+Access-Control-Allow-Origin: https://my-website.com
+これにより、ブラウザは`https://my-website.com`からのリクエストを許可し、APIのデータを取得することができます。
+
+サーバー側でフェッチする理由
+ブラウザ側で直接フェッチする場合、上記のようにCORSヘッダーが正しく設定されていないと、リクエストがブロックされることがあります。
+これを回避するために、サーバー側でフェッチする方法が推奨されます。サーバー側でフェッチすることで、以下の利点があります.
+
+CORSの問題を回避: サーバー側でフェッチすることで、ブラウザのCORS制限を回避できます。
+サーバーは通常、CORS制限を受けないため、自由に他のオリジンからリソースを取得できます。
+セキュリティの向上: APIキーやその他の機密情報をクライアント側に露出させることなく、安全にデータを取得できます。
+パフォーマンスの向上: サーバー側でデータをフェッチし、整形してからクライアントに送信することで、
+クライアント側の負荷を軽減し、ページの読み込み速度を向上させることができます。
+
+https://developer.mozilla.org/ja/docs/Web/Security/Same-origin_policy
+
+```sh title="npm" caption="npm"
+npm i metascraper
+```
+
+https://github.com/microlinkhq/metascraper
+
+```sh title="npm" caption="npm"
+npm i metascraper-title metascraper-description metascraper-publisher metascraper-image metascraper-logo-favicon
+```
+
+- [metascraper-title](https://github.com/microlinkhq/metascraper/tree/master/packages/metascraper-title)
+- [metascraper-description](https://github.com/microlinkhq/metascraper/tree/master/packages/metascraper-description)
+- [metascraper-publisher](https://github.com/microlinkhq/metascraper/tree/master/packages/metascraper-publisher)
+- [metascraper-image](https://github.com/microlinkhq/metascraper/tree/master/packages/metascraper-image)
+- [metascraper-logo-favicon](https://github.com/microlinkhq/metascraper/tree/master/packages/metascraper-logo-favicon)
+
+{/* prettier-ignore */}
+```ts title="@/utils/fetch-metadata.ts"
+import metascraper from 'metascraper';
+import metascraperDescription from 'metascraper-description';
+import metascraperImage from 'metascraper-image';
+import metascraperLogo from 'metascraper-logo-favicon';
+import metascraperPublisher from 'metascraper-publisher';
+import metascraperTitle from 'metascraper-title';
+
+interface LinkCardData {
+  url: string;
+  title: string;
+  description: string;
+  provider: string;
+  image: string;
+  icon: string;
+}
+
+const metascraperInstance = metascraper([
+  metascraperImage(),
+  metascraperLogo(),
+  metascraperTitle(),
+  metascraperDescription(),
+  metascraperPublisher()
+]);
+
+// fetchMetadata
+const fetchMetadata = async (url: string): Promise<LinkCardData | null> => {
+  try {
+    const response = await fetch(url);
+    const html = await response.text();
+    const metadata = await metascraperInstance({ html, url });
+
+    return {
+      url,
+      title: metadata.title || '',
+      description: metadata.description || '',
+      provider: metadata.publisher || '',
+      image: metadata.image || '',
+      icon: metadata.logo || '',
+    };
+  } catch (e) {
+    console.error('Error fetching or processing metadata:', e);
+    return null;
+  }
+};
+
+export { fetchMetadata };
+```
+
+{/* prettier-ignore */}
+```ts title="@/utils/fetch-metadata.ts" {45-55} {78-95}
+import metascraper from 'metascraper';
+import metascraperDescription from 'metascraper-description';
+import metascraperImage from 'metascraper-image';
+import metascraperLogo from 'metascraper-logo-favicon';
+import metascraperPublisher from 'metascraper-publisher';
+import metascraperTitle from 'metascraper-title';
+import sharp from 'sharp';
+
+interface LinkCardData {
+  url: string;
+  title: string;
+  description: string;
+  provider: string;
+  image: string;
+  icon: string;
+}
+
+interface OptimizeImageProps {
+  imageUrl: string;
+  width: number;
+  height: number;
+}
+
+const metascraperInstance = metascraper([
+  metascraperImage(),
+  metascraperLogo(),
+  metascraperTitle(),
+  metascraperDescription(),
+  metascraperPublisher()
+]);
+
+/**
+ * @param {url: string} - p要素に渡されるprops
+ * @returns {Promise<LinkCardData | null>} - カスタマイズされたp要素
+ * @see {@link https://metascraper.js.org |「metascraper」仕様}
+ */
+async function fetchMetadata (url: string): Promise<LinkCardData | null> {
+  try {
+    const response = await fetch(url, {
+      headers: { 'User-Agent': 'Googlebot' },
+    });
+    const html = await response.text();
+    const metadata = await metascraperInstance({ html, url });
+
+    const optimizedImage = await optimizeImage({
+      imageUrl: metadata.image,
+      width: 500,
+      height: 250,
+    });
+
+    const optimizedIcon = await optimizeImage({
+      imageUrl: metadata.logo,
+      width: 48,
+      height: 48,
+    });
+
+    return {
+      url,
+      title: metadata.title || '',
+      description: metadata.description || '',
+      provider: metadata.publisher || '',
+      image: metadata.image || '', // [!code --]
+      icon: metadata.logo || '', // [!code --]
+      image: optimizedImage || '', // [!code ++]
+      icon: optimizedIcon || '', // [!code ++]
+    };
+  } catch (e) {
+    console.error('Error fetching or processing metadata:', e);
+    return null;
+  }
+};
+
+/**
+ * @param {OptimizeImageProps} props
+ * @returns {Promise<string>} - 最適された画像のBase64 文字列
+ * @see {@link https://sharp.pixelplumbing.com |「sharp」仕様}
+ */
+async function optimizeImage({ imageUrl, width, height }: OptimizeImageProps): Promise<string> {
+  try {
+    const res = await fetch(imageUrl);
+    // レスポンスからバイナリデータを取得
+    const arrayBuffer = await res.arrayBuffer();
+    // Node.jsのBufferオブジェクトに変換
+    const buffer = Buffer.from(arrayBuffer);
+    // sharpを使用して、画像を最適化する
+    const optimizedImageBuffer = await sharp(buffer)
+      .resize(width, height)
+      .webp({ quality: 90 })
+      .toBuffer();
+    return `data:image/webp;base64,${optimizedImageBuffer.toString('base64')}`;
+  } catch (e) {
+    console.error('Error optimizing image:', e);
+    return '';
+  }
+}
+
+export { fetchMetadata };
+```
+
+```ts title=" "
+return `data:image/webp;base64,${optimizedImageBuffer.toString('base64')}`;
+```
+
+は、Base64エンコードされた画像データを表しています。これを分解して説明しますね。
+
+1. `data:image/webp;`
+   データURLスキームの一部で、データが画像であり、形式がWebPであることを示しています。WebPは、Googleが開発した画像フォーマットで、JPEGやPNGよりも高い圧縮率を提供します。
+
+2. `base64,`
+   データがbase64エンコードされていることを示しています。base64は、バイナリデータをテキスト形式に変換する方法で、画像データをHTMLやCSS内に埋め込む際にも使用されます。
+
+3. `${optimizedImageBuffer.toString('base64')}`
+   Node.jsのBufferオブジェクトをbase64文字列に変換したものです。`optimizedImageBuffer`は、最適化された画像データを含むバッファであり、`.toString(){:ts}`メソッドを使用して base64エンコードされた文字列に変換されています。
+
+{/* prettier-ignore */}
+```tsx title="coustom-p.tsx" caption="react"
+import { cn } from '@/utils/cn';
+import { fetchMetadata } from '@/utils/fetch-metadata';
+import { URL_PATTERN } from '@/utils/regex';
+import Image from 'next/image';
+import { DetailedHTMLProps, HTMLAttributes, ReactElement } from 'react';
+
+interface CustomParagraphProps
+  extends DetailedHTMLProps<
+    HTMLAttributes<HTMLParagraphElement>,
+    HTMLParagraphElement
+  > {}
+
+/**
+ * @param {CustomParagraphProps} props - p要素に渡されるprops
+ * @returns {Promise<JSX.Element>} - カスタマイズされたp要素
+ * @see {@link https://sharp.pixelplumbing.com/ |「sharp」仕様書}
+ */
+
+export default async function P(props: CustomParagraphProps) {
+  // <p>要素のprops.childrenが単一要素であるかを確認
+  if (
+    !Array.isArray(props.children) &&
+    typeof props.children === 'object' &&
+    props.children !== null
+  ) {
+    const { href: anchorHref, children: anchorChildren } = (
+      props.children as ReactElement
+    ).props;
+    // <a>要素の内包した文字列とhref属性が同一であり、有効なurlであった場合
+    if (anchorHref === anchorChildren && URL_PATTERN.test(anchorHref)) {
+      // urlから<meta>情報を取得する
+      const metadata = await fetchMetadata(anchorHref);
+      // metadataからリンクカードを作成し、<p>要素と差し替える
+      return (
+        metadata && (
+          <a
+            href={metadata.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(
+              'my-6 flex h-[125px] justify-between overflow-hidden',
+              'rounded-lg border border-foreground/5',
+              '*:text-foreground *:dark:text-primary-foreground',
+              'first:[&>div]:transition-colors first:[&>div]:hover:bg-blue-100',
+            )}
+          >
+            <div className={cn(
+              'w-full min-w-[240px] bg-[hsl(204_100%_99%)] p-4',
+              'flex flex-col justify-between'
+            )}
+            >
+              <span className={cn(
+                'block overflow-hidden',
+                'text-ellipsis text-nowrap text-base'
+              )}
+              >
+                {metadata.title}
+              </span>
+              <span className={cn(
+                'block overflow-hidden',
+                'text-ellipsis text-nowrap text-sm font-normal'
+              )}
+              >
+                {metadata.description}
+              </span>
+              <div className="flex items-center gap-2">
+                <Image
+                  unoptimized
+                  height={24}
+                  width={24}
+                  src={metadata.icon}
+                  alt={metadata.title}
+                  className="size-6 object-cover object-center"
+                />
+                <span className="text-sm">{metadata.provider}</span>
+              </div>
+            </div>
+            <div className="min-w-[240px] border-l border-foreground/5">
+              <Image
+                unoptimized
+                width={250}
+                height={125}
+                src={metadata.image}
+                alt={metadata.title}
+                className="h-full w-full object-cover object-left"
+              />
+            </div>
+          </a>
+        )
+      );
+    }
+  }
+  // デフォルトの<p>要素を返す
+  return <p {...props} />;
+}
+
+```

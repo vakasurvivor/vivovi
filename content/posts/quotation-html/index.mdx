@@ -1,0 +1,473 @@
+---
+slug: quotation-html
+title: 文中におけるHTMLの引用記法を考える
+description: HTMLの構造や意味論的にどう記述するべきなのか
+createdAt: 2024-11-30
+tags: [css]
+eyecatch: img/eyecatch.png
+---
+
+### はじめに \{#introduction\}
+
+記事を執筆するには、その下準備として、取り上げる内容と関連する文献に目を通すことになります。当然のことですが、参考にした著作物から勝手に引用することは許されません。著作権を考慮する必要があります。
+
+<Callout title="注意事項" type="warning">
+一般的に私的使用する場合は、著作権の違反とはなりません。しかし、規模や営利目的とは無関係に、インターネット上で公開する場合は、私的使用の範囲を超えているとみなされます。
+</Callout>
+
+そのため、著作権を侵害せずに引用するには、出典を明示しなければなりません。明示の場所は、利用した著作物に近接していることが原則ですが、著作物の性質や文章の流れ等を考慮して、注記を付して巻末や脚注に記載する方法も許されます。
+
+著作権を侵害しなければ、なにを引用しようが書き手の自由です。しかし、引用するたびに ”どのように明示するのか” と考えるのは骨が折れます。よって当サイトでは、指針となる引用の記述方式として以下を参照しています。
+
+- 脚注の記述方式 : [バンクーバー方式](https://ja.wikipedia.org/wiki/%E3%83%90%E3%83%B3%E3%82%AF%E3%83%BC%E3%83%90%E3%83%BC%E6%96%B9%E5%BC%8F)
+
+  技術文書でもよく使用される脚注の方式です。本文中に通し番号を付けて引用し、文末にリストとして連番で記載します。Markdownの拡張機能と相性が良いです。
+
+- 参考文献の記述方式 :  [<dfn><abbr title="Standards for Information of Science and Technology">SIST</abbr></dfn> （科学技術情報流通技術基準）](https://warp.ndl.go.jp/info:ndljp/pid/12003258/jipsti.jst.go.jp/sist/index.html)
+
+  独立行政法人 科学技術振興機構が作成した参考文献に関するガイドラインです。科学系論文を対象として策定されたようですが、日本国内において文理を問わず広く使用されています。
+
+ブログ記事に学術論文のような厳密さは求められませんが、記述方式を統一することは大切です。可読性の向上に加えて、正確な引用は、元の文献にしっかりとアクセスできることを保証します。関心のある読者が、より深い理解を得るための道標となります。
+
+このように、引用の記述方式を明確にすることで ”どのように明示するのか” という懸念は解消されますが、それは通常のテキスト（自然言語）の範囲に限ります。HTMLで記述する場合は、マークアップ言語としての構文（Syntax）と意味論（Semantics）を考慮して再検討が必要です。
+
+### HTML仕様の確認
+
+HTMLで記述する場合は、マークアップ言語としてのシンタックス（構文）とセマンティクス（意味論）を考慮して再検討が必要です。
+
+HTMLの仕様を確認することから始める
+
+MDNで調べることが多い
+
+注意点
+
+MDN（Mozilla Developer Network）は、非常に信頼性の高く、Web開発に関する多くの情報を提供しています。ただし、MDNは一次情報ではなく、二次情報に分類されます。これは、MDNが元となる、わかりやすく説明するためのドキュメントを提供しているためです。
+
+- WHATWG (<abbr>Web Hypertext Application Technology Working Group</abbr>)
+- W3C (<abbr>World Wide Web Consortium</abbr>)
+- MDN (<abbr>Mozilla Developer Network</abbr>)
+
+それぞれの関係性と違いについて説明しますね
+
+HTML（HyperText Markup Language）の構文と意味論は、ウェブページの構造と内容を定義するための基本的な概念です。それぞれの役割と違いについて説明します。
+
+#### 構文（Syntax） \{#html-syntax\}
+構文は、HTMLコードの構造や形式を定義する一連の規則です。これは、特定のタグや属性がどのように組み合わすべきかを定義します。WebブラウザがHTML文書を正しく解析し、表示するために不可欠です。
+
+
+```html title="構文が正しい例"
+<a href="https://example.com">Click</a>
+```
+ここで、`<a>`は開始タグ、`</a>`は終了タグです。開始タグ内の属性hrefは、値が引用符で囲まれています。
+
+```html title="構文が間違っている例"
+<!-- 属性名の間違い -->
+<a here="https://example.com">Click</a><!-- [!code error] -->
+
+<!-- 引用符の欠如 -->
+<a href=https://example.com>Click</a><!-- [!code error] -->
+
+<!-- 閉じタグの欠如 -->
+<a href="https://example.com">Click<!-- [!code error] -->
+
+<!-- タグの順序ミス -->
+</a href="https://example.com">Click<a><!-- [!code error] -->
+
+<!-- 不正なネスト -->
+<a href="https://example.com"><p>Click</a></p><!-- [!code error] -->
+```
+
+#### 意味論（Semantics） \{#html-semantics\}
+意味論は、HTML要素が持つ意味や役割を指します。つまり、特定のタグが持つ意味やその目的を定義します。意味論的に正しいマークアップは、ユーザーや検索エンジン、スクリーンリーダーなどがコンテンツをより理解しやすくします。
+
+意味論は、コードの意味に関するものです。これは要素が実際に何を表しているかに関するもので、ブラウザや検索エンジンがウェブページの内容を理解するのを助けます。
+
+同じ例を使うと、`<a>`タグは単なる構文上の要素ではなく、意味的には他のウェブリソースへのハイパーリンクを表しています。
+
+
+- ###### 非意味的要素
+  `<div>`や`<span>`に代表される、これらの要素は内容についての情報を提供しません。
+
+- 意味的要素
+
+  `<article>`、`<header>`、`<footer>`などのこれらの要素は、含まれる内容に意味のある文脈を提供します。
+
+```html
+<div>これはコンテンツのセクションです。</div>
+```
+
+```html
+<article>これはコンテンツのセクションです。</article>
+```
+
+両方のスニペットは視覚的には同じようにコンテンツを表示するかもしれませんが、意味的なタグ`<article>`は、その内容が自己完結型で独立したコンテンツの一部であることを示す追加の意味を提供します。
+
+```html title="意味論の例"
+<article>
+  <!-- <article> 要素は独立したコンテンツの一部を表し、ブログ記事やニュース記事などに使用されます -->
+  <header>
+    <!-- <header> 要素は、セクションやページのヘッダーを定義し、通常タイトルや著者情報などが含まれます -->
+    <h1>Introduction to HTML</h1>
+    <!-- <h1> 要素は、そのセクションの最も重要な見出しを表します -->
+    <p>Posted on January 1, 2025 by Jane Doe</p>
+    <!-- <p> 要素は段落を表し、ここでは記事の投稿日と著者情報を含みます -->
+  </header>
+  <section>
+    <!-- <section> 要素は、文書内のテーマの関連する内容をグループ化するセクションを定義します -->
+    <h2>What is HTML?</h2>
+    <!-- <h2> 要素は、そのセクション内で2番目に重要な見出しを表します -->
+    <p>HTML stands for HyperText Markup Language...</p>
+    <!-- <p> 要素は段落を表し、ここではHTMLの定義を説明しています -->
+  </section>
+  <footer>
+    <!-- <footer> 要素は、セクションやページのフッターを定義し、連絡先情報や著作権情報などを含みます -->
+    <p>Contact me at janedoe@example.com</p>
+    <!-- <p> 要素は段落を表し、ここでは連絡先情報を提供しています -->
+  </footer>
+</article>
+```
+
+
+構文： HTML要素の書き方と構造。
+
+意味論： HTML要素の意味とドキュメント構造内での役割。
+
+### 引用に関するHTML要素の意味論
+
+HTMLにおいて、引用に深く関係する要素は
+
+- `<blockquote>`要素
+- `<q>`要素
+- `<cite>`要素
+
+#### blockquote 要素の意味論 \{#blockquote-element-semantics\}
+
+
+> <p lang="en">The blockquote element represents a section that is quoted from another source. Content inside a blockquote must be quoted from another source, whose address, if it has one, may be cited in the cite attribute.</p>
+>
+> <p lang="ja">`blockquote`要素は、他のソースから引用されたセクションを表します。`blockquote`内の内容は、別のソースからの引用でなければならず、そのアドレスがあれば、`cite`属性で引用できます。</p>
+>
+> @ 出典: WHATWG. <cite>["The blockquote element"](https://html.spec.whatwg.org/multipage/grouping-content.html#the-blockquote-element).</cite> HTML Standard. (参照 2024-11-28)
+
+仕様書によると、`<blockquote>`は別のソースから引用するべきだと強調されている。同一のソースからの引用はもちろんだが、装飾目的の使用も望ましくない。例えば、`<blockquote>`は Google Chrome だと以下のようなデフォルトのスタイルが付与されている。
+
+
+<CodeTabs>
+```css title="chrome" caption="chrome"
+/* user agent stylesheet */
+blockquote {
+  display: block;
+  margin-block-start: 1__qem;
+  margin-block-end: 1em;
+  margin-inline-start: 40px;
+  margin-inline-end: 40px;
+}
+```
+
+```css title="safari" caption="safari"
+/* user agent stylesheet */
+blockquote {
+  display: block;
+  margin-block-start: 1__qem;
+  margin-block-end: 1em;
+  margin-inline-start: 40px;
+  margin-inline-end: 40px;
+}
+```
+
+```css title="firefox" caption="firefox"
+/* user agent stylesheet */
+blockquote {
+  display: block;
+  margin-block: 1em;
+  margin-inline: 40px;
+}
+```
+</CodeTabs>
+
+> <p lang="en">If the cite attribute is present, [...] User agents may allow users to follow such citation links, but they are primarily intended for private use (e.g., by server-side scripts collecting statistics about a site's use of quotations), not for readers.</p>
+>
+> <p lang="ja">`cite`属性が存在する場合、[...] ユーザ・エージェントは、ユーザがこのような引用リンクをたどることを許可するかもしれませんが、それは主に個人的な使用（例えば、サイトの引用の使用に関する統計を収集するサーバ側スクリプト）を意図したものであり、読者のためのものではありません。</p>
+>
+> @ 引用: <cite>HTML Standard [「4.4.4 The blockquote element」](https://html.spec.whatwg.org/multipage/grouping-content.html#the-blockquote-element)</cite>
+
+https://developer.mozilla.org/ja/docs/Web/HTML/Element/blockquote
+
+#### q 要素の意味論 \{#q-element-semantics\}
+
+> <p lang="en">The blockquote element represents a section that is quoted from another source. Content inside a blockquote must be quoted from another source, whose address, if it has one, may be cited in the cite attribute.</p>
+>
+> <p lang="ja">`blockquote`要素は、他のソースから引用されたセクションを表します。`blockquote`内の内容は、別のソースからの引用でなければならず、そのアドレスがあれば、`cite`属性で引用できます。</p>
+>
+> @ 出典: WHATWG. <cite>["The blockquote element"](https://html.spec.whatwg.org/multipage/grouping-content.html#the-blockquote-element).</cite> HTML Standard. (参照 2024-11-28)
+
+仕様書によると、`<blockquote>`は別のソースから引用するべきだと強調されている。同一のソースからの引用はもちろんだが、装飾目的の使用も望ましくない。例えば、`<blockquote>`は`Google Chrome`だと以下のようなデフォルトのスタイルが付与されている。
+
+
+```css title="user agent stylesheet"
+blockquote {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 40px;
+  margin-inline-end: 40px;
+  unicode-bidi: isolate;
+}
+```
+
+> <p lang="en">If the cite attribute is present, [...] User agents may allow users to follow such citation links, but they are primarily intended for private use (e.g., by server-side scripts collecting statistics about a site's use of quotations), not for readers.</p>
+>
+> <p lang="ja">`cite`属性が存在する場合、[...] ユーザ・エージェントは、ユーザがこのような引用リンクをたどることを許可するかもしれませんが、それは主に個人的な使用（例えば、サイトの引用の使用に関する統計を収集するサーバ側スクリプト）を意図したものであり、読者のためのものではありません。</p>
+>
+> @ 引用: <cite>HTML Standard [「4.4.4 The blockquote element」](https://html.spec.whatwg.org/multipage/grouping-content.html#the-blockquote-element)</cite>
+
+https://developer.mozilla.org/ja/docs/Web/HTML/Element/blockquote
+
+#### cite 要素の意味論 \{#cite-element-semantics\}
+
+> <p lang="en">The cite element represents the title of a work. [...] A person's name is not the title of a work — even if people call that person a piece of work — and the element must therefore not be used to mark up people's names.</p>
+>
+> <p lang="ja">`cite`要素は、著作物のタイトルを表します。[...] 人の名前は作品のタイトルではないので（たとえ人々がその人を作品と呼ぶとしても）、この要素は人の名前をマークアップするために使ってはいけません。</p>
+>
+> @ 引用: <cite>HTML Standard [「4.5.6 The cite element」](https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-cite-element)</cite>
+
+要するに「人=ヒト」と「物＝モノ」を区別しましょう
+
+```html title="HTML"
+<blockquote>
+  <p>吾輩は猫である</p>
+  <cite>福沢諭吉</cite>
+</blockquote>
+```
+
+---
+
+```html title="HTML"
+<blockquote>
+  <p>不倫は文化</p>
+  <cite>石田純一</cite>
+</blockquote>
+```
+
+### フリーザを\<cite\>で囲えるのか？
+
+「ん？フリーザは`<cite>`で囲える？」
+
+<Callout title="正確に言い換えると...">
+漫画『ドラゴンボール』の有名なキラーフレーズ💭「私の戦闘力は530000です」を`<blockquote>`内で引用するとき、発言者のフリーザを`<cite>`で囲ってもいいのか問題
+</Callout>
+
+フリーザは「ヒト」なのか？それとも「モノ」なのか？
+「モノじゃないとしても、そもそも宇宙人じゃん」
+
+{/* prettier-ignore */}
+```html title="ダメな例"
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+  <cite>フリーザ</cite><!-- [!code error] -->
+</blockquote>
+```
+
+{/* prettier-ignore */}
+```html title="ダメな例" showLineNumbers
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+  <p>フリーザ</p>
+</blockquote>
+```
+
+{/* prettier-ignore */}
+```html title="ダメな例" {3-4} showLineNumbers
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+  <p>フリーザ</p>
+</blockquote>
+```
+
+{/* prettier-ignore */}
+```html title="ダメな例" showLineNumbers
+<blockquote><!-- [!code warning] -->
+  <p>私の戦闘力は530000です</p>
+  <p>フリーザ</p>
+</blockquote> <!-- [!code error] -->
+```
+
+{/* prettier-ignore */}
+```html title="ダメな例" showLineNumbers
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+<p>フリーザ</p>
+```
+
+{/* prettier-ignore */}
+```html title="ダメな例" {3-4} showLineNumbers
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+<p>フリーザ <cite>『ドラゴンボール』</cite></p>
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+<p>フリーザ <cite>『ドラゴンボール』</cite></p>
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+<p>フリーザ <cite>『ドラゴンボール』</cite></p>
+```
+
+{/* prettier-ignore */}
+```html title="ダメな例" showLineNumbers
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+<p>フリーザ <cite>『ドラゴンボール』単行本24巻より抜粋</cite></p><!-- [!code warning] -->
+```
+
+{/* prettier-ignore */}
+```html title="ダメな例" showLineNumbers {4-6}
+<blockquote><!-- [!code ++] -->
+  <p>私の戦闘力は530000です</p><!-- [!code --] -->
+</blockquote>
+<p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p>
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+<p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p><!-- [!code warning] -->
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+<p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p><!-- [!code warning] -->
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+<p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p><!-- [!code error] -->
+<blockquote><!-- [!code ++] -->
+  <p>私の戦闘力は530000です</p><!-- [!code --] -->
+</blockquote>
+<p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p>
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+<p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p><!-- [!code warning] -->
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+<p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p><!-- [!code warning] -->
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+<p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p><!-- [!code error] -->
+<blockquote><!-- [!code ++] -->
+  <p>私の戦闘力は530000です</p><!-- [!code --] -->
+</blockquote>
+<p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p>
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+<blockquote><!-- [!code ++] -->
+  <p>私の戦闘力は530000です</p><!-- [!code --] -->
+</blockquote>
+<p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p>
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+<p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p><!-- [!code warning] -->
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+<p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p><!-- [!code warning] -->
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+<p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p><!-- [!code error] -->
+<blockquote><!-- [!code ++] -->
+  <p>私の戦闘力は530000です</p><!-- [!code --] -->
+</blockquote>
+<p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p>
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+<p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p><!-- [!code warning] -->
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+<p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p><!-- [!code warning] -->
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+<p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p><!-- [!code error] -->
+<blockquote><!-- [!code ++] -->
+  <p>私の戦闘力は530000です</p><!-- [!code --] -->
+</blockquote>
+<p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p>
+<blockquote>
+  <p>私の戦闘力は530000です</p>
+</blockquote>
+```
+
+{/* prettier-ignore */}
+```html title="これで良し" showLineNumbers
+<figure>
+  <blockquote>
+    <p>私の戦闘力は530000です</p>
+  </blockquote>
+  <figcaption>
+    <p>— フリーザ <cite>『ドラゴンボール』</cite>単行本24巻より抜粋</p>
+  </figcaption>
+</figure>
+```
+
+### `<blockquote>`
+
+https://developer.mozilla.org/ja/docs/Web/HTML/Element/q
+
+https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-cite-element
+
+<Playground_1/>
+
+### Markdownへ適用するには？
+
+https://github.com/NikitaRevenco/rehype-semantic-blockquotes
+
+```text title="MDX" caption="md"
+> <p lang="en">The cite element represents the title of a work. [...] A person's name is not the title of a work — even if people call that person a piece of work — and the element must therefore not be used to mark up people's names.</p>
+>
+> <p lang="ja">`cite`要素は、著作物のタイトルを表します。... 人の名前は作品のタイトルではないので（たとえ人々がその人を作品と呼ぶとしても）、この要素は人の名前をマークアップするために使ってはいけません。</p>
+>
+> @ 引用: HTML Standard <cite>[「4.5.6 The cite element」](https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-cite-element)</cite>
+```
+
+```html title="HTML"
+<figure data-blockquote-container>
+  <blockquote data-blockquote-content>
+    <p lang="en">
+      The cite element represents the title of a work. [...] A person's name is not the title of a work — even if people call that person a piece of work — and the element must therefore not be used to mark up people's names.
+    </p>
+    <p lang="ja">
+      <code>cite</code>要素は、著作物のタイトルを表します。... 人の名前は作品のタイトルではないので（たとえ人々がその人を作品と呼ぶとしても）、この要素は人の名前をマークアップするために使ってはいけません。
+    </p>
+  </blockquote>
+  <figcaption data-blockquote-credit>
+    <p>
+      引用: HTML Standard <cite><a href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-cite-element" target="_blank" rel="noreferrer">「4.5.6 The cite element」</a></cite>
+    </p>
+  </figcaption>
+</figure>
+```
+
+> <p lang="en">The cite element represents the title of a work. [...] A person's name is not the title of a work — even if people call that person a piece of work — and the element must therefore not be used to mark up people's names.</p>
+>
+> <p lang="ja">`cite`要素は、著作物のタイトルを表します。... 人の名前は作品のタイトルではないので（たとえ人々がその人を作品と呼ぶとしても）、この要素は人の名前をマークアップするために使ってはいけません。</p>
+>
+> @ 出典: <cite>[The cite element](https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-cite-element),</cite> - HTML Standard : Text-level semantics. （参照 2024-11-28）
+
+
+正確な引用は、法律を厳守することだけが目的ではありません。それは関心のある読者が、元の文献にしっかりとアクセスできることを保証します。読者がより深い理解を得るための道標となります。
+
+### 参考文献
+
+{/* 脚注 */}
+[^1]: WHATWG. <cite>["The blockquote element"](https://html.spec.whatwg.org/multipage/grouping-content.html#the-blockquote-element).</cite> HTML Standard. (参照 2024-11-28)
+[^2]: WHATWG. <cite>["The blockquote element"](https://html.spec.whatwg.org/multipage/grouping-content.html#the-blockquote-element).</cite> HTML Standard. (参照 2024-11-28)
+[^3]: WHATWG. <cite>["The blockquote element"](https://html.spec.whatwg.org/multipage/grouping-content.html#the-blockquote-element).</cite> HTML Standard. (参照 2024-11-28)

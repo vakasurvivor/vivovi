@@ -1,0 +1,47 @@
+.rehype-toc {
+  @apply text-base prose-ul:my-2;
+
+  .rehype-toc-level {
+    counter-reset: section;
+  }
+
+  .rehype-toc-level-1 {
+    @apply my-3;
+  }
+  .rehype-toc-level-2 {
+    @apply pl-7;
+  }
+
+  .rehype-toc-item {
+    list-style-type: none;
+    position: relative;
+
+    &::before {
+      counter-increment: section;
+      content: counters(section, '.') '.';
+      position: absolute;
+      translate: -100% 0%;
+      left: 0;
+      @apply font-medium text-current transition-colors duration-300;
+      font-feature-settings: 'tnum';
+    }
+  }
+
+  .rehype-toc-item:has(> .rehype-toc-link:hover) {
+    @apply hover:text-blue-600 hover:dark:text-blue-500;
+  }
+
+  .rehype-toc-item-h2,
+  .rehype-toc-item-h3 {
+    @apply text-[--tw-prose-body];
+  }
+
+  .rehype-toc-item-h4,
+  .rehype-toc-item-h5 {
+    @apply text-sm text-[--tw-prose-lead];
+  }
+
+  .rehype-toc-link {
+    @apply font-medium text-current no-underline transition-colors duration-300 hover:text-blue-600 hover:dark:text-blue-500;
+  }
+}

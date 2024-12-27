@@ -1,0 +1,196 @@
+---
+slug: specifications-html
+title: MDNは公式の仕様書ではない。HTML、CSS、JavaScriptの仕様書はどこにあるのか？
+description: HTMLの構造や意味論的にどう記述するべきなのか
+createdAt: 2024-11-30
+tags: [MDN,HTML,CSS,JavaScript]
+eyecatch: img/eyecatch.png
+---
+
+### はじめに
+
+Web開発のフロントエンドについて不明な点や疑問があるとします。そこで、簡単な検索ワードでググってみる。すると、かなりの確率で<abbr title="Mozilla Developer Network">MDN</abbr>の該当ページが検索結果に表示されるかと思います。
+
+<dfn title="MDN">MDN</dfn>は、初学者から上級者まで世界中の開発者に利用されています。非常に大規模なサイトで、Webに関する膨大な情報を網羅的に提供しています。難解なカタカナ用語と辞書的でムダのない説明は、高い"専門性"に裏付けられた"信頼感"を読者に与えます。
+
+そのため、はじめてMDNを閲覧した初学者は<strong>「Webのすべてが定義されている仕様書」</strong>だと認識します。とくに書籍などでWeb技術の全体像を学ぶステップを飛ばして、MDNを読みかじるとそのような認識に陥りがちです。少なくとも私はそうでした。この理解は大きく的外れではないですが、詳しくは違います。
+
+この記事では、MDNがあくまでも二次情報であることを踏まえ、フロントエンドの主要言語であるHTML、CSS、JavaScriptの仕様書はどこにあるのかを整理したいと思います。
+
+### MDNは二次情報である
+
+Web開発に取り組むと、コードを打ち込む時間よりも、調べている時間がのほうが長いことに気づきます。この原因は、Web技術が非常に広範な分野であり、なおかつ進化も早いため、学習や実践の過程で多くの疑問や課題に直面することが避けられないためです。
+
+効率的に情報収集するためにネット検索を積極的に使用するべきですが、問題は「情報の海」から信頼できる情報を探し出すことです。こちらの記事が参考になります。
+
+[https://stockmark.co.jp/coevo/primary-source](https://stockmark.co.jp/coevo/primary-source)
+
+記事のまとめで「情報を上手く活用するためには、一次情報と二次情報の特徴を理解し、効率的に収集する必要がある」[^1]と言及されています。Web技術の文脈に沿って考えると、MDNは何次情報に該当するのか。MDNのトップページには、次のように記されています。
+
+> <p lang="en">Resources for Developers, by Developers. Documenting web technologies, including CSS, HTML, and JavaScript, since 2005.</p>
+>
+> <p lang="ja">開発者による開発者向けリソース。2005年以来、CSS、HTML、JavaScriptなどのWebテクノロジーをドキュメント化しています。</p>
+>
+> @ 出典: Mozilla. <cite>["MDN Web Docs"](https://developer.mozilla.org/ja/).</cite> MDN Web Docs. (参照 2024-11-28)
+
+一般的には、一次情報を元にして分析、解釈、整理された情報が二次情報だと考えられています。二次情報は、しばしば一次情報を統合し、広い視点を提供したり結論を導き出します。そのような前提に立つと、「HTML、CSS、JavaScripなどのWebテクノロジー」が一次情報に該当し、それらを「ドキュメント化 ＝ 二次情報化」していると読み取れます。**つまり、MDNは二次情報に分類できます。**
+
+### 一次情報はどこにある？
+
+「HTML、CSS、JavaScripなどのWebテクノロジー」が一次情報に該当するわけですが、それらは一体どこにあるのか？MDNを読み進めていくと、秘密結社のような雰囲気を漂わせる謎の団体名が登場します。<abbr title="Web Hypertext Application Technology Working Group">WHATWG</abbr>、<abbr title="World Wide Web Consortium">W3C</abbr>、<abbr title="ECMA International">ECMA</abbr>、IETF、IEEE、Unicode、OASIS、ISO、など…
+
+一般的にこれらの団体は、標準化団体と呼ばれています。策定する規格は、国際規格として公開するもの、勧告または推奨という形で公開するものがあります。扱っている分野は、コンピュータ言語や通信規格など団体ごとに異なりますが、共通の目的を持ちます。
+
+それは、<strong>「Web技術の標準化によって、一貫性と互換性が高い開発環境」</strong>をWeb開発者に提供することです。MDNは、これらの標準化団体の活動と密接に関連しています。それぞれの標準化団体は、策定に伴ってインターネット上に仕様書を公開しています。その仕様書こそが一次情報です。
+
+### 標準化団体と言語仕様
+
+MDNに関連する標準化団体は数多くありますが、この記事では、Web開発のフロントエンドにおける主要言語、HTML、CSS、JavaScripに関連する団体に限定します。各標準化団体が策定する仕様書と言語の対応関係は、下図の通りです。
+
+<div className="rounded-lg overflow-hidden border border-border/40 shadow-md">
+| 標準化団体 |        仕様書        |    言語    |
+| ---------- | -------------------- | ---------- |
+| W3C        | CSS Snapshot         | CSS        |
+| WHATWG     | HTML Living Standard | HTML       |
+| ECMA       | ECMA-262             | JavaScript |
+</div>
+
+#### W3C=>CSS
+
+
+
+![W3C](./img/w3c.png)[^2]
+[^2]: W3C. <cite>["Making the Web work"](https://www.w3.org/).</cite> W3C. (参照 2024-11-28)
+
+[W3C（World Wide Web Consortium）](https://www.w3.org/)は、Webで使用される各種技術の標準化を推進するために設立された非営利の標準化団体です。1994年に設立され、現在に至るまでWeb技術の標準化を牽引しています。W3Cは、業界の専門家や企業、研究者、そして一般のWebユーザーからのフィードバックを取り入れながら、継続的に技術標準を更新し、より良いWeb体験を提供するための努力を続けています。
+
+![CSS Working Group | W3C](./img/css_working_group.png)[^3]
+[^3]: CSS Working Group. <cite>["Cascading Style Sheets home page"](https://www.w3.org/2022/06/html-wg-charter.html).</cite> W3C. (参照 2024-11-28)
+
+CSS（Cascading Style Sheets）の標準仕様もW3Cのワーキンググループである「[Cascading Style Sheets Working Group](https://www.w3.org/Style/CSS/)」によって策定されており、現在のバージョンに対応する「CSS Snapshot」として勧告されています。「CSS Snapshot」は、その時点で安定しているCSS仕様書を示し、開発者が最新かつ安定したスタイルを利用できるようにしています。
+
+![CSS Snapshot](./img/css_snapshot.png)[^4]
+[^4]: CSS Working Group. <cite>["CSS Snapshot 2023"](https://www.w3.org/2022/06/html-wg-charter.html).</cite> W3C. (2023-12-07). (参照 2024-11-28)
+
+- [CSS Snapshot 2023（原文）](https://www.w3.org/TR/css-2023/)
+- [CSS Snapshot 2023（日本語訳）](https://momdo.github.io/css-2023/)
+
+<Callout title="参考動画">
+2024年は、W3Cの設立30周年の記念式典があったようです。「日本のインターネットの父」といわれる村井純氏の登壇スピーチが、W3C公式のYouTubeに掲載されていました。W3C設立の経緯についても触れられています。ご参考までに👍
+
+https://www.youtube.com/watch?v=kZj5SsmRfYo&ab_channel=W3C
+</Callout>
+
+#### WHATWG=>HTML
+
+![WHATWG](./img/whatwg.png)[^5]
+[^5]: WHATWG. <cite>["Welcome to the WHATWG community"](https://whatwg.org/).</cite> WHATWG. (参照 2024-11-28)
+
+[WHATWG（Web Hypertext Application Technology Working Group）](https://whatwg.org/)は、HTMLと関連技術の開発をするための非営利の標準化団体です。前述のW3CがWeb開発者の要望を軽視していることなどを不満に思ったApple、Mozilla、Operaの開発者たちによって2004年に結成されました。HTMLの標準仕様である「HTML Living Standard」を策定しています。
+
+
+<Callout type="warning" title="W3C勧告の「HTML5」は廃止済み">
+こちらの記事▸「[HTML Living StandardとHTMLの歴史](https://www.tohoho-web.com/html/memo/htmlls.htm#w3c_to_whatwg)」で、W3Cが勧告する「HTML5」が廃止され、WHATWGが策定する<strong>「HTML Living Standard」が参照すべき唯一の標準仕様</strong>となった経緯についてまとめられています。「HTML5」が廃止されたとはいえ、[HTML Working Group](https://www.w3.org/groups/wg/css/)がW3Cにまだ存在します。[憲章](https://www.w3.org/2022/06/html-wg-charter.html)を読む限りだと、WHATWGと部分的な協力関係にあり一部の仕様に提言ができるようですが、特に参照する必要はなさそうです。
+</Callout>
+
+![HTML Living Standard](./img/html_living_standard.png)[^6]
+[^6]: WHATWG. <cite>["HTML Standard"](https://html.spec.whatwg.org/multipage/).</cite> HTML Living Standard. (2024-12-12). (参照 2024-11-28)
+
+- [HTML Living Standard（原文）](https://html.spec.whatwg.org/multipage/)
+- [HTML Living Standard（日本語訳）](https://momdo.github.io/html/)
+
+#### ECMA=>JavaScript
+
+![Ecma International](./img/ecma.png)[^7]
+[^7]: Ecma International. <cite>["Home"](https://ecma-international.org/).</cite> Ecma International. (参照 2024-11-28)
+
+{/* > ![Ecma International](./img/ecma.png)
+>
+> @ 出典: Ecma International. <cite>["Home"](https://ecma-international.org/).</cite> Ecma International. (参照 2024-11-28) */}
+
+[ECMA（Ecma International）](https://ecma-international.org/)は、情報通信技術の標準化を目的とする非営利の標準化団体です。1961年に設立され、当初は「European Computer Manufacturers Association（欧州電子計算機工業会）」という名称でしたが、世界的な展開や活動状況を反映して1994年に現在の名称に変更されました。JavaScriptの国際規格であるECMAScriptを策定しています。
+
+<Callout title="ECMAScriptってなに？">
+ECMAScriptは標準仕様であり、JavaScriptはその仕様に従って実装されたプログラミング言語です。こちらの記事▸「[JavaScriptとECMAScriptの関係](https://typescriptbook.jp/overview/ecmascript)」で、ECMAScriptが誕生した経緯について解説されています。
+</Callout>
+
+![tc39](./img/tc39.png)[^8]
+[^8]: TC39. <cite>["TC39 - Specifying JavaScript"](https://tc39.es/).</cite> TC39. (参照 2024-11-28)
+
+{/* > ![tc39](./img/tc39.png)
+>
+> @ 出典: TC39. <cite>["TC39 - Specifying JavaScript."](https://tc39.es/).</cite> TC39. (参照 2024-11-28) */}
+
+[TC39](https://tc39.es/)は、JavaScriptの標準化を担当するECMAに所属する委員会です。ECMAScriptの開発と改良を行うために設立されました。このTC39が、ECMAScriptの新しい機能や仕様の変更を提案し、議論し、承認する役割を果たしています。
+
+![ECMA-262](./img/ecma_262.png)[^9]
+[^9]: TC39. <cite>["ECMAScript® 2025 Language Specification"](https://tc39.es/).</cite> ECMA-262. (2024-12-11). (参照 2024-11-28)
+
+{/* > ![ECMA-262](./img/ecma_262.png)
+>
+> @ 出典: TC39. <cite>["ECMAScript® 2025 Language Specification"](https://tc39.es/).</cite> ECMA-262. (2024-12-11). (参照 2024-11-28) */}
+
+[ECMA-262 ECMAScript（原文）](https://tc39.es/ecma262/)にて、執筆時点の最新の仕様を確認できます。
+
+### MDNの存在意義
+
+このように、MDNのようなドキュメントサイトは、Web開発者が効率的に学び、最新の情報にアクセスできるようにするための重要なリソースです。これからWeb開発を始める人にとっても、非常に有益なツールと言えるでしょう。
+
+MDN（Mozilla Developer Network）は、非常に信頼性の高く、Web開発に関する多くの情報を提供しています。ただし、MDNは一次情報ではなく、二次情報に分類されます。これは、MDNが元となる、わかりやすく説明するためのドキュメントを提供しているためです。
+
+![mdn](./img/mdn.jpg)
+
+1. 一元的な情報提供
+MDNのようなドキュメントサイトは、HTML、CSS、JavaScript、APIなど、Web開発に必要な情報を一元的に提供しています。これにより、**開発者は複数の情報源を探し回る必要がなくなります。**
+
+2. 信頼性と最新情報の提供
+MDNはMozillaが運営しており、提供される情報は信頼性が高く、最新のWeb標準やブラウザの機能に対応しています。これにより、開発者は最新の技術を安心して使用できます。
+
+3. 教育リソース
+MDNは、初心者から上級者までを対象とした豊富なチュートリアルやガイド、リファレンスを提供しています。これにより、さまざまなレベルの開発者が自分のスキルを向上させることができます。
+
+4. コミュニティのサポート
+MDNは開発者コミュニティによって支えられており、フィードバックやコントリビューションを受け入れることで、常に情報を更新しています。これにより、実際の開発現場で役立つ知識が反映されています。
+
+5. 多言語対応
+MDNは複数の言語でコンテンツを提供しており、世界中の開発者が母国語で学習できるようになっています。
+
+### アクセシビリティはデジタル庁を参考に
+
+デジタル庁
+
+[ウェブアクセシビリティ導入ガイドブック](https://www.digital.go.jp/resources/introduction-to-web-accessibility-guidebook)
+
+[JIS X 8341-3](https://webdesk.jsa.or.jp/books/W11M0090/index/?bunsyo_id=JIS+X+8341-3%3A2016)
+
+[ISO/IEC 40500](https://webdesk.jsa.or.jp/books/W11M0090/index/?bunsyo_id=JIS+X+8341-3%3A2016)
+
+
+デジタル庁デザインシステムが参照しているアクセシビリティの基準は、WCAGやWAI-ARIAといったアクセシビリティに関する国際的な勧告と、常にアップデートされているHTMLの標準仕様（HTML Living Standard）です。WCAGの最新バージョンは2.2で、2.0はJIS X 8341-3:2016と互換性があります。
+
+<dfn><abbr title="World Wide Web Consortium">W3C</abbr></dfn>
+W3C（World Wide Web Consortium）
+
+[W3C](https://www.w3.org/)
+
+[Web Accessibility Initiative (WAI) | W3C](https://www.w3.org/WAI/)
+[W3C Accessibility Standards Overview | Web Accessibility Initiative (WAI) | W3C](https://www.w3.org/WAI/standards-guidelines/)
+
+<dfn><abbr title="Web Content Accessibility Guidelines">WCAG</abbr> 2.2</dfn>
+
+[WCAG 2.2（原文）](https://www.w3.org/TR/WCAG22/)
+[WCAG 2.2（日本語訳）](https://waic.jp/translations/WCAG22/)
+
+[WCAG 3.0（原文）](https://www.w3.org/TR/wcag-3.0/)
+
+<dfn><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> 1.2</dfn>
+
+[WAI-ARIA（原文）](https://www.w3.org/TR/wai-aria-1.2/)
+[WAI-ARIA（日本語訳）](https://momdo.github.io/wai-aria-1.2/)
+
+<dfn><abbr title="Web Accessibility Infrastructure Committee">WAIC</abbr></dfn> （ウェブアクセシビリティ基盤委員会）
+[ウェブアクセシビリティ基盤委員会](https://waic.jp/)
+
+
+{/* 脚注 */}
+[^1]: WHATWG. <cite>["The blockquote element"](https://html.spec.whatwg.org/multipage/grouping-content.html#the-blockquote-element).</cite> HTML Standard. (参照 2024-11-28)

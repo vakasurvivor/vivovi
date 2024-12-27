@@ -1,0 +1,30 @@
+/* ul, ol, li
+========================================================*/
+[data-callout='info'] :is(ul, ol) li {
+  @apply before:bg-blue-600;
+  @apply marker:text-blue-600;
+}
+[data-callout='tips'] :is(ul, ol) li {
+  @apply before:bg-green-600;
+  @apply marker:text-green-600;
+}
+[data-callout='warning'] :is(ul, ol) li {
+  @apply before:bg-yellow-600;
+  @apply marker:text-yellow-600;
+}
+[data-callout='danger'] :is(ul, ol) li {
+  @apply before:bg-red-600;
+  @apply marker:text-red-600;
+}
+
+/* iframe
+========================================================*/
+[data-callout] iframe {
+  @apply mx-0 w-full;
+}
+
+/* abbr
+========================================================*/
+abbr:where([title]) {
+  @apply underline-offset-[3px];
+}

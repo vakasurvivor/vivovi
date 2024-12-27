@@ -1,0 +1,158 @@
+---
+slug: mdx-toc
+title: tailwindcssを効率よく管理するための覚え書き
+description: 手順を解説しています
+createdAt: 2024-09-13
+tags: [tailwindcss]
+eyecatch: eyecatch.png
+---
+
+国内でも利用者が増え、見聞きする機会も多くなってきたtailwindcss。Next.jsなど人気のWEBフレームワークにおいても、環境構築の初期設定として提供されるなど、導入のハードルも下がってきました。
+
+## サブタイトル1
+
+tilwindcss公式から提供されているコード支援ツールを利用する。前提条件としてエディターは、利用者の多いvdcodeを想定している。
+
+- [Tailwind CSS IntelliSens](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+  vscodeの拡張機能としてTailwind CSS IntelliSens。このツールは、自動補完。
+- [prettier-plugin-tailwindcss](https://github.com/tailwindlabs/prettier-plugin-tailwindcss)
+  一定の規則に従って、ソートしてくれます。一定の規則に従って、ソートしてくれます。一定の規則に従って、ソートしてくれます。
+
+https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss
+
+https://github.com/tailwindlabs/prettier-plugin-tailwindcss
+
+```sh title="npm" caption="npm"
+npm install -D prettier prettier-plugin-tailwindcss
+```
+
+## サブタイトル2
+
+![url-prettier-plugin-tailwindcss](./eyecatch.png)
+
+![url-prettier-plugin-tailwindcss](https://tailwindcss.com/_next/static/media/card.2d498a85.jpg)
+
+<Callout type="info">
+
+- tailwindcss
+- tailwindcss
+- tailwindcss
+  - tailwindcss
+  - tailwindcss
+- tailwindcss
+
+</Callout>
+
+<Callout type="tips">
+
+tailwindcss で記述する。tailwindcss公式から提供されている。自動補完とをサポートしてくれるvscodeの拡張機能 Tailwind CSS IntelliSens。
+
+</Callout>
+<Callout type="warning">
+
+tailwindcss で記述する。tailwindcss公式から提供されている。自動補完とをサポートしてくれるvscodeの拡張機能 Tailwind CSS IntelliSens。
+
+</Callout>
+<Callout type="danger">
+
+tailwindcss で記述する。tailwindcss公式から提供されている。自動補完とをサポートしてくれるvscodeの拡張機能 Tailwind CSS IntelliSens。
+
+</Callout>
+
+## サブタイトル3
+
+```json title=".vscode/settings.json" caption="vscode" {4-6}
+{
+  // ..
+  "tailwindCSS.experimental.classRegex": [
+    ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ]
+  // ..
+}
+```
+
+```js title=".prettierrc.mjs" caption="prettier" {3-4}
+const config = {
+  // ..
+  plugins: ['prettier-plugin-tailwindcss'],
+  tailwindFunctions: ['clsx', 'cva', 'cx'],
+  // ..
+};
+export default config;
+```
+
+```css title="style.css"
+.mask-url {
+  mask-position: center; /* !code -- */
+  mask-repeat: no-repeat; // [!code --]
+  mask-image: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>');
+}
+```
+
+## サブタイトル4
+
+[url-clsx]: https://github.com/lukeed/clsx
+[url-tailwind-merge]: https://github.com/dcastil/tailwind-merge
+[url-cva]: https://cva.style/docs
+
+- [clsx][url-clsx]
+- [tailwind-merge][url-tailwind-merge]
+- [cva（class-variance-authority）][url-cva]
+
+```sh title="npm" caption="npm"
+npm i clsx tailwind-merge class-variance-authority
+```
+
+```ts title="utils/cn.ts" showLineNumbers
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+```
+
+```json title=".vscode/settings.json" caption="vscode"
+{
+  // ..
+  "tailwindCSS.experimental.classRegex": [
+    ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"], // [!code focus]
+    ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"], // [!code ++]
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ]
+  // ..
+}
+```
+
+```js title=".prettierrc.mjs" caption="prettier"
+const config = {
+  // ..
+  plugins: ['prettier-plugin-tailwindcss'],
+  tailwindFunctions: ['clsx', 'cn', 'cva', 'cx'], // [!code ++]
+  tailwindFunctions: ['clsx', 'cva', 'cx'], // [!code --]
+  // ..
+};
+
+export default config;
+```
+
+{/* prettier-ignore */}
+```html title="utils/cn.ts" showLineNumbers
+<h2 id="サブタイトル1" class="mb-4 max-sm:mb-4"> <!-- [!code ++] -->
+  サブタイトル1
+  <a aria-hidden="true" tabindex="-1" href="#サブタイトル1">
+    <span class="icon icon-link"></span>
+  </a>
+</h2>
+```
+
+```css title="style.css"
+.mask-url {
+  mask-position: center; /* [!code --] */
+  mask-repeat: no-repeat; /* [!code focus] */
+  mask-image: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>');
+}
+```

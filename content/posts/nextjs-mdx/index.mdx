@@ -1,0 +1,217 @@
+---
+slug: nextjs-mdx
+title: Next.js × shadcn/ui × MDX
+description: 手順を解説しています
+createdAt: 2024-09-23
+tags: [Next.js, React, svg, tailwindcss]
+eyecatch: eyecatch.png
+---
+
+## サブタイトル1
+
+効率よくコンポーネントを管理するが、ひとつの提案として
+
+類似のライブラリーとして、classnamesがある。と比較してを謳っており、特に拘りがなければ軽量なclsxを採用すべきかと。
+を組み合わせたcn関数を自作すると、を同時に解決できクラス名の管理が容易になる。
+
+```json title=".vscode/settings.json" caption="vscode"
+{
+  // ..
+  "tailwindCSS.experimental.classRegex": [
+    ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"], // [!code --]
+    ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ]
+  // ..
+}
+```
+
+<Playground
+template="react-ts"
+customSetup={{
+        dependencies: {
+          "tailwind-merge": "latest",
+          "clsx": "latest",
+          "class-variance-authority": "latest",
+        }
+      }}
+files={{
+        'utils/cn.ts': {
+code: `import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+interface CalloutProps {
+type?: 'info' | 'warning' | 'danger';
+className?: string;
+children: React.ReactNode;
+}
+
+`,
+active: true,
+readOnly: true,
+},
+
+}}
+
+/>
+
+```js title=".prettierrc.mjs" caption="prettier"
+const config = {
+  // ..
+  plugins: ['prettier-plugin-tailwindcss'], // [!code --]
+  tailwindFunctions: ['clsx', 'cn', 'cva', 'cx'], // [!code --]
+  // ..
+};
+
+export default config;
+```
+
+```ts title="cn.ts" showLineNumbers
+import { clsx, type ClassValue } from 'clsx'; // [!code --]
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+```
+
+```tsx title="callout.tsx" caption="react" showLineNumbers
+import { cn } from '@/utils/cn.ts'; // [!code --]
+import { cva } from 'class-variance-authority';
+import { Info, Skull, TriangleAlert } from 'lucide-react';
+import React from 'react';
+
+// cva
+const calloutStyles = cva('relative my-8 rounded-lg rounded-r-none p-4', {
+  variants: {
+    type: {
+      info: 'bg-blue-400/15',
+      warning: 'bg-yellow-400/15',
+      danger: 'bg-red-400/15',
+    },
+  },
+  defaultVariants: {
+    type: 'info',
+  },
+});
+const iconStyles = cva('absolute right-[1px] top-0 -translate-y-1/2 translate-x-1/2', {
+  variants: {
+    type: {
+      info: 'text-blue-500',
+      warning: 'text-yellow-500',
+      danger: 'text-red-500',
+    },
+  },
+  defaultVariants: {
+    type: 'info',
+  },
+});
+const accentBorderStyles = cva('absolute bottom-0 right-0 -z-10 block h-full w-[3px] rounded-full', {
+  variants: {
+    type: {
+      info: 'bg-blue-500',
+      warning: 'bg-yellow-500',
+      danger: 'bg-red-500',
+    },
+  },
+  defaultVariants: {
+    type: 'info',
+  },
+});
+
+// Callout Component
+interface CalloutProps {
+  type?: 'info' | 'warning' | 'danger';
+  className?: string;
+  children: React.ReactNode;
+}
+export default function Callout({ type = 'info', className, children }: CalloutProps) {
+  return (
+    <aside className={cn(calloutStyles({ type }), className)}>
+      <div className={cn(iconStyles({ type }), 'z-10 bg-white')}>
+        <Icon type={type} size={30} />
+      </div>
+      <div className={cn(iconStyles({ type }), 'text-white')}>
+        <Icon type={type} size={40} strokeWidth={4} />
+      </div>
+      <span className={accentBorderStyles({ type })} />
+      <div className="text-2xl font-bold">{children}</div>
+    </aside>
+  );
+}
+
+// Icon Component
+interface IconProps {
+  type?: 'info' | 'warning' | 'danger';
+  size?: number;
+  strokeWidth?: number;
+}
+const Icon = ({ type = 'info', size, strokeWidth }: IconProps) => {
+  return (
+    <>
+      {type === 'info' && <Info size={size} strokeWidth={strokeWidth} />}
+      {type === 'warning' && <TriangleAlert size={size} strokeWidth={strokeWidth} />}
+      {type === 'danger' && <Skull size={size} strokeWidth={strokeWidth} />}
+    </>
+  );
+};
+
+// Icon Component
+interface IconProps {
+  type?: 'info' | 'warning' | 'danger';
+  size?: number;
+  strokeWidth?: number;
+}
+const Icon = ({ type = 'info', size, strokeWidth }: IconProps) => {
+  return (
+    <>
+      {type === 'info' && <Info size={size} strokeWidth={strokeWidth} />}
+      {type === 'warning' && <TriangleAlert size={size} strokeWidth={strokeWidth} />}
+      {type === 'danger' && <Skull size={size} strokeWidth={strokeWidth} />}
+    </>
+  );
+};
+
+// Icon Component
+interface IconProps {
+  type?: 'info' | 'warning' | 'danger';
+  size?: number;
+  strokeWidth?: number;
+}
+const Icon = ({ type = 'info', size, strokeWidth }: IconProps) => {
+  return (
+    <>
+      {type === 'info' && <Info size={size} strokeWidth={strokeWidth} />}
+      {type === 'warning' && <TriangleAlert size={size} strokeWidth={strokeWidth} />}
+      {type === 'danger' && <Skull size={size} strokeWidth={strokeWidth} />}
+    </>
+  );
+};
+```
+
+```tsx title="App.tsx" caption="react" showLineNumbers
+import Callout from '@/components/callout';
+
+export default function App() {
+  return (
+    <main className="grid min-h-dvh place-items-center">
+      <div className="w-full">
+        <Callout type="info" className="mx-8">
+          <p>info</p>
+        </Callout>
+        <Callout type="warning" className="mx-8">
+          <p>warning</p>
+        </Callout>
+        <Callout type="danger" className="mx-8">
+          <p>danger</p>
+        </Callout>
+      </div>
+    </main>
+  );
+}
+```
