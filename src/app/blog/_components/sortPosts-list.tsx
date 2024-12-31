@@ -6,7 +6,7 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
+  CardHeader,
   CardTitle,
 } from '@/components/ui/card';
 import {
@@ -19,6 +19,7 @@ import {
 import { getNewestPosts, getOldestPosts } from '@/libs/post';
 import { cn } from '@/utils/cn';
 import { format } from 'date-fns';
+import { FilePen } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -56,20 +57,36 @@ export default function SortPostsList({
         </Select>
       </div>
 
-      <div
-        className={cn('grid grid-cols-2 gap-6 max-sm:grid-cols-1', className)}
-      >
+      <div className={cn('flex flex-col gap-8', className)}>
         {sortPosts.map(post => {
-          const { permalink, eyecatch, title, createdAt } = post;
+          const { permalink, eyecatch, title, description, createdAt } = post;
           return (
             <Card
-              className="row-span-2 grid w-full grid-rows-subgrid bg-background drop-shadow-md"
+              className="flex flex-row-reverse items-stretch border border-border/40 bg-shiki-light-bg drop-shadow-md dark:bg-shiki-dark-bg"
               key={permalink}
             >
-              <CardContent className="p-0">
+              <CardHeader className="flex-grow">
+                <CardTitle className="mb-4 text-xl">{title}</CardTitle>
+                <CardDescription className="line-clamp-3">
+                  {description}
+                </CardDescription>
+                <div className="!mt-4 flex items-center justify-end gap-4">
+                  <p className="flex items-center gap-2 text-sm [font-feature-settings:'tnum']">
+                    <FilePen size={16} />
+                    <time dateTime={format(new Date(createdAt), 'yyyy-MM-dd')}>
+                      {format(new Date(createdAt), 'yyyy年MM月dd日')}
+                    </time>
+                  </p>
+                  <Button variant="outline" asChild>
+                    <Link href={permalink}>記事を読む</Link>
+                  </Button>
+                </div>
+              </CardHeader>
+
+              <CardContent className="max-w-[300px] p-0">
                 {eyecatch && (
                   <Image
-                    className="aspect-[5/2] w-full overflow-hidden rounded-lg rounded-b-none object-cover"
+                    className="h-full w-full overflow-hidden rounded-lg object-cover"
                     src={eyecatch.src}
                     width={eyecatch.width}
                     height={eyecatch.height}
@@ -77,18 +94,6 @@ export default function SortPostsList({
                   />
                 )}
               </CardContent>
-
-              <CardFooter className="flex flex-col items-start justify-between">
-                <CardTitle className="mb-4 text-xl">{title}</CardTitle>
-                <div className="flex w-full items-center justify-between">
-                  <CardDescription>
-                    {format(new Date(createdAt), 'yyyy年MM月dd日 公開')}
-                  </CardDescription>
-                  <Button variant="outline" asChild>
-                    <Link href={permalink}>記事を読む</Link>
-                  </Button>
-                </div>
-              </CardFooter>
             </Card>
           );
         })}

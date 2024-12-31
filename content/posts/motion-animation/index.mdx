@@ -1,0 +1,62 @@
+---
+slug: motion-animation
+title: Framer Motion と Motion One が合併して Motion が誕生
+description: 2024年12月11日、Framer Motion と Motion One が合併して Motion が誕生しました。Reactで人気だった Framer Motion が、より汎用的なアニメーションライブラリとなり、GSAPに変わる手段として注目されています。作成者の氏の独立に伴い、Framer Motion は Motion として独立しました。
+createdAt: 2024-12-24
+tags: [JavaScript,Motion,Animation]
+eyecatch: img/eyecatch.avif
+---
+
+### はじめに
+
+2024年12月11日、Framer Motion と Motion One が合併して Motion が誕生しました。詳しくは以下のリンクを参照してください。
+
+https://motion.dev/blog/framer-motion-is-now-independent-introducing-motion
+
+Framer Motion は、React を前提としたライブラリでしたが、Motion One は Vanilla JS や Vue などのフレームワークに依存しないライブラリとして作成されました。
+
+これらが統一され、Motion Oneは Motion に、Framer Motion は Motion for React になりました。
+
+- Framer Motion
+  React を前提としたライブラリ
+
+- Motion One
+
+
+### Motion GSAP
+
+GSAP が純粋に requestAnimationFrame (rAF) でアニメーションを実行するのに対し、Motion は独自のハイブリッドエンジンを持ち、rAF と Web Animations API (WAAPI) や ScrollTimeline のようなブラウザのネイティブ API の両方でアニメーションを実行できます。
+
+https://motion.dev/docs/feature-comparison
+
+### Framer Motion から独立し Motion へ
+
+https://www.youtube.com/watch?v=gnPLkb8pP-g&ab_channel=LogRocket
+
+Motionは、`mask-image` のようにブラウザでアニメーション化できないものも含め、あらゆるCSSのプロパティをアニメーションできます。具体的には以下をサポートしています。
+
+1. 数字: `0` `100` など
+2. 数字を含む文字列: `"0vh"`, `"10px"` など
+3. 色: Hex, RGBA, HSLA.
+4. 複数の数字や色を含む複雑な文字列 (`box-shadow`など)
+5. `display: none/block`
+6. `visibility: hidden/visible`
+
+
+一般的な使用では、同じ値間 (つまり`"0px"`から`"100px"`) でのみアニメーションできます。ただし、`x` `y` `width` `height` `top` `left` `right` `bottom` は、例外として異なる値間でアニメーションできます。
+
+```jsx title="Motion" caption="react"
+<motion.div
+  initial={{ x: "100%" }}
+  animate={{ x: "calc(100vw - 50%)" }}
+/>
+```
+
+
+CSS とは異なり、Motion ではすべての変換軸を個別にアニメーション化できます。
+
+- translate: `x`, `y`, `z`
+- scale: `scale`, `scaleX`, `scaleY`
+- rotate: `rotate`, `rotateX`, `rotateY`, `rotateZ`
+- skew: `skew` `skewX`, `skewY`
+- 視点: `transformPerspective`
