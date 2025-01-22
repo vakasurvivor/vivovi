@@ -70,3 +70,5 @@ const Switch = React.forwardRef<
     </SwitchPrimitives.Root>
   );
 });
+
+Switch.displayName = 'Switch';

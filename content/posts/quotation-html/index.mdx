@@ -3,11 +3,12 @@ slug: quotation-html
 title: 文中におけるHTMLの引用記法を考える
 description: HTMLの構造や意味論的にどう記述するべきなのか
 createdAt: 2024-11-30
+updatedAt: 2024-11-30
 tags: [css]
 eyecatch: img/eyecatch.png
 ---
 
-### はじめに \{#introduction\}
+### はじめに
 
 記事を執筆するには、その下準備として、取り上げる内容と関連する文献に目を通すことになります。当然のことですが、参考にした著作物から勝手に引用することは許されません。著作権を考慮する必要があります。
 
@@ -51,7 +52,7 @@ MDN（Mozilla Developer Network）は、非常に信頼性の高く、Web開発�
 
 HTML（HyperText Markup Language）の構文と意味論は、ウェブページの構造と内容を定義するための基本的な概念です。それぞれの役割と違いについて説明します。
 
-#### 構文（Syntax） \{#html-syntax\}
+#### 構文（Syntax）
 構文は、HTMLコードの構造や形式を定義する一連の規則です。これは、特定のタグや属性がどのように組み合わすべきかを定義します。WebブラウザがHTML文書を正しく解析し、表示するために不可欠です。
 
 
@@ -77,7 +78,7 @@ HTML（HyperText Markup Language）の構文と意味論は、ウェブページ
 <a href="https://example.com"><p>Click</a></p><!-- [!code error] -->
 ```
 
-#### 意味論（Semantics） \{#html-semantics\}
+#### 意味論（Semantics）
 意味論は、HTML要素が持つ意味や役割を指します。つまり、特定のタグが持つ意味やその目的を定義します。意味論的に正しいマークアップは、ユーザーや検索エンジン、スクリーンリーダーなどがコンテンツをより理解しやすくします。
 
 意味論は、コードの意味に関するものです。これは要素が実際に何を表しているかに関するもので、ブラウザや検索エンジンがウェブページの内容を理解するのを助けます。
@@ -140,7 +141,7 @@ HTMLにおいて、引用に深く関係する要素は
 - `<q>`要素
 - `<cite>`要素
 
-#### blockquote 要素の意味論 \{#blockquote-element-semantics\}
+#### blockquote 要素の意味論
 
 
 > <p lang="en">The blockquote element represents a section that is quoted from another source. Content inside a blockquote must be quoted from another source, whose address, if it has one, may be cited in the cite attribute.</p>
@@ -153,6 +154,7 @@ HTMLにおいて、引用に深く関係する要素は
 
 
 <CodeTabs>
+
 ```css title="chrome" caption="chrome"
 /* user agent stylesheet */
 blockquote {
@@ -193,7 +195,7 @@ blockquote {
 
 https://developer.mozilla.org/ja/docs/Web/HTML/Element/blockquote
 
-#### q 要素の意味論 \{#q-element-semantics\}
+#### q 要素の意味論
 
 > <p lang="en">The blockquote element represents a section that is quoted from another source. Content inside a blockquote must be quoted from another source, whose address, if it has one, may be cited in the cite attribute.</p>
 >
@@ -223,7 +225,7 @@ blockquote {
 
 https://developer.mozilla.org/ja/docs/Web/HTML/Element/blockquote
 
-#### cite 要素の意味論 \{#cite-element-semantics\}
+#### cite 要素の意味論
 
 > <p lang="en">The cite element represents the title of a work. [...] A person's name is not the title of a work — even if people call that person a piece of work — and the element must therefore not be used to mark up people's names.</p>
 >
@@ -260,7 +262,7 @@ https://developer.mozilla.org/ja/docs/Web/HTML/Element/blockquote
 フリーザは「ヒト」なのか？それとも「モノ」なのか？
 「モノじゃないとしても、そもそも宇宙人じゃん」
 
-{/* prettier-ignore */}
+
 ```html title="ダメな例"
 <blockquote>
   <p>私の戦闘力は530000です</p>
@@ -268,7 +270,6 @@ https://developer.mozilla.org/ja/docs/Web/HTML/Element/blockquote
 </blockquote>
 ```
 
-{/* prettier-ignore */}
 ```html title="ダメな例" showLineNumbers
 <blockquote>
   <p>私の戦闘力は530000です</p>
@@ -276,7 +277,6 @@ https://developer.mozilla.org/ja/docs/Web/HTML/Element/blockquote
 </blockquote>
 ```
 
-{/* prettier-ignore */}
 ```html title="ダメな例" {3-4} showLineNumbers
 <blockquote>
   <p>私の戦闘力は530000です</p>
@@ -284,7 +284,6 @@ https://developer.mozilla.org/ja/docs/Web/HTML/Element/blockquote
 </blockquote>
 ```
 
-{/* prettier-ignore */}
 ```html title="ダメな例" showLineNumbers
 <blockquote><!-- [!code warning] -->
   <p>私の戦闘力は530000です</p>
@@ -292,7 +291,6 @@ https://developer.mozilla.org/ja/docs/Web/HTML/Element/blockquote
 </blockquote> <!-- [!code error] -->
 ```
 
-{/* prettier-ignore */}
 ```html title="ダメな例" showLineNumbers
 <blockquote>
   <p>私の戦闘力は530000です</p>
@@ -300,7 +298,6 @@ https://developer.mozilla.org/ja/docs/Web/HTML/Element/blockquote
 <p>フリーザ</p>
 ```
 
-{/* prettier-ignore */}
 ```html title="ダメな例" {3-4} showLineNumbers
 <blockquote>
   <p>私の戦闘力は530000です</p>
@@ -316,7 +313,6 @@ https://developer.mozilla.org/ja/docs/Web/HTML/Element/blockquote
 <p>フリーザ <cite>『ドラゴンボール』</cite></p>
 ```
 
-{/* prettier-ignore */}
 ```html title="ダメな例" showLineNumbers
 <blockquote>
   <p>私の戦闘力は530000です</p>
@@ -324,7 +320,6 @@ https://developer.mozilla.org/ja/docs/Web/HTML/Element/blockquote
 <p>フリーザ <cite>『ドラゴンボール』単行本24巻より抜粋</cite></p><!-- [!code warning] -->
 ```
 
-{/* prettier-ignore */}
 ```html title="ダメな例" showLineNumbers {4-6}
 <blockquote><!-- [!code ++] -->
   <p>私の戦闘力は530000です</p><!-- [!code --] -->
@@ -406,7 +401,6 @@ https://developer.mozilla.org/ja/docs/Web/HTML/Element/blockquote
 </blockquote>
 ```
 
-{/* prettier-ignore */}
 ```html title="これで良し" showLineNumbers
 <figure>
   <blockquote>
@@ -462,12 +456,9 @@ https://github.com/NikitaRevenco/rehype-semantic-blockquotes
 >
 > @ 出典: <cite>[The cite element](https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-cite-element),</cite> - HTML Standard : Text-level semantics. （参照 2024-11-28）
 
-
 正確な引用は、法律を厳守することだけが目的ではありません。それは関心のある読者が、元の文献にしっかりとアクセスできることを保証します。読者がより深い理解を得るための道標となります。
 
-### 参考文献
 
-{/* 脚注 */}
 [^1]: WHATWG. <cite>["The blockquote element"](https://html.spec.whatwg.org/multipage/grouping-content.html#the-blockquote-element).</cite> HTML Standard. (参照 2024-11-28)
 [^2]: WHATWG. <cite>["The blockquote element"](https://html.spec.whatwg.org/multipage/grouping-content.html#the-blockquote-element).</cite> HTML Standard. (参照 2024-11-28)
 [^3]: WHATWG. <cite>["The blockquote element"](https://html.spec.whatwg.org/multipage/grouping-content.html#the-blockquote-element).</cite> HTML Standard. (参照 2024-11-28)

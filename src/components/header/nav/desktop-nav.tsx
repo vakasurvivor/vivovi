@@ -19,16 +19,7 @@ export default function DesktopNav() {
               underline: pathname === '/',
             })}
           >
-            <Link href="/">TOP</Link>
-          </Button>
-        </li>
-        <li>
-          <Button
-            asChild
-            variant="link"
-            className={cn('font-bold', { underline: pathname === '/about' })}
-          >
-            <Link href="/about">ABOUT</Link>
+            <Link href="/">Top</Link>
           </Button>
         </li>
         <li>
@@ -37,7 +28,16 @@ export default function DesktopNav() {
             variant="link"
             className={cn('font-bold', { underline: pathname === '/blog' })}
           >
-            <Link href="/blog">BLOG</Link>
+            <Link href="/blog">Blog</Link>
+          </Button>
+        </li>
+        <li>
+          <Button
+            asChild
+            variant="link"
+            className={cn('font-bold', { underline: pathname === '/about' })}
+          >
+            <Link href="/toolhub">Tools</Link>
           </Button>
         </li>
       </ul>

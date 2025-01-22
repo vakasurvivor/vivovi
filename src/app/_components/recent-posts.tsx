@@ -1,5 +1,3 @@
-'use client';
-
 import { Post } from '#site/content';
 import { Button } from '@/components/ui/button';
 import {
@@ -9,60 +7,53 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { getNewestPosts, getOldestPosts } from '@/libs/post';
+import { getNewestPosts } from '@/libs/post';
 import { cn } from '@/utils/cn';
 import { format } from 'date-fns';
 import { FilePen } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 
-export default function SortPostsList({
+export default function RecentPosts({
   posts,
   className,
 }: {
   posts: Array<Post>;
   className?: string;
 }) {
-  const [sortPosts, setSortPosts] = useState(getNewestPosts(posts));
-
-  function handleSortPosts(value: string) {
-    if (value === 'oldest') {
-      setSortPosts(() => [...getOldestPosts(posts)]);
-    }
-    if (value === 'newest') {
-      setSortPosts(() => [...getNewestPosts(posts)]);
-    }
-  }
+  const sortPosts = getNewestPosts(posts);
+  const recentPosts = sortPosts.slice(0, 3);
 
   return (
-    <>
-      <div className="mb-8 flex items-center justify-between rounded-md border bg-background p-4 shadow-md">
-        <h2 className="text-2xl font-bold">BLOG 記事一覧</h2>
-        <Select onValueChange={value => handleSortPosts(value)}>
-          <SelectTrigger className="w-[150px]">
-            <SelectValue placeholder="並び替え" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="newest">新しい順</SelectItem>
-            <SelectItem value="oldest">古い順</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+    <div className={cn('mx-auto', className)}>
+      <div className="text- mt-28 rounded-md border border-border/40 bg-shiki-light-bg p-4 text-[clamp(1rem,0.886rem+0.57vw,1.25rem)] shadow-md dark:bg-shiki-dark-bg">
+        <p className="mb-4">
+          フロントエンジニアを目指して奮闘中。覚えては忘れ、覚えては忘れの繰り返し。己の体たらくな記憶を補強する手段として、技術記事を執筆することにしました。
+        </p>
 
+        <p className="mb-6">
+          つまりは、
+          <ruby>
+            備忘<rt>VIVO</rt>
+          </ruby>
+          録です…… ん？
+          <ruby>
+            忘備<rt>VOVI</rt>
+          </ruby>
+          録か？
+        </p>
+
+        <p>
+          「どっちなんだ？」と疑問に思い、広辞苑で調べてみました。どちらも正しいとのことです。日本語にも躓きそうな勢いですが、プログラミングの学習に勤しむ所存です。
+        </p>
+      </div>
+      <h2 className="mb-4 mt-8 text-3xl font-medium">最近の投稿</h2>
       <div className={cn('flex flex-col gap-8', className)}>
-        {sortPosts.map(post => {
+        {recentPosts.map(post => {
           const { permalink, eyecatch, title, description, createdAt } = post;
           return (
             <Card
-              className="bg-shiki-background flex flex-row-reverse items-stretch border border-border/40 drop-shadow-md"
+              className="flex flex-row-reverse items-stretch border border-border/40 bg-shiki-light-bg drop-shadow-md dark:bg-shiki-dark-bg"
               key={permalink}
             >
               <CardHeader className="flex-grow">
@@ -98,6 +89,6 @@ export default function SortPostsList({
           );
         })}
       </div>
-    </>
+    </div>
   );
 }

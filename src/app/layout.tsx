@@ -5,8 +5,10 @@ import { ThemeProvider } from './theme-provider';
 // css
 import '@/styles/globals.css';
 // font
+import VivoviLogo from '@/components/vivovi-logo';
 import { commitMono, crazyMetro, inter, notoSansJP } from '@/libs/font';
 import 'yakuhanjp/dist/css/yakuhanjp_s.css';
+import SvgLogoAnimation from './_components/svg-logo-animation';
 import { ScrollbarWidthProvider } from './scrollbar-width-provider';
 
 export const metadata: Metadata = {
@@ -42,9 +44,11 @@ export default function RootLayout({
           storageKey="acme-theme"
         >
           <ScrollbarWidthProvider>
-            <Header className="fixed left-0 top-0 z-50" />
+            <Header className="sticky left-0 top-0 z-50" />
+            <VivoviLogo />
+            <SvgLogoAnimation />
             {children}
-            <Footer />
+            <Footer className="sticky top-full" />
           </ScrollbarWidthProvider>
         </ThemeProvider>
       </body>

@@ -2,7 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/utils/cn';
 import { getSvgIconCdnUrl } from '@/utils/get-svg-icon';
 import Image from 'next/image';
-import React, { Children } from 'react';
+import React from 'react';
 
 interface CustomTabProps {
   children: React.ReactNode;
@@ -54,9 +54,9 @@ export default function CodeTabs({ children }: CustomTabProps) {
         </div>
       </TabsList>
 
-      {Children.map(children, (child, index) => (
+      {React.Children.map(children, (child, index) => (
         <TabsContent key={index} value={String(index + 1)}>
-          {child}
+          {React.cloneElement(child as React.ReactElement, { key: index })}
         </TabsContent>
       ))}
     </Tabs>

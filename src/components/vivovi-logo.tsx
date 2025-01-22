@@ -9,25 +9,20 @@ export default function VivoviLogo({
   className,
 }: VivoviLogoProps): JSX.Element {
   return (
-    <div className={cn('font-inter', className)}>
-      <div className="relative inline-block w-fit">
+    <div className={cn('absolute left-0 top-0 -z-50 font-inter', className)}>
+      <div className="inline-block w-fit">
         {/* clamp min:320px max:1024px */}
         <span
           className={cn(
             'left-0 inline-block pt-20 max-md:pt-16',
-            // 'px-[clamp(1.5rem,1.273rem+1.14vw,2rem)]',
-            'px-12',
+            'px-[clamp(2rem,1.545rem+2.27vw,3rem)]',
             'text-[clamp(5rem,3.636rem+6.82vw,8rem)] leading-none',
           )}
         >
-          V
+          &nbsp;
         </span>
         <AccentBorder type="left" />
         <AccentBorder type="right" />
-      </div>
-      <div className="relative -left-8 inline-block w-fit">
-        {/* clamp min:320px max:1024px */}
-        <span className="text-[clamp(2.5rem,1.364rem+5.68vw,5rem)]">IVOVI</span>
       </div>
     </div>
   );
@@ -37,7 +32,7 @@ export default function VivoviLogo({
 
 const AccentBorderStyle = cva(
   [
-    '[--angle:19deg] [--thickness:2.5px]',
+    '[--angle:19deg] [--thickness:4px]',
     'absolute top-0',
     'h-[var(--thickness)]',
     'origin-top-left',

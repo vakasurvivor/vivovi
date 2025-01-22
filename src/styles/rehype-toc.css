@@ -1,3 +1,7 @@
+/* .fixed-toc + h3 {
+  @apply mt-7;
+} */
+
 .rehype-toc {
   @apply text-base prose-ul:my-2;
 

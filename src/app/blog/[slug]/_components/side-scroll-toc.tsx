@@ -21,7 +21,7 @@ export default function SideScrollToc({ className }: SideScrollTocProps) {
 
   const { activeId, headings } = useToc({
     contentId: 'content',
-    targetSelectors: 'h2, h3, h4',
+    targetSelectors: 'h3, h4',
     tocContainer: 'content-toc',
   });
 
@@ -32,37 +32,35 @@ export default function SideScrollToc({ className }: SideScrollTocProps) {
       return;
     }
 
-    const fixedTocEl = document.querySelector('.fixed-toc');
-    const headerEl = document.querySelector('header');
-    if (!(fixedTocEl && headerEl)) return;
+    const headerElHeight = document.querySelector('header')?.offsetHeight;
+    const accordionTocEl = document.querySelector('.fixed-toc');
 
-    // IntersectionObserverに渡すcallback関数
-    function intersectionCallback(entries: IntersectionObserverEntry[]) {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) {
-          setVisible(true);
-        } else {
-          setVisible(false);
-        }
-      });
+    if (headerElHeight !== undefined && accordionTocEl) {
+      function callback(entries: IntersectionObserverEntry[]) {
+        entries.forEach(entry => {
+          // 下方向にスクロールして、監視対象がビューポート上部へ押し出された場合のみ
+          if (
+            !entry.isIntersecting &&
+            entry.boundingClientRect.top < headerElHeight!
+          ) {
+            setVisible(true);
+          } else {
+            setVisible(false);
+          }
+        });
+      }
+
+      const option = {
+        rootMargin: `-${headerElHeight}px 0px 0px 0px`,
+      };
+
+      const observer = new IntersectionObserver(callback, option);
+      observer.observe(accordionTocEl);
+
+      return () => {
+        observer.disconnect();
+      };
     }
-
-    // IntersectionObserverに渡すoption設定
-    const intersectionOption = {
-      root: null,
-      rootMargin: `-${headerEl.offsetHeight}px 0px 0px 0px`,
-      threshold: 0,
-    };
-
-    const observer = new IntersectionObserver(
-      intersectionCallback,
-      intersectionOption,
-    );
-    observer.observe(fixedTocEl);
-
-    return () => {
-      observer.disconnect();
-    };
   }, []);
 
   return (
@@ -71,9 +69,8 @@ export default function SideScrollToc({ className }: SideScrollTocProps) {
         <aside className={cn('h-fit overflow-y-auto', className)}>
           <div
             className={cn(
-              'mx-auto w-fit max-w-[300px]',
-              'visible opacity-100 transition-[visibility,_opacity] duration-300',
-              !visible && 'invisible opacity-0',
+              'mx-auto w-fit max-w-[300px] transition-[visibility,_opacity] duration-300',
+              visible ? 'visible opacity-100' : 'invisible opacity-0',
             )}
           >
             <ol className="relative space-y-4 border-l border-muted-foreground/50 [font-feature-settings:'palt'] dark:border-muted">

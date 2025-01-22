@@ -1,13 +1,23 @@
 ---
 slug: motion-animation
-title: Framer Motion と Motion One が合併して Motion が誕生
-description: 2024年12月11日、Framer Motion と Motion One が合併して Motion が誕生しました。Reactで人気だった Framer Motion が、より汎用的なアニメーションライブラリとなり、GSAPに変わる手段として注目されています。作成者の氏の独立に伴い、Framer Motion は Motion として独立しました。
+title: 「Framer Motion」と「Motion One」が合併して「Motion」が誕生
+description: 2024年12月11日、Framer Motion と Motion One が合併して Motion が誕生しました。共有します。実際のライブラリーの使用方法については触れません。
+target: 「Framer Motion」または「Motion One」、もしくは「GSAP」などの有名なJavaScriptアニメーションライブラリーの使用経験がある方を対象としています。
 createdAt: 2024-12-24
+updatedAt: 2024-12-30
 tags: [JavaScript,Motion,Animation]
 eyecatch: img/eyecatch.avif
 ---
 
 ### はじめに
+
+アニメーションを付け加えると、WebサイトやWebアプリケーションはより魅力的になります。アニメーションは、ユーザーに情報を効果的に伝えるだけでなく、ユーザーの注意を引くのにも役立ちます。アニメーションは、ユーザーが Web サイトやアプリケーションを使う際に、より楽しい体験を提供します。
+
+アニメーションを実装する方法はいくつかありますが、JavaScript を使ったアニメーションライブラリを使用するのは一般的です。選択できる JavaScript ライブラリは非常に多く、どれがプロジェクトに適しているかを判断するのは難しい場合があります。
+
+GSAP (GreenSock Animation Platform)
+
+### Framer Motion と Motion One が合併して Motion が誕生
 
 2024年12月11日、Framer Motion と Motion One が合併して Motion が誕生しました。詳しくは以下のリンクを参照してください。
 
@@ -15,12 +25,30 @@ https://motion.dev/blog/framer-motion-is-now-independent-introducing-motion
 
 Framer Motion は、React を前提としたライブラリでしたが、Motion One は Vanilla JS や Vue などのフレームワークに依存しないライブラリとして作成されました。
 
-これらが統一され、Motion Oneは Motion に、Framer Motion は Motion for React になりました。
+これらが統一され、Motion Oneは Mot  ion に、Framer Motion は Motion for React になりました。
 
 - Framer Motion
-  React を前提としたライブラリ
+  React での使用を前提としたライブラリ
+  宣言的な記述に重点が置かれている
 
 - Motion One
+  Vanilla JavaScript で記述されており、特定のフレームワークに依存しない。より汎用的で
+  Web Animations API (WAAPI) 上に構築された小さなライブラリです。
+
+
+Matt Perry は、Framer Motion の作成者であり、Motion にも関わっています。Motion は、Framer Motion と Motion One の統合により、React 以外のフレームワークでも使用できるようになりました。
+
+Framer Motion の作成者である Matt Perry氏の Framer 社からの独立に伴い、Framer Motion は Motion として独立しました。
+
+さらに、APIはGSAPのような伝統的なJavaScriptアニメーションライブラリに期待される多くの機能には欠けています。 例えば、スプリングのサポートや、トランスフォームを独立してアニメーションさせること、複雑なタイムラインのシーケンスなどはありません。 しかし、驚くような可能性も秘めている。 従来のJSアニメーションのバックボーンであるrequestAnimationFrameとは異なり、GPU上でアニメーションを実行することができます。
+
+私は、WAAPIの荒削りな部分を滑らかにし、その機能を強化し、バンドルサイズを最小限に抑えるライブラリを正当化するだけの十分な利点があると感じました。 Motion Oneの設計目標は、WAAPIのjQueryになることです。 その結果、GSAPのようなライブラリと同じ機能セットの多くを実現し、場合によってはさらに進化させながら、15％近いバイト数で提供している。 しかし、WAAPIをベースにしているということは、WAAPIでは決してできないこともあるということです。特に、アニメーション・フレームごとに値にアクセスする機能です。 一度WAAPIのブラックボックスに入ってしまうと、アニメーションが終わるまで出てこない。 これは、値への直接アクセスが本質的なrequestAnimationFrameの裏返しです。
+
+
+「Framer Motion か Motion One か」は、誤った二分法です。 Framer Motionは、宣言的で高レベルのAPIと、命令的で低レベルのAPIの両方を提供する。 一方、Motion One は後者のみを提供します。 両者は、異なるケースを持つ、異なる獣なのです。
+
+
+https://motion.dev/
 
 
 ### Motion GSAP

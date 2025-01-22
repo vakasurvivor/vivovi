@@ -1,7 +1,8 @@
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About',
+  title: 'ToolHub',
   description:
     'VIVOVI - 備忘録、それとも忘備録。WEB制作・開発を中心とした技術ブログです。',
 };
@@ -11,5 +12,12 @@ export default function AboutLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <main className="mt-4 px-8 max-md:px-6 max-sm:px-4">{children}</main>;
+  return (
+    <SidebarProvider>
+      <main className="mx-auto mt-4 max-w-screen-lg px-4">
+        <SidebarTrigger />
+        {children}
+      </main>
+    </SidebarProvider>
+  );
 }

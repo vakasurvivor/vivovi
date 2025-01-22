@@ -30,7 +30,6 @@ export default {
           'Meiryo',
           'sans-serif',
         ],
-
         inter: [
           'var(--font-inter)',
           'var(--font-noto-sans-jp)',
@@ -41,13 +40,11 @@ export default {
           'Meiryo',
           'sans-serif',
         ],
-
         code: [
           'var(--font-commit-mono)',
           'var(--font-noto-sans-jp)',
           'monospace',
         ],
-
         crazyMetro: [
           'var(--font-crazy-metro )',
           'var(--font-noto-sans-jp)',
@@ -105,13 +102,29 @@ export default {
             DEFAULT: 'hsl(var(--shiki-dark)/ <alpha-value>)',
             bg: 'hsl(var(--shiki-dark-bg)/ <alpha-value>)',
           },
+          background: {
+            DEFAULT: 'hsl(var(--shiki-background)/ <alpha-value>)',
+          },
+        },
+
+        sidebar: {
+          DEFAULT: 'hsl(var(--sidebar-background))',
+          foreground: 'hsl(var(--sidebar-foreground))',
+          primary: 'hsl(var(--sidebar-primary))',
+          'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+          accent: 'hsl(var(--sidebar-accent))',
+          'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+          border: 'hsl(var(--sidebar-border))',
+          ring: 'hsl(var(--sidebar-ring))',
         },
       },
+
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+
       keyframes: {
         'accordion-down': {
           from: {
@@ -130,10 +143,12 @@ export default {
           },
         },
       },
+
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+
       typography: ({ theme }: any) => ({
         DEFAULT: {
           css: { maxWidth: 'none' },

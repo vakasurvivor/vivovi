@@ -17,13 +17,15 @@ a.subheading-anchor {
       mask-size: contain;
       mask-position: center;
       background-color: var(--tw-prose-lead);
-      @apply transition-colors;
+      opacity: 0.25;
+      @apply transition-all duration-300;
     }
   }
 
   &:hover {
     span.icon-link {
       &::before {
+        opacity: 1;
         @apply bg-blue-600 dark:bg-blue-500;
       }
     }

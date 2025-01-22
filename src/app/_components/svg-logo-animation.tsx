@@ -3,7 +3,7 @@ import {
   SiAstro,
   SiBun,
   SiCloudflare,
-  SiCssmodules,
+  SiCss3,
   SiFirebase,
   SiGithub,
   SiJavascript,
@@ -25,15 +25,15 @@ import Marquee from 'react-fast-marquee';
 
 const icons = [
   {
-    icon: <SiFirebase color="default" />,
+    icon: <SiFirebase />,
     label: 'firebase',
   },
   {
-    icon: <SiCssmodules />,
-    label: 'cssmodules',
+    icon: <SiCss3 />,
+    label: 'css',
   },
   {
-    icon: <SiAstro color="default" />,
+    icon: <SiAstro />,
     label: 'astro',
   },
   {
@@ -41,11 +41,11 @@ const icons = [
     label: 'remix',
   },
   {
-    icon: <SiJavascript color="default" />,
+    icon: <SiJavascript />,
     label: 'javascript',
   },
   {
-    icon: <SiTypescript color="default" />,
+    icon: <SiTypescript />,
     label: 'typescript',
   },
   {
@@ -53,7 +53,7 @@ const icons = [
     label: 'PlanetScale',
   },
   {
-    icon: <SiPostcss color="default" />,
+    icon: <SiPostcss />,
     label: 'postcss',
   },
 
@@ -66,11 +66,11 @@ const icons = [
     label: 'Radix UI',
   },
   {
-    icon: <SiSupabase color="default" />,
+    icon: <SiSupabase />,
     label: 'Supabase',
   },
   {
-    icon: <SiReact color="default" />,
+    icon: <SiReact />,
     label: 'React',
   },
   {
@@ -78,7 +78,7 @@ const icons = [
     label: 'Next.js',
   },
   {
-    icon: <SiTailwindcss color="default" />,
+    icon: <SiTailwindcss />,
     label: 'Tailwind CSS',
   },
   {
@@ -86,7 +86,7 @@ const icons = [
     label: 'Vercel',
   },
   {
-    icon: <SiCloudflare color="default" />,
+    icon: <SiCloudflare />,
     label: 'Cloudflare R2',
   },
   {
@@ -94,11 +94,11 @@ const icons = [
     label: 'GitHub',
   },
   {
-    icon: <SiPrisma color="default" />,
+    icon: <SiPrisma />,
     label: 'Prisma',
   },
   {
-    icon: <SiStripe color="default" />,
+    icon: <SiStripe />,
     label: 'Stripe',
   },
 ];
@@ -109,32 +109,31 @@ export default function SvgLogoAnimation({ className }: SvgLogoAnimationProps) {
   return (
     <div
       className={cn(
-        'absolute left-0 top-0',
+        'absolute -left-9 top-0',
         '[--angle:19deg]',
         'h-fit',
         'w-[calc(100dvh-var(--header-height))]',
         'origin-bottom-left',
         'rotate-[calc(90deg-var(--angle))]',
+        '-z-50',
         className,
       )}
     >
-      <span className="sr-only">ロゴアニメーション</span>
+      <span className="sr-only">Logo Animation</span>
 
       <Marquee
         gradient
         gradientColor="hsl(var(--background))"
-        gradientWidth={200}
-        speed={15}
+        gradientWidth={250}
+        speed={8}
         direction="right"
-        // pauseOnHover={true}
       >
         {icons.map(icon => (
-          <div key={icon.label} className="mx-6">
-            <Slot className="-rotate-90">{icon.icon}</Slot>
+          <div key={icon.label} className="mx-5">
+            <Slot className="size-4 -rotate-90">{icon.icon}</Slot>
           </div>
         ))}
       </Marquee>
     </div>
-    // </div>
   );
 }

@@ -1,18 +1,13 @@
-import VivoviLogo from '@/components/vivovi-logo';
-import BodyCopy from './_components/body-copy';
-import SvgLogoAnimation from './_components/svg-logo-animation';
+import { posts } from '#site/content';
+import RecentPosts from './_components/recent-posts';
+// import SvgLogoAnimation from './_components/svg-logo-animation';
 
 export default function Home() {
   return (
-    <div className="relative w-full overflow-hidden">
-      {/* mt-[var(--header-height)] */}
-      {/* pl-8 max-md:pl-4" */}
-      <VivoviLogo className="pl-10" />
-      {/* clamp min:320px max:1024px */}
-      <div className="min-h-[calc(100dvh-var(--header-height))] w-full">
-        <BodyCopy />
-        <SvgLogoAnimation />
+    <>
+      <div className="mt-8 px-8 max-md:px-6 max-sm:px-4">
+        <RecentPosts posts={posts} className="max-w-4xl" />
       </div>
-    </div>
+    </>
   );
 }

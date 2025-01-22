@@ -6,7 +6,7 @@ a[data-footnote-ref] {
   @apply transition-colors hover:text-blue-600 hover:dark:text-blue-500;
   text-decoration-line: none;
   font-feature-settings: 'tnum';
-  color: var(--tw-prose-body);
+  color: inherit;
   &::before {
     content: '\2006[';
   }

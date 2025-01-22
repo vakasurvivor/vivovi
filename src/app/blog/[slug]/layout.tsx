@@ -63,7 +63,7 @@ const Post = ({
     <div
       className={cn(
         // headings
-        ['prose-headings:scroll-mt-16'],
+        ['prose-headings:scroll-mt-20'],
         // h2
         [
           'prose-h2:[font-feature-settings:"palt"]',
@@ -71,8 +71,10 @@ const Post = ({
         ],
         // h3
         ['prose-h3:[font-feature-settings:"palt"]'],
+        ['prose-h3:mt-12'],
         // h4
         ['prose-h4:text-lg'],
+        ['prose-h4:mt-10'],
         // h5
         [
           'prose-h5:w-fit',
@@ -89,8 +91,8 @@ const Post = ({
           'prose-p:[word-break:normal]',
           'prose-p:[overflow-wrap:anywhere]',
           'has-[img]:prose-p:text-right',
-          'has-[img+sup]:prose-p:leading-none',
-          'has-[img+sup]:prose-p:text-sm',
+          'has-[img+sup]:prose-p:text-xs',
+          // 'has-[img+sup]:prose-p:leading-none',
           'has-[img+sup]:prose-p:text-[--tw-prose-captions]',
         ],
         // a
@@ -130,7 +132,7 @@ const Post = ({
         // strong
         [
           'prose-strong:font-medium',
-          'prose-strong:dark:font-normal',
+          // 'prose-strong:dark:font-normal',
           '[&>a]:prose-strong:font-medium',
           'prose-strong:px-[1px]',
           'prose-strong:bg-gradient-to-b',
@@ -138,7 +140,7 @@ const Post = ({
           'prose-strong:from-65%',
           'prose-strong:to-purple-300',
           'prose-strong:to-65%',
-          'prose-strong:dark:to-purple-800/75',
+          'prose-strong:dark:to-purple-900',
         ],
         ['prose-b:font-medium'],
         // table

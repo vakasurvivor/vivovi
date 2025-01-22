@@ -25,9 +25,23 @@ const categories = defineCollection({
     .transform(data => ({ ...data, permalink: `/${data.slug}` })),
 });
 
+const tools = defineCollection({
+  name: 'Tools',
+  pattern: 'tools/*.yml',
+  schema: s
+    .object({
+      name: s.string(),
+      link: s.string(),
+      slug: s.slug('global', ['admin', 'login']),
+      cover: s.image().optional(),
+      description: s.string().max(999).optional(),
+    })
+    .transform(data => ({ ...data, permalink: `/${data.slug}` })),
+});
+
 const posts = defineCollection({
-  name: 'Post', // collection type name
-  pattern: 'posts/**/*.mdx', // content files glob pattern
+  name: 'Post',
+  pattern: 'posts/**/*.mdx',
   schema: s
     .object({
       title: s.string().max(99),
@@ -37,6 +51,7 @@ const posts = defineCollection({
       updatedAt: s.isodate().optional(),
       eyecatch: s.image(),
       description: s.string().max(999).optional(),
+      target: s.string().max(100).optional(),
       categories: s.array(s.string()).optional(),
       tags: s.array(s.string()).optional(),
       metadata: s.metadata(),
