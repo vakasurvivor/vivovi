@@ -14,10 +14,8 @@ export default function AboutLayout({
 }) {
   return (
     <SidebarProvider>
-      <main className="mx-auto mt-4 max-w-screen-lg px-4">
-        <SidebarTrigger />
-        {children}
-      </main>
+      <SidebarTrigger />
+      {children}
     </SidebarProvider>
   );
 }

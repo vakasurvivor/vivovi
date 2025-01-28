@@ -8,11 +8,7 @@ export default function PostPageLayout({
 }>) {
   return (
     <main className="prose prose-slate dark:prose-invert">
-      <div
-        className={cn(
-          'grid grid-cols-[1fr_minmax(min-content,calc(39em_+_var(--playground-add-width)))_1fr] gap-x-4',
-        )}
-      >
+      <div className="grid grid-cols-[1fr_minmax(min-content,calc(39em_+_var(--playground-add-width)))_1fr] gap-x-4">
         <article className="col-[2/3] max-w-[calc(39em+var(--playground-add-width))] @container/article">
           <Post className="mx-auto max-w-[39em]">{children}</Post>
         </article>
@@ -40,7 +36,6 @@ export default function PostPageLayout({
               記事に誤りや認識の違いがございましたら、X（旧Twitter）または、GitHubを通じてご指摘いただけると助かります。可能な限り、修正や訂正を行います。
             </p>
             <p className="mt-2 text-right text-sm">ー vakasurvivor</p>
-
             <p className="mx-auto my-0 w-fit font-crazyMetro text-8xl leading-none text-[var(--tw-prose-bold)] max-sm:text-[15vw]">
               vakasurvivor
             </p>

@@ -160,7 +160,7 @@ const EditPage = ({
         rel="noopener noreferrer"
         href={
           process.env.NODE_ENV === 'development'
-            ? `vscode://file:///Users/tomoh/Desktop/my-blog/content/posts/${slug}/index.mdx`
+            ? `vscode://file:///Users/tomoh/Desktop/VIVOVI/content/posts/${slug}/index.mdx`
             : `https://github.com/vakasurvivor/vivovi/blob/main/content/posts/${slug}/index.mdx`
         }
       >

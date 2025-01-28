@@ -21,22 +21,40 @@ const categories = defineCollection({
       slug: s.slug('global', ['admin', 'login']),
       cover: s.image().optional(),
       description: s.string().max(999).optional(),
+      // count,
     })
     .transform(data => ({ ...data, permalink: `/${data.slug}` })),
 });
 
-const tools = defineCollection({
-  name: 'Tools',
-  pattern: 'tools/*.yml',
+const tags = defineCollection({
+  name: 'Tag',
+  pattern: 'tags/index.yml',
   schema: s
     .object({
-      name: s.string(),
-      link: s.string(),
+      name: s.string().max(20),
       slug: s.slug('global', ['admin', 'login']),
       cover: s.image().optional(),
       description: s.string().max(999).optional(),
+      // count,
     })
     .transform(data => ({ ...data, permalink: `/${data.slug}` })),
+});
+
+const links = defineCollection({
+  name: 'Links',
+  pattern: 'links/*.yml',
+  schema: s
+    .object({
+      title: s.string(),
+      link: s.string(),
+      slug: s.slug(),
+      eyecatch: s.image(),
+      description: s.string().max(999).optional(),
+    })
+    .transform(data => ({
+      ...data,
+      permalink: `https://api.svgl.app?search=${data.slug}`,
+    })),
 });
 
 const posts = defineCollection({
@@ -78,17 +96,6 @@ const rehypeTocOptions = {
     listItem: 'rehype-toc-item',
     link: 'rehype-toc-link',
   },
-  // customizeTOC: node => {
-  //   function changeOlToUl(node) {
-  //     if (node.type === 'element' && node.tagName === 'ol') {
-  //       node.tagName = 'ul';
-  //     }
-  //     if (node.children && node.children.length > 0) {
-  //       node.children.forEach(child => changeOlToUl(child));
-  //     }
-  //   }
-  //   changeOlToUl(node);
-  // },
 };
 
 /** @type {import('rehype-pretty-code').Options} */

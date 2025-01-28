@@ -28,7 +28,7 @@ export default function RecentPosts({
     <div className={cn('mx-auto', className)}>
       <div className="text- mt-28 rounded-md border border-border/40 bg-shiki-light-bg p-4 text-[clamp(1rem,0.886rem+0.57vw,1.25rem)] shadow-md dark:bg-shiki-dark-bg">
         <p className="mb-4">
-          フロントエンジニアを目指して奮闘中。覚えては忘れ、覚えては忘れの繰り返し。己の体たらくな記憶を補強する手段として、技術記事を執筆することにしました。
+          フロントエンジニアを目指して奮闘中。覚えては忘れ、覚えては忘れの繰り返し。己の体たらくな記憶を補強する手段として、拙筆ながら技術記事を書くことにしました。
         </p>
 
         <p className="mb-6">
@@ -44,7 +44,8 @@ export default function RecentPosts({
         </p>
 
         <p>
-          「どっちなんだ？」と疑問に思い、広辞苑で調べてみました。どちらも正しいとのことです。日本語にも躓きそうな勢いですが、プログラミングの学習に勤しむ所存です。
+          「どっちなんだ？」と疑問に思い調べてみました。どちらも正しいとのことです。
+          自然言語にも挫折しそうですが、継続的な学習に取り組みます。
         </p>
       </div>
       <h2 className="mb-4 mt-8 text-3xl font-medium">最近の投稿</h2>

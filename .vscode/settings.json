@@ -1,10 +1,9 @@
 {
   /* ---editor--- */
-  // 初期フォーマッターをprettierに指定
+
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  // ファイルを保存する際に、自動的にフォーマットを行う
   "editor.formatOnSave": true,
-  // ファイルを保存する際に、[markdown]は自動的にフォーマットを行わない
+
   "[mdx]": {
     "editor.formatOnSave": false,
     "editor.formatOnType": false,
@@ -12,38 +11,40 @@
     "files.trimTrailingWhitespace": false
   },
 
-  // 保存時に実行されるコードアクションを指定
   "editor.codeActionsOnSave": {
-    // 保存時に ESLint による自動修正を行う
     "source.fixAll.eslint": "explicit",
-    // 保存時に stylelint よる自動修正を行う
-    "source.fixAll.stylelint": "explicit",
-    /* 保存時に import文 の自動未使用import削除 & 自動アルファベット順ソート & */
     "source.organizeImports": "explicit",
-    /* 保存時に import文 の自動追加 */
     "source.addMissingImports": "explicit"
   },
 
-  // 設定を使用してfiles.associations、VS Code に常に.cssTailwind CSS モードでファイルを開くように指示します。
+  "css.lint.unknownAtRules": "ignore",
   "files.associations": {
     "*.css": "tailwindcss"
   },
-
-  // VS Code は、JSX 属性値内などの「文字列」コンテンツを編集するときに補完をトリガーしません。editor.quickSuggestions設定を更新すると、エクスペリエンスが向上する可能性があります。
-  "editor.quickSuggestions": {
-    "strings": "on"
-  },
-
-  // 正規表現によるtailwindCSSの補完対象の追加
   "tailwindCSS.experimental.classRegex": [
     ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ],
 
-  "stylelint.configFile": "./.stylelintrc.mjs",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
 
-  // 対象の追加
+  "search.exclude": {
+    "**/node_modules": true
+  },
+
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.js, ${capture}.typegen.ts",
+    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+    "*.jsx": "${capture}.js",
+    "*.tsx": "${capture}.ts, ${capture}.typegen.ts",
+    "package.json": "pnpm-lock.yaml, .eslintrc.json, next.config.mjs, postcss.config.mjs, tailwind.config.ts, tsconfig.json, next-env.d.ts, .gitignore, next.config.ts, .env, .env.example , .prettierrc.mjs, components.json, velite.config.js",
+    "*.mts": "${capture}.typegen.ts",
+    "*.cts": "${capture}.typegen.ts"
+  },
+
   "cSpell.words": [
     "Blockquotes",
     "codemirror",
@@ -57,7 +58,7 @@
     "hidenavigation",
     "Hiragino",
     "isodate",
-    "IVOVI",
+    "VOVI",
     "jsdevtools",
     "lucide",
     "Meiryo",

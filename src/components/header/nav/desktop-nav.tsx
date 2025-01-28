@@ -35,9 +35,18 @@ export default function DesktopNav() {
           <Button
             asChild
             variant="link"
-            className={cn('font-bold', { underline: pathname === '/about' })}
+            className={cn('font-bold', { underline: pathname === '/links' })}
           >
-            <Link href="/toolhub">Tools</Link>
+            <Link href="/links">Links</Link>
+          </Button>
+        </li>
+        <li>
+          <Button
+            asChild
+            variant="link"
+            className={cn('font-bold', { underline: pathname === '/tips' })}
+          >
+            <Link href="/tips">Tips</Link>
           </Button>
         </li>
       </ul>

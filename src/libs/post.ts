@@ -17,9 +17,5 @@ const getOldestPosts = (posts: Array<Post>) => {
       new Date(b.updatedAt || b.createdAt).getTime(),
   );
 };
-// 人気順
-// const getPopularPosts = (posts: Array<Post>) => {
-//   return posts.find(i => i.slug === slug);
-// };
 
 export { getNewestPosts, getOldestPosts };
