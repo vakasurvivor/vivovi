@@ -59,7 +59,7 @@ export default function CustomFigure(props: CustomFigureProps) {
           {...props}
           className={cn(
             'relative w-full overflow-hidden rounded-lg shadow-md',
-            hasCustomFigcaption && '!pt-11',
+            hasCustomFigcaption && 'pt-11!',
           )}
         >
           {updatedChildren}

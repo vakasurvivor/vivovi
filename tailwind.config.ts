@@ -1,8 +1,6 @@
 import type { Config } from 'tailwindcss';
 
 export default {
-  darkMode: ['selector'],
-
   content: [
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -17,41 +15,8 @@ export default {
         '2xl': '1400px',
       },
     },
-    extend: {
-      fontFamily: {
-        sans: [
-          'YakuHanJPs',
-          'var(--font-inter)',
-          'var(--font-noto-sans-jp)',
-          'Helvetica Neue',
-          'Arial',
-          'Hiragino Kaku Gothic ProN',
-          'Hiragino Sans',
-          'Meiryo',
-          'sans-serif',
-        ],
-        inter: [
-          'var(--font-inter)',
-          'var(--font-noto-sans-jp)',
-          'Helvetica Neue',
-          'Arial',
-          'Hiragino Kaku Gothic ProN',
-          'Hiragino Sans',
-          'Meiryo',
-          'sans-serif',
-        ],
-        code: [
-          'var(--font-commit-mono)',
-          'var(--font-noto-sans-jp)',
-          'monospace',
-        ],
-        crazyMetro: [
-          'var(--font-crazy-metro )',
-          'var(--font-noto-sans-jp)',
-          'sans-serif',
-        ],
-      },
 
+    extend: {
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
@@ -165,11 +130,4 @@ export default {
       }),
     },
   },
-
-  plugins: [
-    require('tailwindcss-animate'),
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/container-queries'),
-    require('tailwind-scrollbar'),
-  ],
 } satisfies Config;

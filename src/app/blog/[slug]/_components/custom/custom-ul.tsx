@@ -29,7 +29,7 @@ export default function CustomUl(props: CustomUlProps) {
               'before:h-7',
               'before:w-6',
               'before:bg-blue-600',
-              'before:dark:bg-blue-500',
+              'dark:before:bg-blue-500',
               'before:[mask-image:url("/img/arrow_right.svg")]',
               'before:[mask-repeat:no-repeat]',
               'before:[mask-position:center]',

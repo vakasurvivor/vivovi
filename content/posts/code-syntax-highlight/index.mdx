@@ -151,7 +151,7 @@ bakasurvivor/vitejs-vite-ggfexx
       'before:absolute',
       'before:content-[""]',
       'before:w-6',
-      'before:h-[--svg-height]',
+      'before:h-(--svg-height)',
       'before:left-0',
       'before:-translate-x-full',
       'before:bg-blue-600',
@@ -331,7 +331,7 @@ const ulStyle = cva(
         '[&>li]:before:absolute',
         '[&>li]:before:content-[""]',
         '[&>li]:before:w-6',
-        '[&>li]:before:h-[--svg-height]',
+        '[&>li]:before:h-(--svg-height)',
         '[&>li]:before:left-0',
         '[&>li]:before:-translate-x-full',
         // { mask-* }
@@ -349,12 +349,12 @@ const ulStyle = cva(
         arrow: [
           '[&>li]:before:[mask-image:url(/arrow-right.svg)]',
           // :hover 位置を移動
-          'hover:[&>li]:before:-translate-x-[120%]',
+          '[&>li]:hover:before:-translate-x-[120%]',
           // :hover 背景色を変化
-          '[&>li]:before:bg-gradient-to-r from-teal-300 from-40% to-blue-600',
-          'hover:[&>li]:before:from-pink-300',
-          'hover:[&>li]:before:from-40%',
-          'hover:[&>li]:before:to-red-600',
+          '[&>li]:before:bg-linear-to-r from-teal-300 from-40% to-blue-600',
+          '[&>li]:hover:before:from-pink-300',
+          '[&>li]:hover:before:from-40%',
+          '[&>li]:hover:before:to-red-600',
         ],
 
         pencil: [
@@ -363,7 +363,7 @@ const ulStyle = cva(
             '[&>li]:before:[mask-image:url(/pencil.svg)]',
             '[&>li]:before:bg-black',
             // :hover 位置を移動
-            'hover:[&>li]:before:-translate-x-[120%]',
+            '[&>li]:hover:before:-translate-x-[120%]',
           ],
           [
             // ul > li::after
@@ -372,7 +372,7 @@ const ulStyle = cva(
             '[&>li]:after:left-0',
             '[&>li]:after:top-0',
             '[&>li]:after:w-6',
-            '[&>li]:after:h-[--svg-height]',
+            '[&>li]:after:h-(--svg-height)',
             // { mask-* }
             '[&>li]:after:[mask-image:url(/pencil-line.svg)]',
             '[&>li]:after:[mask-size:contain]',
@@ -382,25 +382,25 @@ const ulStyle = cva(
             '[&>li]:after:transition-all',
             // :hover 位置を移動
             '[&>li]:after:-translate-x-full',
-            'hover:[&>li]:after:-translate-x-[120%]',
+            '[&>li]:hover:after:-translate-x-[120%]',
             // :hover 透過度を変化
             '[&>li]:after:opacity-0',
-            'hover:[&>li]:after:opacity-100',
+            '[&>li]:hover:after:opacity-100',
             // :hover 背景色を変化
             '[&>li]:after:bg-black',
-            'hover:[&>li]:after:bg-red-600',
+            '[&>li]:hover:after:bg-red-600',
           ],
         ],
 
         map: [
           '[&>li]:before:[mask-image:url(/map-pin.svg)]',
           // :hover animationを適用
-          'hover:[&>li]:before:animate-wiggle',
+          '[&>li]:hover:before:animate-wiggle',
           // :hover 背景色を変化
-          '[&>li]:before:bg-gradient-to-r from-slate-800 from-40% to-slate-800',
-          'hover:[&>li]:before:from-pink-400',
-          'hover:[&>li]:before:from-40%',
-          'hover:[&>li]:before:to-red-700',
+          '[&>li]:before:bg-linear-to-r from-slate-800 from-40% to-slate-800',
+          '[&>li]:hover:before:from-pink-400',
+          '[&>li]:hover:before:from-40%',
+          '[&>li]:hover:before:to-red-700',
         ],
       },
     },
@@ -524,7 +524,7 @@ const ulStyle = cva(
         '[&>li]:before:absolute',
         '[&>li]:before:content-[""]',
         '[&>li]:before:w-6',
-        '[&>li]:before:h-[--svg-height]',
+        '[&>li]:before:h-(--svg-height)',
         '[&>li]:before:left-0',
         '[&>li]:before:-translate-x-full',
         // { mask-* }
@@ -542,12 +542,12 @@ const ulStyle = cva(
         arrow: [
           '[&>li]:before:[mask-image:url(/arrow-right.svg)]',
           // :hover 位置を移動
-          'hover:[&>li]:before:-translate-x-[120%]',
+          '[&>li]:hover:before:-translate-x-[120%]',
           // :hover 背景色を変化
-          'from-teal-300 from-40% to-blue-600 [&>li]:before:bg-gradient-to-r',
-          'hover:[&>li]:before:from-pink-300',
-          'hover:[&>li]:before:from-40%',
-          'hover:[&>li]:before:to-red-600',
+          'from-teal-300 from-40% to-blue-600 [&>li]:before:bg-linear-to-r',
+          '[&>li]:hover:before:from-pink-300',
+          '[&>li]:hover:before:from-40%',
+          '[&>li]:hover:before:to-red-600',
         ],
 
         pencil: [
@@ -556,7 +556,7 @@ const ulStyle = cva(
             '[&>li]:before:[mask-image:url(/pencil.svg)]',
             '[&>li]:before:bg-black',
             // :hover 位置を移動
-            'hover:[&>li]:before:-translate-x-[120%]',
+            '[&>li]:hover:before:-translate-x-[120%]',
           ],
           [
             // ul > li::after
@@ -565,7 +565,7 @@ const ulStyle = cva(
             '[&>li]:after:left-0',
             '[&>li]:after:top-0',
             '[&>li]:after:w-6',
-            '[&>li]:after:h-[--svg-height]',
+            '[&>li]:after:h-(--svg-height)',
             // { mask-* }
             '[&>li]:after:[mask-image:url(/pencil-line.svg)]',
             '[&>li]:after:[mask-size:contain]',
@@ -575,25 +575,25 @@ const ulStyle = cva(
             '[&>li]:after:transition-all',
             // :hover 位置を移動
             '[&>li]:after:-translate-x-full',
-            'hover:[&>li]:after:-translate-x-[120%]',
+            '[&>li]:hover:after:-translate-x-[120%]',
             // :hover 透過度を変化
             '[&>li]:after:opacity-0',
-            'hover:[&>li]:after:opacity-100',
+            '[&>li]:hover:after:opacity-100',
             // :hover 背景色を変化
             '[&>li]:after:bg-black',
-            'hover:[&>li]:after:bg-red-600',
+            '[&>li]:hover:after:bg-red-600',
           ],
         ],
 
         map: [
           '[&>li]:before:[mask-image:url(/map-pin.svg)]',
           // :hover animationを適用
-          'hover:[&>li]:before:animate-wiggle',
+          '[&>li]:hover:before:animate-wiggle',
           // :hover 背景色を変化
-          'from-slate-800 from-40% to-slate-800 [&>li]:before:bg-gradient-to-r',
-          'hover:[&>li]:before:from-pink-400',
-          'hover:[&>li]:before:from-40%',
-          'hover:[&>li]:before:to-red-700',
+          'from-slate-800 from-40% to-slate-800 [&>li]:before:bg-linear-to-r',
+          '[&>li]:hover:before:from-pink-400',
+          '[&>li]:hover:before:from-40%',
+          '[&>li]:hover:before:to-red-700',
         ],
       },
     },

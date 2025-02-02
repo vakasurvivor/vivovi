@@ -38,7 +38,7 @@ export default function Anchor(props: ComponentPropsWithoutRef<'a'>) {
     return (
       <a
         {...restProps}
-        className="whitespace-nowrap no-underline transition-colors hover:text-blue-600 hover:dark:text-blue-500 [&>svg]:hover:rotate-90"
+        className="whitespace-nowrap no-underline transition-colors hover:text-blue-600 dark:hover:text-blue-500 hover:[&>svg]:rotate-90"
       >
         <IterationCw
           className="inline-block size-[1em] align-[-12%] transition-transform"

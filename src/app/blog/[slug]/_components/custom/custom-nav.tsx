@@ -1,6 +1,5 @@
 'use client';
 
-import tailwindConfig from '@/../tailwind.config';
 import {
   Accordion,
   AccordionContent,
@@ -10,23 +9,32 @@ import {
 import { useMatchMedia } from '@/hooks/use-matchMedia';
 import { cn } from '@/utils/cn';
 import { TableOfContents } from 'lucide-react';
-import { type ComponentPropsWithoutRef } from 'react';
-import resolveConfig from 'tailwindcss/resolveConfig';
+import { useEffect, useState, type ComponentPropsWithoutRef } from 'react';
 
 interface CustomNavProps extends ComponentPropsWithoutRef<'nav'> {}
 
 export default function CustomNav(props: CustomNavProps) {
   const hasToc = props.className === 'rehype-toc';
 
-  const fullConfig = resolveConfig(tailwindConfig);
-  const isPcSize = useMatchMedia(`(width >= ${fullConfig.theme.screens.xl})`);
+  const [breakpointXl, setBreakpointMd] = useState<string | null>(null);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setBreakpointMd(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          '--breakpoint-xl',
+        ),
+      );
+    }
+  }, []);
+
+  const isPcSize = useMatchMedia(`(width >= ${breakpointXl})`);
   if (hasToc) {
     return (
       <Accordion
         type="single"
         defaultValue={isPcSize ? undefined : 'toc'}
         collapsible
-        className="fixed-toc overflow-hidden rounded-lg border border-border/40 bg-shiki-light-bg shadow-md dark:bg-shiki-dark-bg"
+        className="fixed-toc border-border/40 bg-shiki-light-bg dark:bg-shiki-dark-bg overflow-hidden rounded-lg border shadow-md"
       >
         <AccordionItem value="toc" className="border-none [&>h3]:my-0">
           <AccordionTrigger className="py-2 pr-2 hover:no-underline">
@@ -35,11 +43,11 @@ export default function CustomNav(props: CustomNavProps) {
               <span className="text-base">目次を読む</span>
             </div>
           </AccordionTrigger>
-          <AccordionContent className="border-t border-border/40 pb-0">
+          <AccordionContent className="border-border/40 border-t pb-0">
             <nav
               className={cn(
                 props.className,
-                'relative my-0 bg-shiki-light-bg px-2 dark:bg-shiki-dark-bg',
+                'bg-shiki-light-bg dark:bg-shiki-dark-bg relative my-0 px-2',
                 'tracking-wider [font-feature-settings:"palt"]',
               )}
             >

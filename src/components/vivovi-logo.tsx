@@ -45,12 +45,12 @@ const AccentBorderStyle = cva(
         left: [
           'left-0',
           'rotate-[calc(90deg_-_var(--angle))]',
-          'bg-gradient-to-r from-blue-700 from-10% to-transparent to-95%',
+          'bg-linear-to-r from-blue-700 from-10% to-transparent to-95%',
         ],
         right: [
           'left-[calc(100%+var(--thickness))]',
           'rotate-[calc(90deg_+_var(--angle))]',
-          'bg-gradient-to-r from-blue-700 from-10% to-transparent to-50%',
+          'bg-linear-to-r from-blue-700 from-10% to-transparent to-50%',
         ],
       },
     },

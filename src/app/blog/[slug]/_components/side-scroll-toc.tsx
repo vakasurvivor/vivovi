@@ -1,22 +1,27 @@
 'use client';
 
-import tailwindConfig from '@/../tailwind.config';
 import { useMatchMedia } from '@/hooks/use-matchMedia';
 import { useToc } from '@/hooks/use-toc';
 import { cn } from '@/utils/cn';
-import { useLayoutEffect, useState } from 'react';
-import resolveConfig from 'tailwindcss/resolveConfig';
+import { useEffect, useLayoutEffect, useState } from 'react';
 
 interface SideScrollTocProps {
   className?: string;
 }
 
 export default function SideScrollToc({ className }: SideScrollTocProps) {
-  const fullConfig = resolveConfig(tailwindConfig);
-  const isPcSize = useMatchMedia(
-    `(width >= ${fullConfig.theme.screens.xl})`,
-    true,
-  );
+  const [breakpointXl, setBreakpointMd] = useState<string | null>(null);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setBreakpointMd(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          '--breakpoint-xl',
+        ),
+      );
+    }
+  }, []);
+
+  const isPcSize = useMatchMedia(`(width >= ${breakpointXl}`, true);
   const [visible, setVisible] = useState<boolean>(false);
 
   const { activeId, headings } = useToc({
@@ -73,7 +78,7 @@ export default function SideScrollToc({ className }: SideScrollTocProps) {
               visible ? 'visible opacity-100' : 'invisible opacity-0',
             )}
           >
-            <ol className="relative space-y-4 border-l border-muted-foreground/50 [font-feature-settings:'palt'] dark:border-muted">
+            <ol className="border-muted-foreground/50 dark:border-muted relative space-y-4 border-l [font-feature-settings:'palt']">
               {headings.map(heading => (
                 <li
                   key={heading.id}
@@ -83,17 +88,17 @@ export default function SideScrollToc({ className }: SideScrollTocProps) {
                     'transition-colors duration-300 hover:text-[var(--tw-prose-body)]',
 
                     activeId === heading.id &&
-                      'text-blue-600 hover:text-blue-600 dark:text-blue-500 hover:dark:text-blue-500',
+                      'text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500',
 
-                    heading.level === 4 && '!mt-1.5 pl-8',
+                    heading.level === 4 && 'mt-1.5! pl-8',
                   )}
                 >
                   <a
                     className={cn(
                       'before:absolute before:content-[""]',
                       'before:left-0 before:-translate-x-1/2 before:rounded-full',
-                      'before:bg-muted-foreground before:dark:bg-muted',
-                      'before:border-2 before:border-background',
+                      'before:bg-muted-foreground dark:before:bg-muted',
+                      'before:border-background before:border-2',
                       'before:transition-colors before:duration-300',
 
                       heading.level === 3 &&
@@ -103,7 +108,7 @@ export default function SideScrollToc({ className }: SideScrollTocProps) {
                         'before:top-[5px] before:size-[9px]',
 
                       activeId === heading.id &&
-                        'before:bg-blue-600 before:dark:bg-blue-500',
+                        'before:bg-blue-600 dark:before:bg-blue-500',
                     )}
                     href={`#${heading.id}`}
                   >

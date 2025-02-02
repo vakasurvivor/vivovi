@@ -65,12 +65,12 @@ export default function SortPostsList({
               className="bg-shiki-background flex flex-row-reverse items-stretch border border-border/40 drop-shadow-md"
               key={permalink}
             >
-              <CardHeader className="flex-grow">
+              <CardHeader className="grow">
                 <CardTitle className="mb-4 text-xl">{title}</CardTitle>
                 <CardDescription className="line-clamp-3">
                   {description}
                 </CardDescription>
-                <div className="!mt-4 flex items-center justify-end gap-4">
+                <div className="mt-4! flex items-center justify-end gap-4">
                   <p className="flex items-center gap-2 text-sm [font-feature-settings:'tnum']">
                     <FilePen size={16} />
                     <time dateTime={format(new Date(createdAt), 'yyyy-MM-dd')}>

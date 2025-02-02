@@ -16,7 +16,7 @@ export default function AboutLayout({
   return (
     <main className="relative mt-16 grid place-items-center px-8 max-sm:px-4">
       <SidebarProvider
-        className="h-[80svh] min-h-0 max-w-screen-lg rounded-lg border border-border/40 shadow-md"
+        className="h-[80svh] min-h-0 max-w-(--breakpoint-lg) rounded-lg border border-border/40 shadow-md"
         style={
           {
             '--sidebar-width': '12rem',

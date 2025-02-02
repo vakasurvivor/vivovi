@@ -8,16 +8,24 @@ import Nav from './nav';
 // utils/hooks
 import { useMatchMedia } from '@/hooks/use-matchMedia';
 import { cn } from '@/utils/cn';
-// Tailwindcss
-import tailwindConfig from '@/../tailwind.config';
-import resolveConfig from 'tailwindcss/resolveConfig';
 // Animation
 import { motion, useScroll, useSpring } from 'motion/react';
+import { useEffect, useState } from 'react';
 
 export default function Header({ className }: { className: string }) {
-  const displayMobile = useMatchMedia(
-    `(width < ${resolveConfig(tailwindConfig).theme.screens.md}`,
-  );
+  const [breakpointMd, setBreakpointMd] = useState<string | null>(null);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setBreakpointMd(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          '--breakpoint-md',
+        ),
+      );
+    }
+  }, []);
+
+  const displayMobile = useMatchMedia(`(width < ${breakpointMd})`);
+
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     damping: 30,
@@ -28,16 +36,16 @@ export default function Header({ className }: { className: string }) {
   return (
     <header
       className={cn(
-        'w-full bg-background/40',
-        'border-b-[1px] border-border/40',
-        'font-inter backdrop-blur',
+        'bg-background/40 w-full',
+        'border-border/40 border-b-[1px]',
+        'font-inter backdrop-blur-sm',
         className,
       )}
     >
       <div
         className={cn(
           'mx-auto px-4',
-          'h-14 max-w-screen-lg',
+          'h-14 max-w-(--breakpoint-lg)',
           'flex items-center justify-between',
         )}
       >
@@ -69,7 +77,7 @@ export default function Header({ className }: { className: string }) {
         <motion.div
           className={cn(
             'absolute inset-0 top-full origin-left',
-            'h-[2px] bg-muted-foreground',
+            'bg-muted-foreground h-[2px]',
           )}
           style={{
             scaleX,

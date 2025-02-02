@@ -32,6 +32,8 @@ const nextConfig = {
     config.plugins.push(new VeliteWebpackPlugin());
     return config;
   },
+
+  // optimizeCss: false,
 };
 
 // Wrap MDX and Next.js config with each other

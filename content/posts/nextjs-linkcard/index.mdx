@@ -275,8 +275,8 @@ export default async function P(props: CustomParagraphProps) {
             className={cn(
               'my-6 flex h-[125px] justify-between overflow-hidden',
               'rounded-lg border border-foreground/5',
-              '*:text-foreground *:dark:text-primary-foreground',
-              'first:[&>div]:transition-colors first:[&>div]:hover:bg-blue-100',
+              '*:text-foreground dark:*:text-primary-foreground',
+              '[&>div]:first:transition-colors hover:[&>div]:first:bg-blue-100',
             )}
           >
             <div className={cn(

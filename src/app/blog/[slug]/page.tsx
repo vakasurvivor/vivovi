@@ -54,7 +54,7 @@ export default async function PostPage({ params }: ParamsProps) {
         <header>
           <BreadcrumbTrail
             title={post.title}
-            className="my-8 backdrop-blur-sm"
+            className="my-8 backdrop-blur-xs"
           />
           <div className="flex items-center justify-between gap-4 pb-3 max-sm:gap-3">
             <WritingDate
@@ -82,7 +82,7 @@ export default async function PostPage({ params }: ParamsProps) {
         <header>
           <BreadcrumbTrail
             title={post.title}
-            className="mt-8 backdrop-blur-sm"
+            className="mt-8 backdrop-blur-xs"
           />
           <div className="flex items-center justify-end gap-4 pb-3 pt-2 max-sm:flex-col max-sm:items-end max-sm:gap-3">
             <WritingDate
@@ -117,7 +117,7 @@ const WritingDate = ({
     <div className={cn('flex justify-end gap-4', className)}>
       <div className="flex items-center gap-1">
         <CalendarDays size={16} />
-        <p className="!m-0 text-sm font-medium [font-feature-settings:'tnum']">
+        <p className="m-0! text-sm font-medium [font-feature-settings:'tnum']">
           <time dateTime={format(new Date(createdAt), 'yyyy-MM-dd')}>
             {format(new Date(createdAt), 'yyyy/MM/dd')}
           </time>
@@ -127,7 +127,7 @@ const WritingDate = ({
       {updatedAt && (
         <div className="flex items-center gap-1">
           <RefreshCcw size={16} />
-          <p className="!m-0 text-sm [font-feature-settings:'tnum']">
+          <p className="m-0! text-sm [font-feature-settings:'tnum']">
             <time
               dateTime={format(new Date(updatedAt), 'yyyy-MM-dd')}
               className="[font-feature-settings:tnum]"
@@ -173,7 +173,7 @@ const EditPage = ({
 
 const Title = ({ title }: Pick<Post, 'title'>) => (
   <h2
-    className={'my-6 rounded-md backdrop-blur-sm'}
+    className={'my-6 rounded-md backdrop-blur-xs'}
     dangerouslySetInnerHTML={{ __html: title }}
   />
 );

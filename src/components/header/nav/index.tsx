@@ -1,8 +1,7 @@
 'use client';
 
-import tailwindConfig from '@/../tailwind.config';
 import { useMatchMedia } from '@/hooks/use-matchMedia';
-import resolveConfig from 'tailwindcss/resolveConfig';
+import { useEffect, useState } from 'react';
 import DesktopNav from './desktop-nav';
 import MobileNav from './mobile-nav';
 
@@ -22,12 +21,22 @@ function ComponentSwitcher({
   initial = 'none',
 }: ComponentSwitcherProps): React.ReactElement {
   // tailwindcssの設定を取得
-  const twConfig = resolveConfig(tailwindConfig);
 
-  const displayMobile = useMatchMedia(`(width < ${twConfig.theme.screens.md}`);
-  const displayDesktop = useMatchMedia(
-    `(width >= ${twConfig.theme.screens.md}`,
-  );
+  const [breakpointMd, setBreakpointMd] = useState<string | null>(null);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setBreakpointMd(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          '--breakpoint-md',
+        ),
+      );
+    }
+  }, []);
+
+  console.log(breakpointMd);
+
+  const displayMobile = useMatchMedia(`(width < ${breakpointMd})`);
+  const displayDesktop = useMatchMedia(`(width >= ${breakpointMd})`);
 
   if (displayMobile) return mobile;
   if (displayDesktop) return desktop;

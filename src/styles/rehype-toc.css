@@ -32,20 +32,20 @@
   }
 
   .rehype-toc-item:has(> .rehype-toc-link:hover) {
-    @apply hover:text-blue-600 hover:dark:text-blue-500;
+    @apply hover:text-blue-600 dark:hover:text-blue-500;
   }
 
   .rehype-toc-item-h2,
   .rehype-toc-item-h3 {
-    @apply text-[--tw-prose-body];
+    @apply text-(--tw-prose-body);
   }
 
   .rehype-toc-item-h4,
   .rehype-toc-item-h5 {
-    @apply text-sm text-[--tw-prose-lead];
+    @apply text-sm text-(--tw-prose-lead);
   }
 
   .rehype-toc-link {
-    @apply font-medium text-current no-underline transition-colors duration-300 hover:text-blue-600 hover:dark:text-blue-500;
+    @apply font-medium text-current no-underline transition-colors duration-300 hover:text-blue-600 dark:hover:text-blue-500;
   }
 }

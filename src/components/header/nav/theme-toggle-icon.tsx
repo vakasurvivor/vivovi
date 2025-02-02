@@ -39,9 +39,9 @@ const Switch = React.forwardRef<
       className={cn(
         'peer inline-flex h-6 w-10 shrink-0 cursor-pointer items-center rounded-full',
         'border-2 border-transparent',
-        'transition-all duration-300 [&_svg]:hover:stroke-blue-600 dark:[&_svg]:hover:stroke-blue-300',
+        'transition-all duration-300 hover:[&_svg]:stroke-blue-600 dark:hover:[&_svg]:stroke-blue-300',
         'data-[state=checked]:bg-muted data-[state=unchecked]:bg-input',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+        'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring',
         'focus-visible:ring-offset-2 focus-visible:ring-offset-background',
         'disabled:cursor-not-allowed disabled:opacity-50',
         'drop-shadow-none',

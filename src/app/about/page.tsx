@@ -4,7 +4,7 @@ export default function AboutPage() {
   return (
     <div
       className={cn(
-        'mx-auto max-w-4xl py-4 backdrop-blur-sm sm:text-lg',
+        'mx-auto max-w-4xl py-4 backdrop-blur-xs sm:text-lg',
         '[&>p]:pt-8 [&>p]:text-justify [&>p]:[text-indent:1em]',
       )}
     >

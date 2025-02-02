@@ -32,24 +32,23 @@ const fetchMetadata = async (url: string): Promise<LinkCardData | null> => {
     const html = await response.text();
     const metadata = await metascraperInstance({ html, url });
 
-    if (
-      typeof metadata.logo !== 'string' ||
-      typeof metadata.image !== 'string'
-    ) {
-      return null;
+    let optimizedImage: string | null = null;
+    if (typeof metadata.image === 'string') {
+      optimizedImage = await optimizeImage({
+        imageUrl: metadata.image,
+        width: 500,
+        height: 250,
+      });
     }
 
-    const optimizedImage = await optimizeImage({
-      imageUrl: metadata.image,
-      width: 500,
-      height: 250,
-    });
-
-    const optimizedIcon = await optimizeImage({
-      imageUrl: metadata.logo,
-      width: 48,
-      height: 48,
-    });
+    let optimizedIcon: string | null = null;
+    if (typeof metadata.logo === 'string') {
+      optimizedIcon = await optimizeImage({
+        imageUrl: metadata.logo,
+        width: 48,
+        height: 48,
+      });
+    }
 
     return {
       url,
@@ -87,7 +86,7 @@ async function optimizeImage({
       .toBuffer();
     return `data:image/webp;base64,${optimizedImageBuffer.toString('base64')}`;
   } catch (e) {
-    console.error('Error optimizing image:', e);
+    // console.error('Error optimizing image:', e);
     return null;
   }
 }

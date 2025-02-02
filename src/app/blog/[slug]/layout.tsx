@@ -8,7 +8,7 @@ export default function PostPageLayout({
 }>) {
   return (
     <main className="prose prose-slate dark:prose-invert">
-      <div className="grid grid-cols-[1fr_minmax(min-content,calc(39em_+_var(--playground-add-width)))_1fr] gap-x-4">
+      <div className="grid grid-cols-[1fr_minmax(min-content,calc(39em+var(--playground-add-width)))_1fr] gap-x-4">
         <article className="col-[2/3] max-w-[calc(39em+var(--playground-add-width))] @container/article">
           <Post className="mx-auto max-w-[39em]">{children}</Post>
         </article>
@@ -24,7 +24,7 @@ export default function PostPageLayout({
       <div
         className={cn(
           'mb-4 w-full border-y border-foreground/5 bg-shiki-light-bg shadow-md dark:bg-shiki-dark-bg',
-          'grid grid-cols-[1fr_minmax(min-content,calc(39em_+_var(--playground-add-width)))_1fr] gap-x-4',
+          'grid grid-cols-[1fr_minmax(min-content,calc(39em+var(--playground-add-width)))_1fr] gap-x-4',
         )}
       >
         <div className="col-[2/3] max-w-[calc(39em+var(--playground-add-width))]">
@@ -76,19 +76,19 @@ const Post = ({
           'prose-h5:text-base',
           'prose-h5:font-medium',
           'prose-h5:my-5',
-          'prose-h5:text-[--tw-prose-headings]',
+          'prose-h5:text-(--tw-prose-headings)',
           'prose-h5:border-b',
-          'prose-h5:border-[--tw-prose-hr]',
+          'prose-h5:border-(--tw-prose-hr)',
         ],
         // p
         [
           'prose-p:[line-break:strict]',
           'prose-p:[word-break:normal]',
           'prose-p:[overflow-wrap:anywhere]',
-          'has-[img]:prose-p:text-right',
-          'has-[img+sup]:prose-p:text-xs',
-          // 'has-[img+sup]:prose-p:leading-none',
-          'has-[img+sup]:prose-p:text-[--tw-prose-captions]',
+          'prose-p:has-[img]:text-right',
+          'prose-p:has-[img+sup]:text-xs',
+          // 'prose-p:has-[img+sup]:leading-none',
+          'prose-p:has-[img+sup]:text-(--tw-prose-captions)',
         ],
         // a
         [
@@ -99,9 +99,9 @@ const Post = ({
           'prose-a:underline-offset-2',
           'prose-a:transition-colors',
           'prose-a:duration-300',
-          'hover:prose-a:text-blue-600',
-          'hover:prose-a:dark:text-blue-500',
-          'hover:prose-a:decoration-transparent',
+          'prose-a:hover:text-blue-600',
+          'dark:prose-a:hover:text-blue-500',
+          'prose-a:hover:decoration-transparent',
         ],
         // ul / ol
         ['prose-ul:pl-6'],
@@ -110,7 +110,7 @@ const Post = ({
         [
           'prose-li:marker:font-semibold',
           'prose-li:marker:text-blue-600',
-          'prose-li:marker:dark:text-blue-500',
+          'dark:prose-li:marker:text-blue-500',
         ],
         // blockquote
         ['prose-blockquote:font-normal', 'prose-blockquote:border-none'],
@@ -127,15 +127,15 @@ const Post = ({
         // strong
         [
           'prose-strong:font-medium',
-          // 'prose-strong:dark:font-normal',
-          '[&>a]:prose-strong:font-medium',
+          // 'dark:prose-strong:font-normal',
+          'prose-strong:[&>a]:font-medium',
           'prose-strong:px-[1px]',
-          'prose-strong:bg-gradient-to-b',
+          'prose-strong:bg-linear-to-b',
           'prose-strong:from-transparent',
           'prose-strong:from-65%',
           'prose-strong:to-purple-300',
           'prose-strong:to-65%',
-          'prose-strong:dark:to-purple-900',
+          'dark:prose-strong:to-purple-900',
         ],
         ['prose-b:font-medium'],
         // table

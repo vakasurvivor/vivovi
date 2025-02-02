@@ -1,15 +1,51 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-@import './tailwindcss-typography.css';
-@import './gitHub-favored-markdown.css';
-@import './rehype-autolink-headings.css';
-@import './rehype-toc.css';
-@import './rehype-semantic-blockquotes.css';
-@import './rehype-pretty-code.css';
+@import './tailwindcss-typography.css' layer(utilities);
+@import './gitHub-favored-markdown.css' layer(utilities);
+@import './rehype-autolink-headings.css' layer(utilities);
+@import './rehype-toc.css' layer(utilities);
+@import './rehype-semantic-blockquotes.css' layer(utilities);
+@import './rehype-pretty-code.css' layer(utilities);
+
+@plugin "tailwindcss-animate";
+@plugin "@tailwindcss/typography";
+
+@plugin 'tailwind-scrollbar';
+@config '../../tailwind.config.ts';
+
+@theme {
+  /* FontFamily */
+  --font-*: initial;
+  --font-sans: 'YakuHanJPs', var(--font-inter), var(--font-noto-sans-jp),
+    'Helvetica Neue', 'Arial', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans',
+    'Meiryo', 'sans-serif';
+  --font-inter: var(--font-inter), var(--font-noto-sans-jp), 'Helvetica Neue',
+    'Arial', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo',
+    'sans-serif';
+  --font-code: var(--font-commit-mono), var(--font-noto-sans-jp), 'monospace';
+  --font-crazyMetro: var(--font-crazy-metro), var(--font-noto-sans-jp),
+    'sans-serif';
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
   /* all mode */
   :root {
     --header-height: 57px;
@@ -72,7 +108,7 @@
 
     :where(code[data-theme*=' ']),
     :where(code[data-theme*=' '] span) {
-      @apply bg-[color:--shiki-light-bg] text-[color:--shiki-light];
+      @apply bg-(color:--shiki-light-bg) text-(color:--shiki-light);
     }
   }
 
@@ -132,7 +168,7 @@
 
     :where(code[data-theme*=' ']),
     :where(code[data-theme*=' '] span) {
-      @apply bg-[color:--shiki-dark-bg] text-[color:--shiki-dark];
+      @apply bg-(color:--shiki-dark-bg) text-(color:--shiki-dark);
     }
   }
 

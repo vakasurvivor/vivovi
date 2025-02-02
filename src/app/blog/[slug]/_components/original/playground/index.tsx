@@ -48,17 +48,17 @@ export default function Playground({
       customSetup={customSetup}
       options={{
         classes: {
-          'sp-layout': '[--sp-layout-height:520px] !rounded-lg',
-          'sp-tab-container': '!outline-none !pr-2 !text-sm',
-          'sp-tab-button': '!text-sm',
+          'sp-layout': '[--sp-layout-height:520px] rounded-lg!',
+          'sp-tab-container': 'outline-hidden! pr-2! text-sm!',
+          'sp-tab-button': 'text-sm!',
         },
         ...options,
       }}
       files={files}
       className={cn(
-        '!mx-[calc(50%-50cqi)]',
-        'max-md:!mx-0',
-        '!my-8 !rounded-lg !shadow-md',
+        'mx-[calc(50%-50cqi)]!',
+        'max-md:mx-0!',
+        'my-8! rounded-lg! shadow-md!',
       )}
     >
       <SandpackLayout>

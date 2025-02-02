@@ -10,7 +10,7 @@ export default function Footer({ className }: { className: string }) {
   return (
     <footer
       className={cn(
-        'mx-auto mt-10 w-full max-w-screen-lg bg-background px-4 backdrop-blur',
+        'mx-auto mt-10 w-full max-w-(--breakpoint-lg) bg-background px-4 backdrop-blur-sm',
         className,
       )}
     >

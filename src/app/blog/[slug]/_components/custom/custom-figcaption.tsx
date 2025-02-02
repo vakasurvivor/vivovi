@@ -76,11 +76,11 @@ export default function CustomFigcaption(props: CustomFigcaptionProps) {
         <figcaption
           {...props}
           className={cn(
-            'absolute left-0 top-0 z-10 mt-0',
+            'absolute top-0 left-0 z-10 mt-0',
             'rounded-t-lg',
             'h-11 w-full',
             'bg-shiki-light-bg dark:bg-shiki-dark-bg',
-            'border border-b-0 border-foreground/5',
+            'border-foreground/5 border border-b-0',
           )}
         >
           <div className="flex items-center gap-2 px-4 py-2.5">
@@ -90,9 +90,9 @@ export default function CustomFigcaption(props: CustomFigcaptionProps) {
               width={20}
               src={`${cdnUrl}`}
               alt={'Logo Icon'}
-              className="my-0"
+              className="!my-0"
             />
-            <h6 className="font-inter text-sm leading-snug text-foreground dark:text-foreground">
+            <h6 className="font-inter text-foreground dark:text-foreground text-sm leading-snug">
               {props.children}
             </h6>
           </div>
@@ -103,7 +103,7 @@ export default function CustomFigcaption(props: CustomFigcaptionProps) {
         // 祖先のfigure要素に対して位置指定
         <figcaption
           {...props}
-          className="absolute left-0 top-0 z-10 mx-4 mt-0 h-11 w-[20px]"
+          className="absolute top-0 left-0 z-10 mx-4 mt-0 h-11 w-[20px]"
         >
           <div className="absolute top-1/2 -translate-y-1/2">
             <Image
@@ -112,7 +112,7 @@ export default function CustomFigcaption(props: CustomFigcaptionProps) {
               width={20}
               src={`${cdnUrl}`}
               alt={'Logo Icon'}
-              className="my-0"
+              className="!my-0"
             />
           </div>
         </figcaption>

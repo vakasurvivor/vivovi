@@ -37,7 +37,7 @@ export default function CustomPre(props: CustomPreProps) {
             props.className,
             'border border-foreground/5',
             'bg-shiki-light-bg dark:bg-shiki-dark-bg',
-            hasCustomFigcaption && '!rounded-t-none',
+            hasCustomFigcaption && 'rounded-t-none!',
           )}
         >
           <CopyButton value={text} className="absolute right-3 top-3 z-30" />
