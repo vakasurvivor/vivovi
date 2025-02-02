@@ -26,27 +26,41 @@ export default function RecentPosts({
 
   return (
     <div className={cn('mx-auto', className)}>
-      <div className="text- mt-28 rounded-md border border-border/40 bg-shiki-light-bg p-4 text-[clamp(1rem,0.886rem+0.57vw,1.25rem)] shadow-md dark:bg-shiki-dark-bg">
-        <p className="mb-4">
-          フロントエンジニアを目指して奮闘中。覚えては忘れ、覚えては忘れの繰り返し。己の体たらくな記憶を補強する手段として、拙筆ながら技術記事を書くことにしました。
-        </p>
+      <div className="gird-row-3 grid grid-cols-2 gap-4">
+        <div
+          className={cn(
+            'bg-ra size-40 from-blue-700 to-sky-600',
+            'animate-spin direction-reverse [animation-duration:10000ms]',
+            '[mask-image:url(/img/vivovi.svg)] [mask-repeat:no-repeat] [mask-size:contain]',
+            'dark:drop-shadow-[1rem_blue]',
+          )}
+        ></div>
 
-        <p className="mb-6">
-          つまりは、
-          <ruby>
-            備忘<rt>VIVO</rt>
-          </ruby>
-          録です…… ん？
-          <ruby>
-            忘備<rt>VOVI</rt>
-          </ruby>
-          録か？
-        </p>
+        <div>
+          <p className="text-7xl font-medium">VIVOVI</p>
+          <p className="w-fit pl-2 text-lg max-sm:text-base">
+            <ruby>
+              備忘<rt className="text-[12px] font-normal">VIVO</rt>
+            </ruby>
+            録です…… ん？
+            <ruby>
+              忘備<rt className="text-[12px] font-normal">VOVI</rt>
+            </ruby>
+            録か？
+          </p>
+        </div>
 
-        <p>
-          「どっちなんだ？」と疑問に思い調べてみました。どちらも正しいとのことです。
-          自然言語にも挫折しそうですが、継続的な学習に取り組みます。
-        </p>
+        <div className="col-start-2 rounded-md border border-border/40 p-4 text-base">
+          <p className="mb-4">
+            覚えては忘れ、覚えては忘れの繰り返し。己の体たらくな記憶を補強する手段として、拙筆ながら技術記事を書くことにしました。
+          </p>
+          <p>
+            「どっちなんだ？」と疑問に思い調べてみました。どちらも正しいとのことです。
+            プログラミング言語に加えて自然言語にも挫折しそうですが、継続的な学習サイクルに取り組みます。
+          </p>
+        </div>
+
+        <div className="col-span-2 w-full text-center">↓</div>
       </div>
       <h2 className="mb-4 mt-8 text-3xl font-medium">最近の投稿</h2>
       <div className={cn('flex flex-col gap-8', className)}>
