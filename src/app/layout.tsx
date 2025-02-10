@@ -1,15 +1,15 @@
 import Footer from '@/components/footer';
 import Header from '@/components/header';
 import type { Metadata } from 'next';
-import { ThemeProvider } from './theme-provider';
+import { ThemeProvider } from './(top)/theme-provider';
 // css
 import '@/styles/globals.css';
 // font
 import VivoviLogo from '@/components/vivovi-logo';
 import { commitMono, crazyMetro, inter, notoSansJP } from '@/libs/font';
 import 'yakuhanjp/dist/css/yakuhanjp_s.css';
-import SvgLogoAnimation from './_components/svg-logo-animation';
-import { ScrollbarWidthProvider } from './scrollbar-width-provider';
+import SvgLogoAnimation from './(top)/_components/svg-logo-animation';
+import { ScrollbarWidthProvider } from './(top)/scrollbar-width-provider';
 
 export const metadata: Metadata = {
   title: {
@@ -32,7 +32,7 @@ export default function RootLayout({
       className={`scroll-smooth ${inter.variable} ${notoSansJP.variable} ${commitMono.variable} ${crazyMetro.variable}`}
     >
       <body
-        className={'min-h-dvh w-full bg-background font-sans text-foreground'}
+        className={'bg-background text-foreground min-h-dvh w-full font-sans'}
       >
         <ThemeProvider
           themes={['light', 'dark']}
@@ -44,7 +44,7 @@ export default function RootLayout({
           storageKey="acme-theme"
         >
           <ScrollbarWidthProvider>
-            <Header className="sticky left-0 top-0 z-50" />
+            <Header className="sticky top-0 left-0 z-50" />
             <VivoviLogo />
             <SvgLogoAnimation />
             {children}

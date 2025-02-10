@@ -63,7 +63,7 @@ export default function RecentPosts({
         <div className="col-span-2 w-full text-center">↓</div>
       </div> */}
 
-      <div className="grid min-h-[50dvh] w-full place-items-center">
+      {/* <div className="grid min-h-[50dvh] w-full place-items-center">
         <div className="w-full">
           <div className="mx-auto flex w-fit gap-8">
             <div
@@ -115,7 +115,7 @@ export default function RecentPosts({
 
           <div className="col-span-2 w-full text-center">↓</div>
         </div>
-      </div>
+      </div> */}
       <h2 className="mt-8 mb-4 text-3xl font-medium">最近の投稿</h2>
       <div className={cn('flex flex-col gap-8', className)}>
         {recentPosts.map(post => {

@@ -29,11 +29,12 @@ const nextConfig = {
       test: /\.node$/,
       use: 'node-loader',
     });
+
+    // ...existing code...
     config.plugins.push(new VeliteWebpackPlugin());
+
     return config;
   },
-
-  // optimizeCss: false,
 };
 
 // Wrap MDX and Next.js config with each other

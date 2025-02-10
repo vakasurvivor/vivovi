@@ -52,3 +52,5 @@ export default function Anchor(props: ComponentPropsWithoutRef<'a'>) {
 
   return <a {...props} />;
 }
+
+Anchor.displayName = 'Anchor';

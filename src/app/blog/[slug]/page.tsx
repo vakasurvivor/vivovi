@@ -68,7 +68,7 @@ export default async function PostPage({ params }: ParamsProps) {
             width={post.eyecatch.width}
             height={post.eyecatch.height}
             alt={post.title}
-            className="not-prose rounded-lg border border-border/40"
+            className="not-prose border-border/40 rounded-lg border"
           />
           <Title title={post.title} />
           <Outline description={post.description} target={post.target} />
@@ -84,7 +84,7 @@ export default async function PostPage({ params }: ParamsProps) {
             title={post.title}
             className="mt-8 backdrop-blur-xs"
           />
-          <div className="flex items-center justify-end gap-4 pb-3 pt-2 max-sm:flex-col max-sm:items-end max-sm:gap-3">
+          <div className="flex items-center justify-end gap-4 pt-2 pb-3 max-sm:flex-col max-sm:items-end max-sm:gap-3">
             <WritingDate
               createdAt={post.createdAt}
               updatedAt={post.updatedAt}
@@ -96,7 +96,7 @@ export default async function PostPage({ params }: ParamsProps) {
             width={post.eyecatch.width}
             height={post.eyecatch.height}
             alt={post.title}
-            className="not-prose rounded-lg border border-border/40"
+            className="not-prose border-border/40 rounded-lg border"
           />
           <Title title={post.title} />
         </header>
@@ -149,7 +149,7 @@ const EditPage = ({
     <Button
       variant="outline"
       className={cn(
-        'h-fit rounded-sm bg-shiki-light-bg px-1.5 py-1 dark:bg-shiki-dark-bg',
+        'bg-shiki-light-bg dark:bg-shiki-dark-bg h-fit rounded-sm px-1.5 py-1',
         className,
       )}
       asChild
@@ -182,20 +182,20 @@ const Outline = ({
   description,
   target,
 }: Pick<Post, 'description' | 'target'>) => (
-  <div className="mb-6 mt-10">
-    <div className="relative ml-4 mt-2 rounded-md border border-border/40 bg-shiki-light-bg shadow-md dark:bg-shiki-dark-bg">
+  <div className="mt-10 mb-6">
+    <div className="border-border/40 bg-shiki-light-bg dark:bg-shiki-dark-bg relative mt-2 ml-4 rounded-md border shadow-md">
       <h3 className="not-prose absolute flex -translate-x-[18px] -translate-y-1/2 items-center gap-2 rounded-sm bg-blue-600 px-2 py-[2px] text-white shadow-md dark:bg-blue-700 dark:text-[#cbd5e1]">
         <CircleUserRound size={20} />
         対象読者
       </h3>
-      <p className="mx-4 mb-3 mt-6 text-sm">{target}</p>
+      <p className="mx-4 mt-6 mb-3 text-sm">{target}</p>
     </div>
-    <div className="relative ml-4 mt-8 rounded-md border border-border/40 bg-shiki-light-bg shadow-md dark:bg-shiki-dark-bg">
+    <div className="border-border/40 bg-shiki-light-bg dark:bg-shiki-dark-bg relative mt-8 ml-4 rounded-md border shadow-md">
       <h3 className="not-prose px2 absolute flex -translate-x-[18px] -translate-y-1/2 items-center gap-2 rounded-sm bg-blue-600 py-[2px] text-white shadow-md dark:bg-blue-700 dark:text-[#cbd5e1]">
         <BookOpenText size={20} />
         記事概要
       </h3>
-      <p className="mx-4 mb-3 mt-6 text-sm">{description}</p>
+      <p className="mx-4 mt-6 mb-3 text-sm">{description}</p>
     </div>
   </div>
 );

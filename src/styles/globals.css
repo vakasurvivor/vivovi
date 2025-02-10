@@ -106,9 +106,10 @@
     --shiki-light-bg: 218 80% 98%;
     --shiki-background: 218 80% 98%;
 
-    :where(code[data-theme*=' ']),
-    :where(code[data-theme*=' '] span) {
-      @apply bg-(color:--shiki-light-bg) text-(color:--shiki-light);
+    :where(code[data-theme*='github-light-default github-dark-default']),
+    :where(code[data-theme*='github-light-default github-dark-default'] span) {
+      background-color: var(--shiki-light-bg);
+      color: var(--shiki-light);
     }
   }
 
@@ -166,9 +167,10 @@
     --shiki-dark-bg: 225 21% 7%;
     --shiki-background: 225 21% 7%;
 
-    :where(code[data-theme*=' ']),
-    :where(code[data-theme*=' '] span) {
-      @apply bg-(color:--shiki-dark-bg) text-(color:--shiki-dark);
+    :where(code[data-theme*='github-light-default github-dark-default']),
+    :where(code[data-theme*='github-light-default github-dark-default'] span) {
+      background-color: var(--shiki-dark-bg);
+      color: var(--shiki-dark);
     }
   }
 

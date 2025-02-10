@@ -16,11 +16,11 @@ export default async function LinkCard({ url }: LinkCardProps) {
         target="_blank"
         rel="noopener noreferrer"
         className={cn(
-          'not-prose border-foreground/5 my-6 flex h-[120px] justify-between overflow-hidden rounded-lg border shadow-md',
-          '[&>div]:first:transition-colors hover:[&>div]:first:bg-blue-50 dark:hover:[&>div]:first:bg-blue-100',
+          'not-prose border-border my-6 flex h-30 justify-between overflow-hidden rounded-md border shadow-md',
+          'bg-background dark:bg-foreground transition-colors hover:bg-blue-50 dark:hover:bg-blue-100',
         )}
       >
-        <div className="bg-background dark:bg-foreground flex w-full min-w-[240px] flex-col justify-between p-4">
+        <div className="flex w-full min-w-[240px] flex-col justify-between p-4">
           <p className="overflow-hidden text-base font-medium text-nowrap text-ellipsis text-slate-900">
             {meta.title}
           </p>
@@ -31,10 +31,10 @@ export default async function LinkCard({ url }: LinkCardProps) {
             {meta.icon && (
               <Image
                 unoptimized
-                height={20}
-                width={20}
-                src={meta.icon}
-                alt={meta.title}
+                width={meta.icon.width}
+                height={meta.icon.height}
+                src={meta.icon.url}
+                alt={`${meta.provider} Icon Image`}
                 className="size-5 object-cover object-center"
               />
             )}
@@ -44,14 +44,22 @@ export default async function LinkCard({ url }: LinkCardProps) {
           </div>
         </div>
         {meta.image && (
-          <div className="border-foreground/5 min-w-[240px] border-l">
+          <div
+            className={cn(
+              'border-border/10 h-full border-l',
+              meta.image.width / meta.image.height === 1 && 'p-2',
+            )}
+            style={{
+              aspectRatio: `${meta.image.width}/${meta.image.height}`,
+            }}
+          >
             <Image
               unoptimized
-              width={240}
-              height={120}
-              src={meta.image}
-              alt={meta.title}
-              className="h-full w-full object-cover object-left"
+              width={meta.image.width}
+              height={meta.image.height}
+              src={meta.image.url}
+              alt={`${meta.provider} Image`}
+              className="object-cover object-center"
             />
           </div>
         )}

@@ -4,16 +4,25 @@ import metascraperImage from 'metascraper-image';
 import metascraperLogo from 'metascraper-logo-favicon';
 import metascraperPublisher from 'metascraper-publisher';
 import metascraperTitle from 'metascraper-title';
+import { Buffer } from 'node:buffer';
 import sharp from 'sharp';
 
-export interface LinkCardData {
+export type LinkCardData = {
   url: string;
   title: string;
   description?: string;
   provider?: string;
-  image: string;
-  icon: string;
-}
+  image?: {
+    url: string;
+    width: number;
+    height: number;
+  };
+  icon?: {
+    url: string;
+    width: number;
+    height: number;
+  };
+};
 
 const metascraperInstance = metascraper([
   metascraperImage(),
@@ -26,37 +35,34 @@ const metascraperInstance = metascraper([
 // fetchMetadata
 const fetchMetadata = async (url: string): Promise<LinkCardData | null> => {
   try {
-    const response = await fetch(url, {
-      headers: { 'User-Agent': 'Googlebot' },
-    });
+    const response = await fetch(url, { cache: 'force-cache' });
     const html = await response.text();
     const metadata = await metascraperInstance({ html, url });
 
-    let optimizedImage: string | null = null;
-    if (typeof metadata.image === 'string') {
-      optimizedImage = await optimizeImage({
-        imageUrl: metadata.image,
-        width: 500,
-        height: 250,
-      });
-    }
+    const optimizedImage = metadata.image
+      ? await optimizeImage({
+          url: metadata.image,
+          width: 500,
+          height: null,
+          quality: 90,
+        })
+      : undefined;
 
-    let optimizedIcon: string | null = null;
-    if (typeof metadata.logo === 'string') {
-      optimizedIcon = await optimizeImage({
-        imageUrl: metadata.logo,
-        width: 48,
-        height: 48,
-      });
-    }
+    const optimizedIcon = metadata.logo
+      ? await optimizeImage({
+          url: metadata.logo,
+          width: 50,
+          height: 50,
+        })
+      : undefined;
 
     return {
       url,
       title: metadata.title || '',
       description: metadata.description || '',
       provider: metadata.publisher || '',
-      image: optimizedImage || '',
-      icon: optimizedIcon || '',
+      image: optimizedImage,
+      icon: optimizedIcon,
     };
   } catch (e) {
     console.error('Error fetching or processing metadata:', e);
@@ -64,30 +70,49 @@ const fetchMetadata = async (url: string): Promise<LinkCardData | null> => {
   }
 };
 
-interface OptimizeImageProps {
-  imageUrl: string;
+type OptimizeImageProps = {
+  url: string;
   width: number;
-  height: number;
-}
+  height: number | null;
+  quality?: number;
+};
 
-// optimizeImage
 async function optimizeImage({
-  imageUrl,
+  url,
   width,
   height,
-}: OptimizeImageProps): Promise<string | null> {
+  quality = 100,
+}: OptimizeImageProps): Promise<
+  | {
+      url: string;
+      width: number;
+      height: number;
+    }
+  | undefined
+> {
   try {
-    const res = await fetch(imageUrl);
+    const res = await fetch(url);
     const buffer = Buffer.from(await res.arrayBuffer());
     // sharpを使用して、画像を最適化する
     const optimizedImageBuffer = await sharp(buffer)
       .resize(width, height) // サイズの変更
-      .webp({ quality: 90 }) // WebPフォーマットに変換し、クオリティを調整
+      .webp({ quality }) // WebPフォーマットに変換し、クオリティを調整
       .toBuffer();
-    return `data:image/webp;base64,${optimizedImageBuffer.toString('base64')}`;
+
+    // 最適化した画像をbase64形式に変換
+    const optimizedUrl = `data:image/webp;base64,${optimizedImageBuffer.toString('base64')}`;
+    // 最適化した画像の width と height を取得
+    const { width: optimizedWidth, height: optimizedHeight } =
+      await sharp(optimizedImageBuffer).metadata();
+
+    return {
+      url: optimizedUrl,
+      width: optimizedWidth as number,
+      height: optimizedHeight as number,
+    };
   } catch (e) {
-    // console.error('Error optimizing image:', e);
-    return null;
+    console.error('Error optimizing image:', e);
+    return undefined;
   }
 }
 

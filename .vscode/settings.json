@@ -34,16 +34,16 @@
     "**/node_modules": true
   },
 
-  "explorer.fileNesting.enabled": true,
-  "explorer.fileNesting.patterns": {
-    "*.ts": "${capture}.js, ${capture}.typegen.ts",
-    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
-    "*.jsx": "${capture}.js",
-    "*.tsx": "${capture}.ts, ${capture}.typegen.ts",
-    "package.json": "pnpm-lock.yaml, .eslintrc.json, next.config.mjs, postcss.config.mjs, tailwind.config.ts, tsconfig.json, next-env.d.ts, .gitignore, next.config.ts, .env, .env.example , .prettierrc.mjs, components.json, velite.config.js",
-    "*.mts": "${capture}.typegen.ts",
-    "*.cts": "${capture}.typegen.ts"
-  },
+  // "explorer.fileNesting.enabled": true,
+  // "explorer.fileNesting.patterns": {
+  //   "*.ts": "${capture}.js, ${capture}.typegen.ts",
+  //   "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+  //   "*.jsx": "${capture}.js",
+  //   "*.tsx": "${capture}.ts, ${capture}.typegen.ts",
+  //   "package.json": "pnpm-lock.yaml, .eslintrc.json, next.config.mjs, postcss.config.mjs, tailwind.config.ts, tsconfig.json, next-env.d.ts, .gitignore, next.config.ts, .env, .env.example , .prettierrc.mjs, components.json, velite.config.js",
+  //   "*.mts": "${capture}.typegen.ts",
+  //   "*.cts": "${capture}.typegen.ts"
+  // },
 
   "cSpell.words": [
     "Blockquotes",

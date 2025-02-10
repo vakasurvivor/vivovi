@@ -17,10 +17,10 @@ export default async function P(props: CustomParagraphProps) {
   // props.childrenが単一の<a>要素であるかを確認
   if (
     !Array.isArray(props.children) &&
-    typeof props.children === 'object' &&
-    props.children !== null &&
+    React.isValidElement(props.children) &&
     typeof (props.children as ReactElement).type === 'function' &&
-    (props.children as any).type.name === 'Anchor'
+    ((props.children as ReactElement).type as React.ComponentType<any>)
+      .displayName === 'Anchor'
   ) {
     const anchorElement = props.children as ReactElement;
     const {
@@ -44,9 +44,6 @@ export default async function P(props: CustomParagraphProps) {
         return <Original.XTweet url={anchorHref} />;
       }
 
-      // if (OTHER_URL_PATTERN.test(anchorHref)) {
-      //   return <Original.LinkCard url={anchorHref} />;
-      // }
       return <Original.LinkCard url={anchorHref} />;
     }
   }

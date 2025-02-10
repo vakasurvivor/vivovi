@@ -28,10 +28,10 @@ export default function AboutPage() {
 
       <blockquote
         className={cn(
-          'relative mt-6 rounded-r-lg border-l-4 px-4 pb-2 pt-4',
+          'relative mt-6 rounded-r-lg border-l-4 px-4 pt-4 pb-2',
           'border-blue-500 bg-blue-400/20 dark:bg-blue-400/10',
           "before:[content:'❝']",
-          'before:absolute before:left-4 before:top-2 before:text-6xl',
+          'before:absolute before:top-2 before:left-4 before:text-6xl',
           'before:text-6xl before:text-blue-600',
         )}
         cite="https://developer.mozilla.org/ja/docs/Web/JavaScript"

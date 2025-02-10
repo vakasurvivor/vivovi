@@ -33,8 +33,6 @@ function ComponentSwitcher({
     }
   }, []);
 
-  console.log(breakpointMd);
-
   const displayMobile = useMatchMedia(`(width < ${breakpointMd})`);
   const displayDesktop = useMatchMedia(`(width >= ${breakpointMd})`);
 
