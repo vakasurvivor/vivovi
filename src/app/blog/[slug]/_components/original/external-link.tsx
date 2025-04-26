@@ -26,7 +26,7 @@ export default function ExternalLink(props: any) {
         strokeLinecap="round"
         strokeLinejoin="round"
         className={cn(
-          'mb-[.08em]',
+          'mb-[.1em]',
           'ml-[.25em]',
           'mr-[.06em]',
           'inline-block',

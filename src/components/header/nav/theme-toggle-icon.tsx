@@ -41,8 +41,8 @@ const Switch = React.forwardRef<
         'border-2 border-transparent',
         'transition-all duration-300 hover:[&_svg]:stroke-blue-600 dark:hover:[&_svg]:stroke-blue-300',
         'data-[state=checked]:bg-muted data-[state=unchecked]:bg-input',
-        'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring',
-        'focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+        'focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-hidden',
+        'focus-visible:ring-offset-background focus-visible:ring-offset-2',
         'disabled:cursor-not-allowed disabled:opacity-50',
         'drop-shadow-none',
         'hover:drop-shadow-[0_0_.5rem_rgba(29,78,216,.75)]',
@@ -53,7 +53,7 @@ const Switch = React.forwardRef<
     >
       <SwitchPrimitives.Thumb
         className={cn(
-          'pointer-events-none relative block size-5 rounded-full bg-background shadow-lg',
+          'bg-background pointer-events-none relative block size-5 rounded-full shadow-lg',
           'data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0',
         )}
       >

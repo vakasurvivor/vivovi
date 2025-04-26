@@ -1,3 +1,99 @@
+ポートフォリオの簡略化した構成図です。
+
+```txt
+==========================================
+           VIVOVI Blog Project
+==========================================
+ │   │   │
+ │   │   │ ┌──────────┐
+ │   │   └─  Frontend
+ │   │     ├──────────┘
+ │   │     ├── Next.js
+ │   │     │    └── App Router
+ │   │     ├── Language
+ │   │     │    ├── MDX
+ │   │     │    ├── Tailwindcss
+ │   │     │    └── TypeScript
+ │   │     ├── UI Library
+ │   │     │    ├── shadcn/ui
+ │   │     │    └── Radix UI
+ │   │     ├── Animation Library
+ │   │     │    └── Motion
+ │   │     └── Contents Library
+ │   │          └── Velite
+ │   │     ↑↓
+ │   │ ┌─────────┐
+ │   └─  Backend
+ │     ├─────────┘
+ │     ├── Restful API
+ │     │    ├── Vercel Function
+ │     │    └── Supabase RESTful API
+ │     ├── RDBMS
+ │     │    └── PostgreSQL(Supabase)
+ │     └── ORM
+ │          └── Prisma
+ │     ↑↓
+ │ ┌────────────────┐
+ └─  Infrastructure
+   ├────────────────┘
+   ├── Hosting
+   │    ├── Frontend
+   │    │    └ Vercel（AWS）
+   │    └── Backend
+   │         └ Supabase（AWS）
+   ├── CI/CD
+   │    └── GitHub Actions
+   └── Networking
+        ├── CDN (Vercel Edge Network)
+        └── API Gateway
+            (Supabase Edge Functions)
+```
+
+開発環境は下図の通りです。
+
+```txt
+==========================================
+        Development Environment
+==========================================
+ │
+ │  ┌────────────────────────────────┐
+ ├──  WSL2 (Windows Subsystem Linux)
+ │  ├────────────────────────────────┘
+ │  ├── Used AI Tools (Free)
+ │  │    ├── Chat GPT
+ │  │    ├── Gemini
+ │  │    ├── Claude
+ │  │    └── Github Copilot
+ │  ├── DVCS
+ │  │    └── Git & Github
+ │  ├── IDE
+ │  │    └── VSCode
+ │  ├── Linter & Formatter
+ │  │    ├── Prettier
+ │  │    └── Eslint
+ │  ├── Container (only Local)
+ │  │    ├── Docker Desktop
+ │  │    └── Docker Compose
+ │  │        ├── Frontend (Node:22 Image)
+ │  │        └── Backend (Supabase CLI)
+ │  └── Design Tools
+ │       ├── Figma
+ │       └── Adobe Illustrator
+ │
+ │  ┌─────────────────────┐
+ └──  Windows 11（DIY PC）
+    ├─────────────────────┘
+    ├── CPU
+    │    └── AMD Ryzen 3900X
+    ├── GPU
+    │    └── NVIDIA GeForce RTX 3060
+    ├── Mother
+    │    └── MSI MPG B550 GAMING EDGE WIFI
+    └── Memory
+         └── Patriot Memory 3200
+             C16 Series DDR4 ×2
+```
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -42,3 +138,11 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
   };
 }
 ```
+
+記事のいいね数を管理する
+
+サーバーコンポーネントでイイね数を取得して、初期表示は静的に
+
+クライアントコンポーネントでイイね数の増減処理
+
+ユーザー情報は保持しない

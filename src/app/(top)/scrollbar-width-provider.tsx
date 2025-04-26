@@ -7,6 +7,20 @@ interface Props {
   children: React.ReactNode;
 }
 
+/**
+ * スクロールバーの幅をカスタムプロパティとして提供するコンポーネント。
+ *
+ * このコンポーネントは、スクロールバーの幅を計算し、CSSカスタムプロパティ `--scrollbar-width` に設定します。
+ * また、ブラウザのリサイズイベントに対応してスクロールバーの幅を再計算します。
+ *
+ * 特徴:
+ * - `CSS.registerProperty` を使用してカスタムプロパティを登録し、より詳細な制御を可能にします。
+ * - 古いブラウザではフォールバックとして従来のカスタムプロパティ構文を使用します。
+ * - `debounce` を使用してリサイズイベントの処理を最適化します。
+ *
+ * @param {Props} props - 子コンポーネントを含むプロパティ。
+ * @returns {JSX.Element} 子コンポーネントをラップした要素。
+ */
 export function ScrollbarWidthProvider({ children }: Props) {
   // React開発時の<StrictMode>による CSS.registerProperty の重複定義を防ぐ
   const isPropertyRegistered = useRef(false);
@@ -26,7 +40,7 @@ export function ScrollbarWidthProvider({ children }: Props) {
       setCustomProperty('--scrollbar-width');
     }
 
-    //　スクロールバーの状態変化によるカスタムプロパティの再定義
+    // 計算量にdebounce関数で考慮しながら、スクロールバーの状態変化によるカスタムプロパティの再定義
     const handleResize = debounce(
       () => setCustomProperty('--scrollbar-width'),
       200,
@@ -53,7 +67,7 @@ function getScrollbarWidth(): number {
 /**
  * 定義済みのカスタムプロパティの値を取得する関数
  * @param propertyName - カスタムプロパティ名（例 --example-name)
- * @return　定義済みのカスタムプロパティの値
+ * @return 定義済みのカスタムプロパティの値
  */
 function getCustomProperty(propertyName: string): number {
   const computedStyle = getComputedStyle(document.documentElement);
@@ -63,7 +77,7 @@ function getCustomProperty(propertyName: string): number {
 
 /**
  * 現在値でカスタムプロパティを定義、もしくは再定義する関数
- * @param propertyName　- カスタムプロパティ名（例 --example-name)
+ * @param propertyName - カスタムプロパティ名（例 --example-name)
  */
 function setCustomProperty(propertyName: string): void {
   const customProperty = getCustomProperty(propertyName);

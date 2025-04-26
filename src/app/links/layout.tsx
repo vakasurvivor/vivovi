@@ -16,7 +16,7 @@ export default function AboutLayout({
   return (
     <main className="relative mt-16 grid place-items-center px-8 max-sm:px-4">
       <SidebarProvider
-        className="h-[80svh] min-h-0 max-w-(--breakpoint-lg) rounded-lg border border-border/40 shadow-md"
+        className="border-border/40 h-[80svh] min-h-0 max-w-(--breakpoint-lg) rounded-lg border shadow-md"
         style={
           {
             '--sidebar-width': '12rem',
@@ -25,7 +25,7 @@ export default function AboutLayout({
         }
       >
         <LinksSidebar />
-        <div className="w-full overflow-y-scroll bg-shiki-background p-4">
+        <div className="bg-shiki-background w-full overflow-y-scroll p-4">
           <SidebarTrigger />
           {children}
         </div>

@@ -1,5 +1,6 @@
 import { cn } from '@/utils/cn';
 import { cva, type VariantProps } from 'class-variance-authority';
+import type { JSX } from 'react';
 
 //VivoviLogo Component
 
@@ -9,7 +10,7 @@ export default function VivoviLogo({
   className,
 }: VivoviLogoProps): JSX.Element {
   return (
-    <div className={cn('absolute left-0 top-0 -z-50 font-inter', className)}>
+    <div className={cn('font-inter absolute top-0 left-0', className)}>
       <div className="inline-block w-fit">
         {/* clamp min:320px max:1024px */}
         <span

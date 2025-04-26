@@ -52,7 +52,7 @@ const TextVariants = cva(
           'before:content-["これは"]',
         ],
         vertical: [
-          'absolute left-0 top-0',
+          'absolute top-0 left-0',
           'translate-y-[-2.1%]',
           'translate-x-[117%]',
           '[writing-mode:vertical-rl]',

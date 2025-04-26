@@ -12,51 +12,6 @@ import remarkBreaks from 'remark-breaks';
 import remarkHeadingId from 'remark-heading-id';
 import { defineCollection, defineConfig, s } from 'velite';
 
-const categories = defineCollection({
-  name: 'Category',
-  pattern: 'categories/*.yml',
-  schema: s
-    .object({
-      name: s.string().max(20),
-      slug: s.slug('global', ['admin', 'login']),
-      cover: s.image().optional(),
-      description: s.string().max(999).optional(),
-      // count,
-    })
-    .transform(data => ({ ...data, permalink: `/${data.slug}` })),
-});
-
-const tags = defineCollection({
-  name: 'Tag',
-  pattern: 'tags/index.yml',
-  schema: s
-    .object({
-      name: s.string().max(20),
-      slug: s.slug('global', ['admin', 'login']),
-      cover: s.image().optional(),
-      description: s.string().max(999).optional(),
-      // count,
-    })
-    .transform(data => ({ ...data, permalink: `/${data.slug}` })),
-});
-
-const links = defineCollection({
-  name: 'Links',
-  pattern: 'links/*.yml',
-  schema: s
-    .object({
-      title: s.string(),
-      link: s.string(),
-      slug: s.slug(),
-      eyecatch: s.image(),
-      description: s.string().max(999).optional(),
-    })
-    .transform(data => ({
-      ...data,
-      permalink: `https://api.svgl.app?search=${data.slug}`,
-    })),
-});
-
 const posts = defineCollection({
   name: 'Post',
   pattern: 'posts/**/*.mdx',

@@ -16,7 +16,7 @@ export default function StackBlitz({
     <iframe
       src={`${url}&ctl=${ctl}`}
       className={cn(
-        'h-[520px] rounded-lg border border-foreground/5 shadow-md',
+        'border-foreground/5 h-[520px] rounded-lg border shadow-md',
         'w-[100cqi] max-md:w-full',
         'mx-[calc(50%-50cqi)] my-8 max-md:mx-0',
         className,

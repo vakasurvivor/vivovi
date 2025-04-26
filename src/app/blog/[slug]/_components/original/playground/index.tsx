@@ -35,8 +35,8 @@ export default function Playground({
           'max-md:mx-0 max-md:flex-col',
         )}
       >
-        <Skeleton className="h-[520px] w-full rounded-none border-foreground/5" />
-        <Skeleton className="h-[520px] w-full rounded-none border-foreground/5" />
+        <Skeleton className="border-foreground/5 h-[520px] w-full rounded-none" />
+        <Skeleton className="border-foreground/5 h-[520px] w-full rounded-none" />
       </div>
     );
   }

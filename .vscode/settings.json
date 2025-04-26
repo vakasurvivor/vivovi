@@ -1,50 +1,10 @@
 {
-  /* ---editor--- */
-
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true,
-
   "[mdx]": {
     "editor.formatOnSave": false,
     "editor.formatOnType": false,
     "editor.wordWrap": "on",
     "files.trimTrailingWhitespace": false
   },
-
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
-    "source.organizeImports": "explicit",
-    "source.addMissingImports": "explicit"
-  },
-
-  "css.lint.unknownAtRules": "ignore",
-  "files.associations": {
-    "*.css": "tailwindcss"
-  },
-  "tailwindCSS.experimental.classRegex": [
-    ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
-    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
-    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
-  ],
-
-  "typescript.enablePromptUseWorkspaceTsdk": true,
-  "typescript.tsdk": "node_modules/typescript/lib",
-
-  "search.exclude": {
-    "**/node_modules": true
-  },
-
-  // "explorer.fileNesting.enabled": true,
-  // "explorer.fileNesting.patterns": {
-  //   "*.ts": "${capture}.js, ${capture}.typegen.ts",
-  //   "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
-  //   "*.jsx": "${capture}.js",
-  //   "*.tsx": "${capture}.ts, ${capture}.typegen.ts",
-  //   "package.json": "pnpm-lock.yaml, .eslintrc.json, next.config.mjs, postcss.config.mjs, tailwind.config.ts, tsconfig.json, next-env.d.ts, .gitignore, next.config.ts, .env, .env.example , .prettierrc.mjs, components.json, velite.config.js",
-  //   "*.mts": "${capture}.typegen.ts",
-  //   "*.cts": "${capture}.typegen.ts"
-  // },
-
   "cSpell.words": [
     "Blockquotes",
     "codemirror",
@@ -58,8 +18,8 @@
     "hidenavigation",
     "Hiragino",
     "isodate",
-    "VOVI",
     "jsdevtools",
+    "lintstagedrc",
     "lucide",
     "Meiryo",
     "metascraper",
@@ -87,5 +47,27 @@
     "videoid",
     "VIVOVI",
     "VOVI"
-  ]
+  ],
+
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports": "explicit",
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "search.exclude": {
+    "**/node_modules": true
+  },
+  "tailwind-fold.autoFold": false,
+  "tailwindCSS.experimental.classRegex": [
+    ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

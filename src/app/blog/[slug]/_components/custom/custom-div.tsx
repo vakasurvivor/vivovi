@@ -38,14 +38,14 @@ export default function CustomDiv(props: CustomDivProps) {
         <div
           {...props}
           className={cn(
-            'absolute left-0 top-0 z-10',
+            'absolute top-0 left-0 z-10',
             'h-11 w-full rounded-t-lg',
-            'border border-b-0 border-foreground/5',
+            'border-foreground/5 border border-b-0',
             'bg-shiki-light-bg dark:bg-shiki-dark-bg',
           )}
         >
-          <div className="top-1/2 translate-y-1/2 pl-11 pr-4 pt-[1.25px]">
-            <h6 className="font-inter text-sm leading-snug text-foreground dark:text-foreground">
+          <div className="top-1/2 translate-y-1/2 pt-[1.25px] pr-4 pl-11">
+            <h6 className="font-inter text-foreground dark:text-foreground text-sm leading-snug">
               {props.children}
             </h6>
           </div>

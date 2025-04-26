@@ -33,7 +33,7 @@ export default function BreadcrumbTrail({
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem className="overflow-hidden">
-          <BreadcrumbPage className="overflow-hidden text-ellipsis text-nowrap">
+          <BreadcrumbPage className="overflow-hidden text-nowrap text-ellipsis">
             {/* text-[var(--tw-prose-body)] */}
             {title}
           </BreadcrumbPage>

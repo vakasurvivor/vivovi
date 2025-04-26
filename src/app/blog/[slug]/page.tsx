@@ -99,6 +99,7 @@ export default async function PostPage({ params }: ParamsProps) {
             className="not-prose border-border/40 rounded-lg border"
           />
           <Title title={post.title} />
+          <Outline description={post.description} target={post.target} />
         </header>
         <PostContent content={post.content} />
       </>
@@ -186,14 +187,14 @@ const Outline = ({
     <div className="border-border/40 bg-shiki-light-bg dark:bg-shiki-dark-bg relative mt-2 ml-4 rounded-md border shadow-md">
       <h3 className="not-prose absolute flex -translate-x-[18px] -translate-y-1/2 items-center gap-2 rounded-sm bg-blue-600 px-2 py-[2px] text-white shadow-md dark:bg-blue-700 dark:text-[#cbd5e1]">
         <CircleUserRound size={20} />
-        対象読者
+        対象
       </h3>
       <p className="mx-4 mt-6 mb-3 text-sm">{target}</p>
     </div>
     <div className="border-border/40 bg-shiki-light-bg dark:bg-shiki-dark-bg relative mt-8 ml-4 rounded-md border shadow-md">
-      <h3 className="not-prose px2 absolute flex -translate-x-[18px] -translate-y-1/2 items-center gap-2 rounded-sm bg-blue-600 py-[2px] text-white shadow-md dark:bg-blue-700 dark:text-[#cbd5e1]">
+      <h3 className="not-prose absolute flex -translate-x-[18px] -translate-y-1/2 items-center gap-2 rounded-sm bg-blue-600 px-2 py-[2px] text-white shadow-md dark:bg-blue-700 dark:text-[#cbd5e1]">
         <BookOpenText size={20} />
-        記事概要
+        概要
       </h3>
       <p className="mx-4 mt-6 mb-3 text-sm">{description}</p>
     </div>

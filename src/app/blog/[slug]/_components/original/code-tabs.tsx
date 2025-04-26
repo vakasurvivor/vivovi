@@ -14,12 +14,12 @@ export default function CodeTabs({ children }: CustomTabProps) {
     <Tabs defaultValue="1" className="relative w-full shadow-md">
       <TabsList
         className={cn(
-          'absolute left-0 top-0 z-30',
+          'absolute top-0 left-0 z-30',
           'h-11 w-full overflow-hidden px-0',
           'rounded-none rounded-t-lg',
           'justify-start',
           'bg-shiki-light-bg dark:bg-shiki-dark-bg',
-          'border border-b-0 border-foreground/5',
+          'border-foreground/5 border border-b-0',
         )}
       >
         <div className="flex">
@@ -28,7 +28,7 @@ export default function CodeTabs({ children }: CustomTabProps) {
               key={index}
               className={cn(
                 ['flex items-center gap-2'],
-                ['h-11 rounded-none pl-4 pr-0'],
+                ['h-11 rounded-none pr-0 pl-4'],
                 ['opacity-50', 'data-[state=active]:opacity-100'],
                 [
                   'data-[state=active]:bg-shiki-light-bg',
@@ -46,7 +46,7 @@ export default function CodeTabs({ children }: CustomTabProps) {
                 className="m-0"
               />
 
-              <h5 className="font-inter text-sm leading-snug text-foreground">
+              <h5 className="font-inter text-foreground text-sm leading-snug">
                 {child.title}
               </h5>
             </TabsTrigger>

@@ -90,7 +90,7 @@ export default function CustomFigcaption(props: CustomFigcaptionProps) {
               width={20}
               src={`${cdnUrl}`}
               alt={'Logo Icon'}
-              className="!my-0"
+              className="!my-0 size-5"
             />
             <h6 className="font-inter text-foreground dark:text-foreground text-sm leading-snug">
               {props.children}

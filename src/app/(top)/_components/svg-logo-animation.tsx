@@ -1,15 +1,17 @@
 import { cn } from '@/utils/cn';
 import {
+  SiAmazonwebservices,
   SiAstro,
-  SiBun,
   SiCloudflare,
-  SiCss3,
-  SiFirebase,
+  SiCss,
+  SiDocker,
+  SiGit,
   SiGithub,
+  SiGnubash,
   SiJavascript,
+  SiLinux,
   SiNextdotjs,
-  SiPlanetscale,
-  SiPostcss,
+  SiPnpm,
   SiPrisma,
   SiRadixui,
   SiReact,
@@ -25,11 +27,11 @@ import Marquee from 'react-fast-marquee';
 
 const icons = [
   {
-    icon: <SiFirebase />,
-    label: 'firebase',
+    icon: <SiGnubash />,
+    label: 'bash',
   },
   {
-    icon: <SiCss3 />,
+    icon: <SiCss />,
     label: 'css',
   },
   {
@@ -49,17 +51,17 @@ const icons = [
     label: 'typescript',
   },
   {
-    icon: <SiPlanetscale />,
-    label: 'PlanetScale',
+    icon: <SiLinux />,
+    label: 'Linux',
   },
   {
-    icon: <SiPostcss />,
-    label: 'postcss',
+    icon: <SiDocker />,
+    label: 'docker',
   },
 
   {
-    icon: <SiBun />,
-    label: 'Bun',
+    icon: <SiAmazonwebservices />,
+    label: 'amazon web services',
   },
   {
     icon: <SiRadixui />,
@@ -94,12 +96,20 @@ const icons = [
     label: 'GitHub',
   },
   {
+    icon: <SiPnpm />,
+    label: 'pnpm',
+  },
+  {
     icon: <SiPrisma />,
     label: 'Prisma',
   },
   {
     icon: <SiStripe />,
     label: 'Stripe',
+  },
+  {
+    icon: <SiGit />,
+    label: 'Git',
   },
 ];
 
@@ -109,13 +119,12 @@ export default function SvgLogoAnimation({ className }: SvgLogoAnimationProps) {
   return (
     <div
       className={cn(
-        'absolute -left-9 top-0',
+        'absolute top-0 -left-9',
         '[--angle:19deg]',
         'h-fit',
         'w-[calc(100dvh-var(--header-height))]',
         'origin-bottom-left',
         'rotate-[calc(90deg-var(--angle))]',
-        '-z-50',
         className,
       )}
     >
@@ -123,7 +132,7 @@ export default function SvgLogoAnimation({ className }: SvgLogoAnimationProps) {
 
       <Marquee
         gradient
-        gradientColor="hsl(var(--background))"
+        gradientColor="var(--color-background)"
         gradientWidth={250}
         speed={8}
         direction="right"

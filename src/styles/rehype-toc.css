@@ -3,7 +3,7 @@
 } */
 
 .rehype-toc {
-  @apply text-base prose-ul:my-2;
+  @apply prose-ul:my-2 text-base;
 
   .rehype-toc-level {
     counter-reset: section;

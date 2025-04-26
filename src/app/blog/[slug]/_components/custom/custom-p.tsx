@@ -6,27 +6,16 @@ import React, {
 } from 'react';
 import * as Original from '../original';
 
-interface CustomParagraphProps extends ComponentPropsWithoutRef<'p'> {}
-
-/**
- * @param {CustomParagraphProps} props - p要素に渡されるprops
- * @returns {Promise<JSX.Element>} - カスタマイズされたp要素
- */
+type CustomParagraphProps = ComponentPropsWithoutRef<'p'>;
 
 export default async function P(props: CustomParagraphProps) {
+  const { children } = props;
   // props.childrenが単一の<a>要素であるかを確認
-  if (
-    !Array.isArray(props.children) &&
-    React.isValidElement(props.children) &&
-    typeof (props.children as ReactElement).type === 'function' &&
-    ((props.children as ReactElement).type as React.ComponentType<any>)
-      .displayName === 'Anchor'
-  ) {
-    const anchorElement = props.children as ReactElement;
-    const {
-      href: anchorHref,
-      children: anchorChildren,
-    }: { href: string; children: ReactNode } = anchorElement.props;
+  if (isAnchorElement(children)) {
+    const { href: anchorHref, children: anchorChildren } = children.props as {
+      href: string;
+      children: ReactNode;
+    };
 
     // href属性と<a>要素のテキストと一致している場合
     if (anchorHref === anchorChildren) {
@@ -84,4 +73,16 @@ export default async function P(props: CustomParagraphProps) {
 
   // デフォルトの<p>要素を返す
   return <p {...props} />;
+}
+
+/**
+ * a要素であるかチェックするヘルパー関数
+ */
+function isAnchorElement(children: ReactNode): children is ReactElement {
+  return (
+    !Array.isArray(children) &&
+    React.isValidElement(children) &&
+    typeof children.type === 'function' &&
+    (children.type as React.ComponentType<any>).displayName === 'Anchor'
+  );
 }

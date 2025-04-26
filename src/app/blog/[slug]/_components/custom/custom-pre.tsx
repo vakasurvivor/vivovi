@@ -5,7 +5,7 @@ import Children from 'react-children-utilities';
 
 interface CustomPreProps extends ComponentPropsWithoutRef<'pre'> {
   'data-theme'?: string;
-  'has-figcaption'?: boolean;
+  'has-figcaption'?: string;
 }
 
 // TSDoc
@@ -35,12 +35,18 @@ export default function CustomPre(props: CustomPreProps) {
           {...props}
           className={cn(
             props.className,
-            'border border-foreground/5',
+            'border-foreground/5 border',
             'bg-shiki-light-bg dark:bg-shiki-dark-bg',
-            hasCustomFigcaption && 'rounded-t-none!',
+            hasCustomFigcaption === 'true' && 'rounded-t-none!',
           )}
         >
-          <CopyButton value={text} className="absolute right-3 top-3 z-30" />
+          <CopyButton
+            value={text}
+            className={cn(
+              'absolute top-3.75 right-3 z-30',
+              hasCustomFigcaption === 'true' ? 'top-3' : 'top-3.75',
+            )}
+          />
           {props.children}
         </pre>
       )}

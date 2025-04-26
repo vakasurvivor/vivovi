@@ -49,7 +49,7 @@ figure[data-blockquote-container] {
 
 /* 画像を引用する場合のスタイル */
 figure[data-blockquote-container]:has(img) {
-  @apply rounded-lg border border-border/40 bg-shiki-light-bg shadow-md dark:bg-shiki-dark-bg;
+  @apply border-border/40 bg-shiki-light-bg dark:bg-shiki-dark-bg rounded-lg border shadow-md;
 
   blockquote[data-blockquote-content] {
     padding-inline-start: 0;

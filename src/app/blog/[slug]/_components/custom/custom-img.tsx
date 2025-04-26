@@ -24,7 +24,7 @@ export default function CustomImg(
         'block',
         'overflow-hidden',
         'rounded-lg shadow-lg',
-        'border border-border/40',
+        'border-border/40 border',
         'has-[+sup]:mb-[5px]',
         // '[&+sup]:mr-1',
         '[&+sup]:[font-size:10.5px]',

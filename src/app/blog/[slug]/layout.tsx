@@ -9,7 +9,7 @@ export default function PostPageLayout({
   return (
     <main className="prose prose-slate dark:prose-invert">
       <div className="grid grid-cols-[1fr_minmax(min-content,calc(39em+var(--playground-add-width)))_1fr] gap-x-4">
-        <article className="col-[2/3] max-w-[calc(39em+var(--playground-add-width))] @container/article">
+        <article className="@container/article col-[2/3] max-w-[calc(39em+var(--playground-add-width))]">
           <Post className="mx-auto max-w-[39em]">{children}</Post>
         </article>
         <SideScrollToc
@@ -21,27 +21,33 @@ export default function PostPageLayout({
         />
       </div>
 
-      <div
-        className={cn(
-          'mb-4 w-full border-y border-foreground/5 bg-shiki-light-bg shadow-md dark:bg-shiki-dark-bg',
-          'grid grid-cols-[1fr_minmax(min-content,calc(39em+var(--playground-add-width)))_1fr] gap-x-4',
-        )}
-      >
-        <div className="col-[2/3] max-w-[calc(39em+var(--playground-add-width))]">
-          <div className="mx-auto max-w-[39em] pb-9 pt-5 text-justify">
-            <p className="text-sm [text-indent:1em;]">
-              最後までお読みいただきありがとうございます。拙い文章ではありますが、少しでも皆様のお役に立てることができれば幸いです。
-            </p>
-            <p className="mb-0 text-sm [text-indent:1em;]">
-              記事に誤りや認識の違いがございましたら、X（旧Twitter）または、GitHubを通じてご指摘いただけると助かります。可能な限り、修正や訂正を行います。
-            </p>
-            <p className="mt-2 text-right text-sm">ー vakasurvivor</p>
-            <p className="mx-auto my-0 w-fit font-crazyMetro text-8xl leading-none text-[var(--tw-prose-bold)] max-sm:text-[15vw]">
-              vakasurvivor
-            </p>
+      <div className="bg-shiki-background relative my-4 overflow-hidden">
+        <div
+          className={cn(
+            'relative z-20 w-full shadow-md',
+            'grid grid-cols-[1fr_minmax(min-content,calc(39em+var(--playground-add-width)))_1fr] gap-x-4',
+          )}
+        >
+          <div className="col-[2/3] max-w-[calc(39em+var(--playground-add-width))]">
+            <div className="mx-auto max-w-[39em] pt-5 pb-9 text-justify">
+              <p className="[text-indent:1em;] text-sm">
+                最後までお読みいただきありがとうございます。拙い文章ではありますが、少しでもお役に立てることができれば幸いです。
+              </p>
+              <p className="[text-indent:1em;] mb-0 text-sm">
+                記事に誤りや認識の違いがございましたら、X（旧Twitter）または、GitHubを通じてご指摘いただけると助かります。可能な限り、修正や訂正を行います。
+              </p>
+              <p className="mt-2 text-right text-sm">@vakasurvivor</p>
+              <p className="font-crazyMetro mx-auto !mt-8 !mb-4 w-fit text-8xl leading-none text-[var(--tw-prose-bold)] max-sm:text-[15vw]">
+                vakasurvivor
+              </p>
+            </div>
           </div>
+          <div className="col-[3/4] h-fit w-[calc(300px+4rem)] max-xl:hidden" />
         </div>
-        <div className="col-[3/4] h-fit w-[calc(300px+4rem)] max-xl:hidden" />
+        <div className="absolute inset-0 z-10 bg-[url(/img/noise.png)] bg-left opacity-5 dark:opacity-25"></div>
+        <div className="from-background absolute inset-0 z-10 bg-gradient-to-b to-transparent"></div>
+        <div className="absolute bottom-0 left-0 z-10 size-40 rounded-full bg-gradient-to-b from-transparent from-30% to-blue-700 blur-[100px]"></div>
+        <div className="absolute right-0 bottom-0 z-10 size-40 rounded-full bg-gradient-to-b from-transparent from-30% to-purple-700 blur-[100px]"></div>
       </div>
     </main>
   );

@@ -27,7 +27,7 @@ export default function MobileNav() {
             <Menu size={20} />
           </button>
         </SheetTrigger>
-        <SheetContent className="flex flex-col justify-between bg-background">
+        <SheetContent className="bg-background flex flex-col justify-between">
           <SheetTitle>Navigation</SheetTitle>
           <SheetDescription>for Mobile view</SheetDescription>
           <nav className="flex flex-col items-center gap-8">

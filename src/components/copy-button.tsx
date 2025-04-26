@@ -12,7 +12,7 @@ interface CopyButtonProps {
 export default function CopyButton({ value, className }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
   const iconBaseClass =
-    'transition scale-0 duration-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2';
+    'transition scale-0 duration-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ';
 
   return (
     <button
@@ -22,10 +22,11 @@ export default function CopyButton({ value, className }: CopyButtonProps) {
           setTimeout(() => {
             setCopied(false);
           }, 1200);
+          console.log(copied);
         });
       }}
       className={cn(
-        'grid size-5 place-content-center text-muted-foreground hover:text-gray-800 dark:hover:text-white',
+        'text-muted-foreground grid size-5 place-content-center hover:text-gray-800 dark:hover:text-white',
         className,
       )}
     >
@@ -33,14 +34,15 @@ export default function CopyButton({ value, className }: CopyButtonProps) {
         size={20}
         className={cn(
           iconBaseClass,
-          copied
-            ? 'scale-1 text-gray-800 dark:text-white'
-            : 'scale-0 opacity-0',
+          copied ? 'scale-100 opacity-100' : 'scale-0 opacity-0',
         )}
       />
       <Copy
         size={20}
-        className={cn(iconBaseClass, copied ? 'scale-0 opacity-0' : 'scale-1')}
+        className={cn(
+          iconBaseClass,
+          copied ? 'scale-0 opacity-0' : 'scale-100 opacity-100',
+        )}
       />
       <span className="sr-only">Copy</span>
     </button>

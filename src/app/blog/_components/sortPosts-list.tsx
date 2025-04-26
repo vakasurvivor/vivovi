@@ -1,14 +1,6 @@
 'use client';
 
 import { Post } from '#site/content';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import {
   Select,
   SelectContent,
@@ -16,87 +8,73 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { getNewestPosts, getOldestPosts } from '@/libs/post';
+import {
+  sortByDateDescending,
+  sortByLikeCountDescending,
+  sortByUpdateDateDescending,
+} from '@/libs/post';
 import { cn } from '@/utils/cn';
-import { format } from 'date-fns';
-import { FilePen } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { ArrowUpWideNarrow } from 'lucide-react';
 import { useState } from 'react';
+import PostCard from './postCard';
+
+type PostWithLikeCount = Post & {
+  likeCount: number;
+};
 
 export default function SortPostsList({
   posts,
   className,
 }: {
-  posts: Array<Post>;
+  posts: PostWithLikeCount[];
   className?: string;
 }) {
-  const [sortPosts, setSortPosts] = useState(getNewestPosts(posts));
+  const [sortPosts, setSortPosts] = useState(sortByDateDescending(posts));
+  const [isDateDesc, setIsDateDesc] = useState(true);
 
   function handleSortPosts(value: string) {
-    if (value === 'oldest') {
-      setSortPosts(() => [...getOldestPosts(posts)]);
+    if (value === 'date') {
+      setSortPosts(() => [...sortByDateDescending(posts)]);
     }
-    if (value === 'newest') {
-      setSortPosts(() => [...getNewestPosts(posts)]);
+    if (value === 'updateDate') {
+      setSortPosts(() => [...sortByUpdateDateDescending(posts)]);
+    }
+    if (value === 'likeCount') {
+      setSortPosts(() => [...sortByLikeCountDescending(posts)]);
     }
   }
 
   return (
     <>
-      <div className="mb-8 flex items-center justify-between rounded-md border bg-background p-4 shadow-md">
+      <div className="bg-background mb-8 flex items-center justify-between rounded-md border p-4 shadow-md">
         <h2 className="text-2xl font-bold">BLOG 記事一覧</h2>
         <Select onValueChange={value => handleSortPosts(value)}>
-          <SelectTrigger className="w-[150px]">
-            <SelectValue placeholder="並び替え" />
+          <SelectTrigger className={cn('w-[150px]')}>
+            <ArrowUpWideNarrow
+              className={cn(
+                'h-4 w-4',
+                isDateDesc ? 'text-blue-400' : 'text-gray-400',
+              )}
+            />
+            <SelectValue placeholder="降順" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="newest">新しい順</SelectItem>
-            <SelectItem value="oldest">古い順</SelectItem>
+            <SelectItem value="date">日付順</SelectItem>
+            <SelectItem value="updateDate">更新順</SelectItem>
+            <SelectItem value="likeCount">人気順</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
-      <div className={cn('flex flex-col gap-8', className)}>
-        {sortPosts.map(post => {
-          const { permalink, eyecatch, title, description, createdAt } = post;
-          return (
-            <Card
-              className="bg-shiki-background flex flex-row-reverse items-stretch border border-border/40 drop-shadow-md"
-              key={permalink}
-            >
-              <CardHeader className="grow">
-                <CardTitle className="mb-4 text-xl">{title}</CardTitle>
-                <CardDescription className="line-clamp-3">
-                  {description}
-                </CardDescription>
-                <div className="mt-4! flex items-center justify-end gap-4">
-                  <p className="flex items-center gap-2 text-sm [font-feature-settings:'tnum']">
-                    <FilePen size={16} />
-                    <time dateTime={format(new Date(createdAt), 'yyyy-MM-dd')}>
-                      {format(new Date(createdAt), 'yyyy年MM月dd日')}
-                    </time>
-                  </p>
-                  <Button variant="outline" asChild>
-                    <Link href={permalink}>記事を読む</Link>
-                  </Button>
-                </div>
-              </CardHeader>
-
-              <CardContent className="max-w-[300px] p-0">
-                {eyecatch && (
-                  <Image
-                    className="h-full w-full overflow-hidden rounded-lg object-cover"
-                    src={eyecatch.src}
-                    width={eyecatch.width}
-                    height={eyecatch.height}
-                    alt={title}
-                  />
-                )}
-              </CardContent>
-            </Card>
-          );
-        })}
+      <div
+        className={cn(
+          'grid gap-8 max-md:grid-cols-2 max-md:gap-6 max-sm:grid-cols-1',
+          className,
+        )}
+      >
+        {sortPosts.map(post => (
+          <PostCard key={post.permalink} post={post} />
+        ))}
       </div>
     </>
   );
