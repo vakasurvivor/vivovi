@@ -10,11 +10,11 @@
     "build:clean": "rm -rf .next && next build",
     "start": "next start",
     "lint": "next lint && pnpm run prisma:validate",
-    "lint:fix": "next lint --fix",
+    "lint:fix": "next lint --fix --",
     "format": "pnpm run prettier:check",
-    "format:fix": "pnpm run prettier:write && pnpm run prisma:format",
-    "prettier:check": "pnpm exec prettier --check \"**/*.{css,ts,tsx,js,jsx,cjs,mjs,md,json,lintstagedrc,yml,yaml}\"",
-    "prettier:write": "pnpm exec prettier --write \"**/*.{css,ts,tsx,js,jsx,cjs,mjs,md,json,lintstagedrc,yml,yaml}\"",
+    "format:fix": "pnpm run prettier:write --",
+    "prettier:check": "pnpm exec prettier --check",
+    "prettier:write": "pnpm exec prettier --write",
     "supabase:start": "pnpm supabase start",
     "supabase:stop": "pnpm supabase stop",
     "prisma:dev": "dotenv -e .env.local -- pnpm prisma migrate dev",
@@ -27,6 +27,15 @@
     "prisma:format": "pnpm exec prisma format",
     "prisma:validate": "dotenv -e .env.local -- pnpm exec prisma validate",
     "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,cjs,mjs}": [
+      "pnpm run lint:fix",
+      "pnpm run format:fix"
+    ],
+    "*.{css,md,json,yml,yaml}": [
+      "pnpm run format:fix"
+    ]
   },
   "prisma": {
     "seed": "dotenv -e .env.local -- tsx prisma/seed.ts"
@@ -49,7 +58,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "es-toolkit": "^1.36.0",
-    "lucide-react": "^0.503.0",
+    "lucide-react": "^0.522.0",
     "metascraper": "^5.46.11",
     "metascraper-description": "^5.46.11",
     "metascraper-image": "^5.46.11",
@@ -72,15 +81,15 @@
     "@shikijs/transformers": "^3.3.0",
     "@tailwindcss/postcss": "^4.1.4",
     "@tailwindcss/typography": "^0.5.16",
-    "@types/node": "^22.14.1",
+    "@types/node": "^24.0.3",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "cssnano": "^7.0.7",
     "dotenv-cli": "^8.0.0",
     "eslint": "^9.25.1",
-    "eslint-config-next": "15.3.1",
+    "eslint-config-next": "15.3.4",
     "husky": "^9.1.7",
-    "lint-staged": "^15.5.1",
+    "lint-staged": "^16.1.2",
     "node-loader": "^2.1.0",
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",
