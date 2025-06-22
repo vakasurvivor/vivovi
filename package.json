@@ -35,6 +35,9 @@
     ],
     "*.{css,md,json,yml,yaml}": [
       "pnpm run format:fix"
+    ],
+    "prisma/schema.prisma": [
+      "pnpm run prisma:format"
     ]
   },
   "prisma": {
