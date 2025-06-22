@@ -1,14 +1,46 @@
-/* 通常表示 ================================================================== */
+/*=====================================*\
+
+\*=====================================*/
+
+/* * * * * * * * * * * * * * * * * * * */
+/*                                     */
+/*           Custom Valiants           */
+/*                                     */
+/* * * * * * * * * * * * * * * * * * * */
+:root {
+  &[style*='color-scheme'] code[data-theme*='github-dark-default'] {
+    background-color: var(--shiki-background);
+    color: var(--shiki);
+  }
+  &[style*='color-scheme'] code[data-theme*='github-dark-default'] span {
+    color: var(--shiki);
+  }
+}
+
+/* * * * * * * * * * * * * * * * * * * */
+/*                                     */
+/*           Text Line Fade            */
+/*                                     */
+/* * * * * * * * * * * * * * * * * * * */
+pre:where([data-theme])::after {
+  @apply to-shiki-background pointer-events-none absolute inset-y-0 top-0 right-0 w-8 rounded-r-sm bg-gradient-to-r from-transparent content-[''];
+}
+
+/* * * * * * * * * * * * * * * * * * * */
+/*                                     */
+/*               Common                */
+/*                                     */
+/* * * * * * * * * * * * * * * * * * * */
 pre code:where([data-theme]) {
-  @apply text-[13.5px];
+  @apply relative text-[13.5px];
 
   span[data-line] {
     /* 通常行 */
-    @apply px-4 transition-colors ease-in hover:bg-blue-400/20 dark:hover:bg-blue-400/10;
+    @apply px-3 transition-colors ease-in hover:bg-blue-400/10;
 
     /* 装飾行 */
     &:where([data-highlighted-line], .add, .remove, .warning, .error) {
-      @apply relative border-l-[3px] pr-4 pl-[calc(1rem-3px)];
+      @apply relative px-3;
     }
 
     /* 装飾行-共通設定 */
@@ -18,128 +50,159 @@ pre code:where([data-theme]) {
       }
     }
 
-    /* normal highlight */
+    /* normal */
     &[data-highlighted-line] {
-      @apply border-blue-500 bg-blue-400/20 dark:bg-blue-400/10;
+      @apply bg-blue-400/8;
     }
 
-    /* + add highlight */
+    /* + add */
     &.add {
-      @apply border-green-500 bg-green-400/20 dark:bg-green-400/10;
+      @apply border-green-500/56 bg-green-400/8;
       &::after {
-        @apply text-green-500 content-['+'];
+        @apply text-green-500/56 content-['+'];
       }
     }
 
-    /* - remove highlight */
+    /* - remove */
     &.remove {
-      @apply border-red-500 bg-red-400/20 dark:bg-red-400/10 [&_span]:text-[#6E7781] dark:[&_span]:text-[#8B949E];
+      @apply border-red-500/56 bg-red-400/8 [&_span]:text-[#6E7781] dark:[&_span]:text-[#8B949E];
       &::after {
-        @apply text-red-500 content-['-'];
+        @apply text-red-500/56 content-['-'];
       }
     }
 
-    /* ⚠ warning highlight */
+    /* ⚠ warning */
     &.warning {
-      @apply border-amber-500 bg-amber-400/20 dark:bg-amber-400/10;
+      @apply border-amber-500/56 bg-amber-400/8;
       &::after {
-        @apply translate-y-[13%] text-[12px] text-amber-600 content-['⚠'] dark:text-amber-500;
+        @apply translate-y-[13%] text-[12px] text-amber-600/56 content-['⚠'] dark:text-amber-500;
       }
     }
 
-    /* ✗ error highlight */
+    /* ✗ error */
     &.error {
-      @apply border-red-500 bg-red-400/20 dark:bg-red-400/10;
+      @apply border-red-500/56 bg-red-400/8;
       &::after {
-        @apply translate-y-[9%] text-[12px] text-red-500 content-['✗'];
+        @apply translate-y-[9%] text-[12px] text-red-500/56 content-['✗'];
       }
     }
   }
 }
 
-/* 行数表示（共通）============================================================= */
+/* * * * * * * * * * * * * * * * * * * */
+/*                                     */
+/*      Common line number digits      */
+/*                                     */
+/* * * * * * * * * * * * * * * * * * * */
 pre code:where([data-theme][data-line-numbers]) {
-  @apply [counter-reset:line];
+  counter-reset: line;
 
   span[data-line] {
     /* 通常行 */
     &::before {
-      @apply mr-4 inline-block text-right text-[#6E7781] content-[counter(line)] [counter-increment:line] dark:text-[#8B949E];
+      content: counter(line);
+      counter-increment: line;
+      display: inline-block;
+      color: #6e7781;
+      margin-right: calc(var(--spacing) * 4);
+      text-align: right;
+      &:where(.dark, .dark *) {
+        color: #8b949e;
+      }
     }
 
     /* 装飾行 */
     /* normal highlight */
-    &[data-highlighted-line]::before {
+    /* &[data-highlighted-line]::before {
       @apply text-blue-500;
-    }
+    } */
     /* + add highlight */
-    &.add::before {
+    /* &.add::before {
       @apply text-green-500;
-    }
+    } */
     /* - remove highlight */
-    &.remove::before {
+    /* &.remove::before {
       @apply text-red-500;
-    }
+    } */
     /* ⚠ warning highlight */
-    &.warning::before {
+    /* &.warning::before {
       @apply text-yellow-500;
-    }
+    } */
     /* ✗ error highlight */
-    &.error::before {
+    /* &.error::before {
       @apply text-red-500;
-    }
+    } */
   }
 }
 
-/* 行数表示（一桁）============================================================= */
+/* * * * * * * * * * * * * * * * * * * */
+/*                                     */
+/*          One-digit numbers          */
+/*             (1–9 only)              */
+/*                                     */
+/* * * * * * * * * * * * * * * * * * * */
 pre
   code:where(
     [data-theme][data-line-numbers][data-line-numbers-max-digits='1']
   ) {
   span[data-line]::before {
-    @apply min-w-[1rem];
+    min-width: fit-content;
   }
 
   &:has(span:is(.add, .remove, .warning, .error)) {
     span[data-line]::before {
-      @apply min-w-[calc(1rem+2px)];
+      min-width: calc(1rem + 6px);
     }
   }
 }
 
-/* 行数表示（二桁）============================================================= */
+/* * * * * * * * * * * * * * * * * * * */
+/*                                     */
+/*         Two-digit numbers           */
+/*            (10–99 only)             */
+/*                                     */
+/* * * * * * * * * * * * * * * * * * * */
 pre
   code:where(
     [data-theme][data-line-numbers][data-line-numbers-max-digits='2']
   ) {
   span[data-line]::before {
-    @apply min-w-[1rem];
+    min-width: fit-content;
   }
 
   &:has(span:is(.add, .remove, .warning, .error)) {
     span[data-line]::before {
-      @apply min-w-[calc(1.5rem+4px)];
+      min-width: calc(1.5rem + 6px);
     }
   }
 }
 
-/* 行数表示（三桁）============================================================= */
+/* * * * * * * * * * * * * * * * * * * */
+/*                                     */
+/*        Three-digit numbers          */
+/*           (100–999 only)            */
+/*                                     */
+/* * * * * * * * * * * * * * * * * * * */
 pre
   code:where(
     [data-theme][data-line-numbers][data-line-numbers-max-digits='3']
   ) {
   span[data-line]::before {
-    @apply min-w-[1.75rem];
+    min-width: 1.75rem;
   }
 
   &:has(span:is(.add, .remove, .warning, .error)) {
     span[data-line]::before {
-      @apply min-w-[calc(1.75rem+8px)];
+      min-width: calc(1.75rem + 8px);
     }
   }
 }
 
-/* 行数非表示 ================================================================ */
+/* * * * * * * * * * * * * * * * * * * */
+/*                                     */
+/*           No-digit numbers          */
+/*                                     */
+/* * * * * * * * * * * * * * * * * * * */
 pre:is(.has-diff, .has-highlighted):not(:has(code[data-line-numbers])) {
   /* 通常行 */
   span[data-line] {
@@ -169,28 +232,40 @@ pre.has-focused {
 ========================================================*/
 span[data-rehype-pretty-code-figure] {
   code[data-theme] {
-    @apply border-foreground/10 bg-shiki-light-bg dark:bg-shiki-dark-bg mx-[4px] rounded-sm border px-[3px] break-words;
+    @apply border-foreground/10 border;
+    background-color: var(--color-shiki-background);
+    border-radius: var(--radius-sm);
+    margin-inline: 4px;
+    padding-inline: 3px;
+    overflow-wrap: break-word;
   }
 
   code[data-language='.token'] {
-    @apply bg-shiki-light-bg dark:bg-shiki-dark-bg border-none font-sans [font-size:inherit] font-medium;
+    @apply border-none font-medium;
+    background-color: var(--color-shiki-background);
+    font-family: var(--font-sans);
+    font-size: inherit;
   }
 }
 
 code:not([data-theme]) {
-  @apply border-foreground/10 bg-shiki-light-bg dark:bg-shiki-dark-bg mx-[4px] inline rounded-sm border px-[3px] break-words text-inherit;
-}
-
-code:not([data-theme])[data-first-span] {
-  @apply ml-0;
+  @apply border-foreground/10 border;
+  padding-inline: 3px;
+  margin-inline: 4px;
+  color: inherit;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-sm);
+  display: inline;
+  background-color: var(--color-background);
+  &:where(.dark, .dark *) {
+    background-color: var(--color-shiki-background);
+  }
 }
 
 /* 例外処理 */
-
-span[data-rehype-pretty-code-figure][data-first-span] {
-  code[data-theme] {
-    @apply ml-0;
-  }
+code:not([data-theme])[data-first-span],
+span[data-rehype-pretty-code-figure][data-first-span] code[data-theme] {
+  margin-left: 0;
 }
 
 /* ========================================================
@@ -207,6 +282,6 @@ div[role='tabpanel'] {
       [data-rehype-pretty-code-title],
       [data-rehype-pretty-code-caption]
     ) {
-    @apply hidden;
+    display: none;
   }
 }

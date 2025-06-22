@@ -31,24 +31,29 @@ export default function CustomPre(props: CustomPreProps) {
   return (
     <>
       {activeRehypePrettyCode && (
-        <pre
-          {...props}
-          className={cn(
-            props.className,
-            'border-foreground/5 border',
-            'bg-shiki-light-bg dark:bg-shiki-dark-bg',
-            hasCustomFigcaption === 'true' && 'rounded-t-none!',
-          )}
-        >
+        <>
           <CopyButton
             value={text}
             className={cn(
-              'absolute top-3.75 right-3 z-30',
-              hasCustomFigcaption === 'true' ? 'top-3' : 'top-3.75',
+              'absolute right-3 z-30',
+              hasCustomFigcaption === 'true'
+                ? 'top-2.75'
+                : 'top-5 backdrop-blur-xs',
             )}
           />
-          {props.children}
-        </pre>
+          <div className="relative mx-1.5 overflow-hidden rounded-sm shadow-[0_1.5px_2px_0_theme(colors.black/32%),0_0_0_1px_theme(colors.white/10%),0_-1px_0_0_theme(colors.white/4%)]">
+            <pre
+              {...props}
+              className={cn(
+                props.className,
+                'bg-shiki-background !m-0 !rounded-sm',
+                // hasCustomFigcaption === 'true' && 'rounded-t-none!',
+              )}
+            >
+              {props.children}
+            </pre>
+          </div>
+        </>
       )}
 
       {!activeRehypePrettyCode && <pre {...props} />}

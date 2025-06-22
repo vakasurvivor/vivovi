@@ -1,5 +1,6 @@
 /* 文章を引用する場合のスタイル */
 figure[data-blockquote-container] {
+  margin-left: 2rem;
   border-inline-start-width: 3px;
   border-color: var(--tw-prose-quote-borders);
 
@@ -32,7 +33,7 @@ figure[data-blockquote-container] {
       }
 
       &:last-of-type::after {
-        content: '」\00A0（DeepL翻訳）';
+        content: '」\00A0（AI翻訳）';
       }
     }
   }
@@ -49,7 +50,7 @@ figure[data-blockquote-container] {
 
 /* 画像を引用する場合のスタイル */
 figure[data-blockquote-container]:has(img) {
-  @apply border-border/40 bg-shiki-light-bg dark:bg-shiki-dark-bg rounded-lg border shadow-md;
+  @apply dark:border-border/14 border-border/7 bg-shiki-background rounded-lg border shadow-md;
 
   blockquote[data-blockquote-content] {
     padding-inline-start: 0;

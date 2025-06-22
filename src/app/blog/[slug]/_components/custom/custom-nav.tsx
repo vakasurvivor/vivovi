@@ -34,7 +34,7 @@ export default function CustomNav(props: CustomNavProps) {
         type="single"
         defaultValue={isPcSize ? undefined : 'toc'}
         collapsible
-        className="fixed-toc border-border/40 bg-shiki-light-bg dark:bg-shiki-dark-bg overflow-hidden rounded-lg border shadow-md"
+        className="fixed-toc bg-background dark:bg-shiki-background natural-shadow overflow-hidden rounded-lg"
       >
         <AccordionItem value="toc" className="border-none [&>h3]:my-0">
           <AccordionTrigger className="py-2 pr-2 hover:no-underline">
@@ -43,11 +43,11 @@ export default function CustomNav(props: CustomNavProps) {
               <span className="text-base">目次を読む</span>
             </div>
           </AccordionTrigger>
-          <AccordionContent className="border-border/40 border-t pb-0">
+          <AccordionContent className="natural-border border-t pb-0">
             <nav
               className={cn(
                 props.className,
-                'bg-shiki-light-bg dark:bg-shiki-dark-bg relative my-0 px-2',
+                'bg-background dark:bg-shiki-background relative my-0 px-2',
                 'tracking-wider [font-feature-settings:"palt"]',
               )}
             >

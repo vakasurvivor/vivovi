@@ -18,7 +18,7 @@ export default function CodeTabs({ children }: CustomTabProps) {
           'h-11 w-full overflow-hidden px-0',
           'rounded-none rounded-t-lg',
           'justify-start',
-          'bg-shiki-light-bg dark:bg-shiki-dark-bg',
+          'bg-shiki-background',
           'border-foreground/5 border border-b-0',
         )}
       >
@@ -30,10 +30,7 @@ export default function CodeTabs({ children }: CustomTabProps) {
                 ['flex items-center gap-2'],
                 ['h-11 rounded-none pr-0 pl-4'],
                 ['opacity-50', 'data-[state=active]:opacity-100'],
-                [
-                  'data-[state=active]:bg-shiki-light-bg',
-                  'dark:data-[state=active]:bg-shiki-dark-bg',
-                ],
+                ['data-[state=active]:bg-shiki-background'],
               )}
               value={String(index + 1)}
             >

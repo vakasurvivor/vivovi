@@ -49,9 +49,19 @@ export default async function P(props: CustomParagraphProps) {
       'data-first-span': '',
     });
 
-    let childrenWithNewSpan = [updatedSpanElement, ...props.children.slice(1)];
+    // let childrenWithNewSpan = [updatedSpanElement, ...props.children.slice(1)];
 
-    return <p {...props}> {childrenWithNewSpan} </p>;
+    let childrenWithNewSpan = [
+      React.cloneElement(updatedSpanElement, { key: 0 }),
+      ...props.children
+        .slice(1)
+        .map((child, i) =>
+          React.isValidElement(child)
+            ? React.cloneElement(child, { key: i + 1 })
+            : child,
+        ),
+    ];
+    return <p {...props}>{childrenWithNewSpan}</p>;
   }
 
   // code
@@ -66,7 +76,16 @@ export default async function P(props: CustomParagraphProps) {
       'data-first-span': '',
     });
 
-    let childrenWithNewCode = [updatedCodeElement, ...props.children.slice(1)];
+    let childrenWithNewCode = [
+      React.cloneElement(updatedCodeElement, { key: 0 }),
+      ...props.children
+        .slice(1)
+        .map((child, i) =>
+          React.isValidElement(child)
+            ? React.cloneElement(child, { key: i + 1 })
+            : child,
+        ),
+    ];
 
     return <p {...props}> {childrenWithNewCode} </p>;
   }

@@ -7,8 +7,6 @@
 function getSvgIconCdnUrl(language: string) {
   // local
   const localMap = [
-    // browser
-    { pattern: /^html$/i, svgName: 'html' },
     { pattern: /^vscode$/i, svgName: 'visual-studio-code' },
     { pattern: /^terminal$/i, svgName: 'terminal' },
   ];
@@ -36,8 +34,7 @@ function getSvgIconCdnUrl(language: string) {
   // SimpleIcons;
 
   const simpleIconsMap = [
-    // { pattern: /^html$/i, svgName: 'html5' },
-    // { pattern: /^css$/i, svgName: 'css3' },
+    { pattern: /^html$/i, svgName: 'html5' },
     { pattern: /^(scss|sass)$/i, svgName: 'sass' },
     { pattern: /^(js|jsx)?$/i, svgName: 'javascript/444/_' },
     { pattern: /^(ts|tsx)?$/i, svgName: 'typescript' },

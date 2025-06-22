@@ -55,10 +55,7 @@ const rehypeTocOptions = {
 
 /** @type {import('rehype-pretty-code').Options} */
 const rehypePrettyCodeOptions = {
-  theme: {
-    light: 'github-light-default',
-    dark: 'github-dark-default',
-  },
+  theme: 'github-dark-default',
   keepBackground: false,
   tokensMap: {
     fn: 'entity.name.function',

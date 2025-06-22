@@ -14,7 +14,7 @@ type PostWithLikeCount = Post & {
   likeCount: number;
 };
 
-export default async function AllPosts() {
+export default async function BlogPage() {
   if (!posts) {
     notFound();
   }
@@ -35,8 +35,8 @@ export default async function AllPosts() {
   });
 
   return (
-    <div className="mt-8 rounded-md px-8 max-md:px-6 max-sm:px-4">
-      <div className="mx-auto max-w-4xl">
+    <div className="relative z-50 mt-8 rounded-md px-8 max-md:px-6 max-sm:px-4">
+      <div className="mx-auto max-w-5xl">
         <SortPostsList posts={postsWithLikeCount} />
       </div>
     </div>

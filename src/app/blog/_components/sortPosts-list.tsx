@@ -46,8 +46,8 @@ export default function SortPostsList({
 
   return (
     <>
-      <div className="bg-background mb-8 flex items-center justify-between rounded-md border p-4 shadow-md">
-        <h2 className="text-2xl font-bold">BLOG 記事一覧</h2>
+      <div className="bg-background mb-16 flex items-center justify-between rounded-md border p-4 shadow-md">
+        <h2 className="text-2xl font-bold">記事一覧</h2>
         <Select onValueChange={value => handleSortPosts(value)}>
           <SelectTrigger className={cn('w-[150px]')}>
             <ArrowUpWideNarrow
@@ -68,7 +68,8 @@ export default function SortPostsList({
 
       <div
         className={cn(
-          'grid gap-8 max-md:grid-cols-2 max-md:gap-6 max-sm:grid-cols-1',
+          'grid gap-16 max-md:gap-10',
+          // 'max-md:grid-cols-2 max-sm:grid-cols-1',
           className,
         )}
       >

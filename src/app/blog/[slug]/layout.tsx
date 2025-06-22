@@ -7,7 +7,7 @@ export default function PostPageLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="prose prose-slate dark:prose-invert">
+    <main className="prose prose-gray dark:prose-invert relative z-50">
       <div className="grid grid-cols-[1fr_minmax(min-content,calc(39em+var(--playground-add-width)))_1fr] gap-x-4">
         <article className="@container/article col-[2/3] max-w-[calc(39em+var(--playground-add-width))]">
           <Post className="mx-auto max-w-[39em]">{children}</Post>
@@ -21,7 +21,7 @@ export default function PostPageLayout({
         />
       </div>
 
-      <div className="bg-shiki-background relative my-4 overflow-hidden">
+      <div className="bg-background relative my-4 overflow-hidden">
         <div
           className={cn(
             'relative z-20 w-full shadow-md',
@@ -34,7 +34,7 @@ export default function PostPageLayout({
                 最後までお読みいただきありがとうございます。拙い文章ではありますが、少しでもお役に立てることができれば幸いです。
               </p>
               <p className="[text-indent:1em;] mb-0 text-sm">
-                記事に誤りや認識の違いがございましたら、X（旧Twitter）または、GitHubを通じてご指摘いただけると助かります。可能な限り、修正や訂正を行います。
+                記事に誤りや認識の違いがございましたら、GitHubを通じてご指摘いただけると助かります。可能な限り、修正や訂正を行います。
               </p>
               <p className="mt-2 text-right text-sm">@vakasurvivor</p>
               <p className="font-crazyMetro mx-auto !mt-8 !mb-4 w-fit text-8xl leading-none text-[var(--tw-prose-bold)] max-sm:text-[15vw]">
@@ -46,8 +46,8 @@ export default function PostPageLayout({
         </div>
         <div className="absolute inset-0 z-10 bg-[url(/img/noise.png)] bg-left opacity-5 dark:opacity-25"></div>
         <div className="from-background absolute inset-0 z-10 bg-gradient-to-b to-transparent"></div>
-        <div className="absolute bottom-0 left-0 z-10 size-40 rounded-full bg-gradient-to-b from-transparent from-30% to-blue-700 blur-[100px]"></div>
-        <div className="absolute right-0 bottom-0 z-10 size-40 rounded-full bg-gradient-to-b from-transparent from-30% to-purple-700 blur-[100px]"></div>
+        <div className="absolute bottom-0 left-0 z-10 size-50 rounded-full bg-gradient-to-b from-transparent from-30% to-blue-700 blur-[120px]"></div>
+        <div className="absolute right-0 bottom-0 z-10 size-50 rounded-full bg-gradient-to-b from-transparent from-30% to-purple-700 blur-[120px]"></div>
       </div>
     </main>
   );
@@ -71,11 +71,9 @@ const Post = ({
           'prose-h2:[word-break:auto-phrase]',
         ],
         // h3
-        ['prose-h3:[font-feature-settings:"palt"]'],
-        ['prose-h3:mt-12'],
+        ['prose-h3:[font-feature-settings:"palt"]', 'prose-h3:mt-12'],
         // h4
-        ['prose-h4:text-lg'],
-        ['prose-h4:mt-10'],
+        ['prose-h4:text-lg', 'prose-h4:mt-10'],
         // h5
         [
           'prose-h5:w-fit',
@@ -110,8 +108,7 @@ const Post = ({
           'prose-a:hover:decoration-transparent',
         ],
         // ul / ol
-        ['prose-ul:pl-6'],
-        ['prose-ol:pl-6'],
+        ['prose-ul:pl-6', 'prose-ol:pl-6'],
         // li
         [
           'prose-li:marker:font-semibold',
@@ -143,14 +140,27 @@ const Post = ({
           'prose-strong:to-65%',
           'dark:prose-strong:to-purple-900',
         ],
+        // b
         ['prose-b:font-medium'],
         // table
-        ['prose-table:my-0'],
+        [
+          'prose-table:ring',
+          'prose-table:dark:ring-ring/14',
+          'prose-table:ring-ring/7',
+          'prose-table:shadow-md',
+          'prose-table:overflow-hidden',
+          'prose-table:rounded-lg',
+        ],
         // thead
-        ['prose-thead:bg-shiki-light-bg', 'dark:prose-thead:bg-shiki-dark-bg'],
-        // ['prose-tr:border'],
+        [
+          'prose-thead:bg-[hsl(240,7%,95%)]',
+          'prose-thead:dark:bg-[hsl(240,7%,7%)]',
+          'prose-thead:border-border/7',
+          'prose-thead:dark:border-border/14',
+        ],
+        ['prose-tr:dark:border-border/14', 'prose-tr:border-border/7'],
         // th
-        ['prose-th:py-2', 'prose-th:px-4'],
+        ['prose-th:py-2', 'prose-th:px-4', 'prose-th:border-none'],
         // td
         ['prose-td:px-4'],
         className,

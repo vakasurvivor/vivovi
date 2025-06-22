@@ -58,7 +58,8 @@ export default function CustomFigure(props: CustomFigureProps) {
         <figure
           {...props}
           className={cn(
-            'relative w-full overflow-hidden rounded-lg shadow-md',
+            'relative w-full overflow-hidden rounded-[10px] bg-[hsl(240,7%,12%)] py-1.5 shadow-md dark:bg-[hsl(240,7%,7%)]',
+            'shadow-[0_1.5px_2px_0_theme(colors.black/32%),0_0_0_1px_theme(colors.white/10%),0_-1px_0_0_theme(colors.white/4%)]',
             hasCustomFigcaption && 'pt-11!',
           )}
         >

@@ -4,22 +4,36 @@ import { cn } from '@/utils/cn';
 import * as SwitchPrimitives from '@radix-ui/react-switch';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { usePathname } from 'next/navigation';
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface ThemeToggleProps {
   className?: string;
 }
 
+const disabledRoutes = ['/', '/blog'];
+
 export default function ThemeToggle({ className }: ThemeToggleProps) {
   const { resolvedTheme, setTheme } = useTheme();
   const [isDark, setIsDark] = useState(resolvedTheme === 'dark');
+  const pathname = usePathname();
 
   const handleToggleTheme = () => {
     const newTheme = isDark ? 'light' : 'dark';
     setTheme(newTheme);
     setIsDark(!isDark);
   };
+
+  useEffect(() => {
+    if (disabledRoutes.includes(pathname) && resolvedTheme !== 'dark') {
+      setTheme('dark');
+    }
+  }, [pathname, resolvedTheme, setTheme]);
+
+  if (disabledRoutes.includes(pathname)) {
+    return null;
+  }
 
   return (
     <Switch

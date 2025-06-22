@@ -11,6 +11,8 @@ interface SideScrollTocProps {
 
 export default function SideScrollToc({ className }: SideScrollTocProps) {
   const [breakpointXl, setBreakpointMd] = useState<string | null>(null);
+
+  // CSS変数からブレークポイントを取得するためにuseEffectを使用
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setBreakpointMd(

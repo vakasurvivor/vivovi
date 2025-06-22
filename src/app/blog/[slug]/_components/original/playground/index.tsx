@@ -11,7 +11,7 @@ import {
 } from '@codesandbox/sandpack-react';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
-import { githubDarkDefault, githubLightDefault } from './customTheme';
+import { darkModeTheme, lightModeTheme } from './custom-theme';
 
 export default function Playground({
   files,
@@ -43,7 +43,7 @@ export default function Playground({
 
   return (
     <SandpackProvider
-      theme={theme === 'light' ? githubLightDefault : githubDarkDefault}
+      theme={theme === 'light' ? lightModeTheme : darkModeTheme}
       template={template}
       customSetup={customSetup}
       options={{

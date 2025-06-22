@@ -16,7 +16,7 @@ export default async function LinkCard({ url }: LinkCardProps) {
         target="_blank"
         rel="noopener noreferrer"
         className={cn(
-          'not-prose border-border my-6 flex h-30 justify-between overflow-hidden rounded-md border shadow-md',
+          'not-prose natural-shadow my-6 flex h-30 justify-between overflow-hidden rounded-md',
           'bg-background dark:bg-foreground transition-colors hover:bg-blue-50 dark:hover:bg-blue-100',
         )}
       >
@@ -59,7 +59,7 @@ export default async function LinkCard({ url }: LinkCardProps) {
               height={meta.image.height}
               src={meta.image.url}
               alt={`${meta.provider} Image`}
-              className="object-cover object-center"
+              className="h-full object-cover object-center"
             />
           </div>
         )}

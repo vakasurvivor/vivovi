@@ -67,11 +67,13 @@ export default function LikeButton({
       onClick={handleLike}
       className={cn(
         'flex cursor-pointer items-center gap-1 text-sm [font-feature-settings:"tnum"]',
+        isLiked ? 'text-foreground' : 'text-muted-foreground',
         className,
       )}
     >
       <Heart
-        className={cn('h-4 w-4', isLiked ? 'text-red-400' : 'text-gray-500')}
+        size={16}
+        className={cn('size-4', isLiked ? 'text-red-400' : 'text-gray-500')}
         fill={isLiked ? 'red' : 'none'}
       />
       {likeCount}

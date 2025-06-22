@@ -2,30 +2,31 @@
 
 // Next.js
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 // Components
 import Nav from './nav';
 // utils/hooks
 import { useMatchMedia } from '@/hooks/use-matchMedia';
 import { cn } from '@/utils/cn';
 // Animation
+import { ScrollContext } from '@/app/(top)/scroll-provider';
 import { motion, useScroll, useSpring } from 'motion/react';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 export default function Header({ className }: { className: string }) {
-  const [breakpointMd, setBreakpointMd] = useState<string | null>(null);
+  const { isFooterInView } = useContext(ScrollContext);
+
+  // 判定
+  const [breakpoint, setBreakpoint] = useState<string | null>(null);
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setBreakpointMd(
-        getComputedStyle(document.documentElement).getPropertyValue(
-          '--breakpoint-md',
-        ),
-      );
+      const rootStyles = getComputedStyle(document.documentElement);
+      setBreakpoint(rootStyles.getPropertyValue('--breakpoint-md'));
     }
   }, []);
+  const displayMobile = useMatchMedia(`(width < ${breakpoint})`);
 
-  const displayMobile = useMatchMedia(`(width < ${breakpointMd})`);
-
+  // Scroll Animation
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     damping: 30,
@@ -34,18 +35,27 @@ export default function Header({ className }: { className: string }) {
   });
 
   return (
-    <header
+    <motion.header
       className={cn(
-        'bg-background/40 w-full',
-        'border-border/40 border-b-[1px]',
+        'bg-background/40 w-full px-4',
+        'natural-border border-b',
         'font-inter backdrop-blur-sm',
+        'h-(--header-height)',
         className,
       )}
+      animate={{
+        y: isFooterInView
+          ? displayMobile
+            ? 'calc((var(--header-height) - var(--scroll-progress-border)) * -1)'
+            : '-100%'
+          : 0,
+      }}
+      transition={{ duration: 0.3, easing: 'ease-out' }}
     >
       <div
         className={cn(
-          'mx-auto px-4',
-          'h-14 max-w-(--breakpoint-lg)',
+          'mx-auto',
+          'h-14 max-w-5xl',
           'flex items-center justify-between',
         )}
       >
@@ -73,11 +83,11 @@ export default function Header({ className }: { className: string }) {
         <Nav />
       </div>
 
-      {!(usePathname() === '/') && displayMobile && (
+      {displayMobile && (
         <motion.div
           className={cn(
             'absolute inset-0 top-full origin-left',
-            'bg-muted-foreground h-[2px]',
+            'bg-muted-foreground h-(--scroll-progress-border)',
           )}
           style={{
             scaleX,
@@ -85,6 +95,6 @@ export default function Header({ className }: { className: string }) {
           }}
         />
       )}
-    </header>
+    </motion.header>
   );
 }

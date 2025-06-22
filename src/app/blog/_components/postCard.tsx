@@ -1,15 +1,8 @@
 import { Post } from '#site/content';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { cn } from '@/utils/cn';
 import { format } from 'date-fns';
-import { FilePen } from 'lucide-react';
+import { Eye, FilePen, Timer } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import LikeButton from './likeButton';
@@ -35,44 +28,78 @@ export default function postCard({
     likeCount,
   } = post;
   return (
-    <Card
+    <div
       className={cn(
-        'bg-shiki-background border-border/40 flex flex-row-reverse justify-between overflow-hidden drop-shadow-md',
-        'max-md:flex-col-reverse',
+        'natural-border border-b border-dashed pb-7 max-sm:pb-4',
+        className,
       )}
     >
-      <CardHeader className="@container w-[calc(100%-320px)] justify-between max-md:w-full max-md:grow">
-        <CardTitle className="mb-4 text-xl">{title}</CardTitle>
-        <CardDescription className="line-clamp-3">
-          {description}
-        </CardDescription>
-        <div className="mt-4! flex items-center justify-end gap-4 @max-[280px]:flex-col @max-[280px]:items-end">
-          <div className="flex items-center gap-3">
-            <p className="flex items-center gap-2 text-sm [font-feature-settings:'tnum']">
-              <FilePen size={16} />
-              <time dateTime={format(new Date(createdAt), 'yyyy-MM-dd')}>
-                {format(new Date(createdAt), 'yyyy/MM/dd')}
-              </time>
-            </p>
-            <LikeButton slug={slug} initialLikeCount={likeCount} />
-          </div>
-          <Button variant="outline" asChild>
-            <Link href={permalink}>記事を読む</Link>
-          </Button>
-        </div>
-      </CardHeader>
-
-      <CardContent className="aspect-[4/3] w-80 overflow-hidden rounded-r-md p-0 max-md:w-full max-sm:aspect-[16/9]">
-        {eyecatch && (
-          <Image
-            className="h-full w-full object-cover"
-            src={eyecatch.src}
-            width={eyecatch.width}
-            height={eyecatch.height}
-            alt={title}
-          />
+      <div
+        className={cn(
+          '[--height:188px] max-md:[--height:148px]',
+          'grid grid-cols-[1fr_calc(var(--height)/9*16)] grid-rows-[auto_1fr_auto] gap-x-8 max-md:gap-x-6',
+          'max-md:grid-rows-[auto_var(--height)_auto]',
+          'max-sm:grid-cols-none max-sm:grid-rows-none',
         )}
-      </CardContent>
-    </Card>
+      >
+        <div className="col-[1/3] row-start-1 mb-1.5 max-sm:row-start-2 max-sm:mt-2">
+          <p className="text-muted-foreground flex items-center gap-1 text-sm [font-feature-settings:'tnum']">
+            <FilePen size={16} />
+            <time dateTime={format(new Date(createdAt), 'yyyy-MM-dd')}>
+              {format(new Date(createdAt), 'yyyy/MM/dd')}
+            </time>
+          </p>
+        </div>
+        <div className="col-start-1 row-start-2 max-sm:col-end-3 max-sm:row-start-3">
+          <h3 className="lead mb-4 line-clamp-2 text-xl">{title}</h3>
+          <p className="text-muted-foreground mb-0 line-clamp-4 max-sm:line-clamp-none">
+            {description}
+          </p>
+        </div>
+        <div className="col-1 row-3 mt-4 max-md:col-start-1 max-md:col-end-3 max-sm:row-start-4">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <p className="flex items-center gap-1 text-sm [font-feature-settings:'tnum']">
+                <Timer size={16} className="text-blue-600" />
+                <span>100</span> min
+              </p>
+              <p className="flex items-center gap-1 text-sm [font-feature-settings:'tnum']">
+                <Eye size={16} className="text-blue-600" />
+                <span>100</span> view
+              </p>
+              <LikeButton slug={slug} initialLikeCount={likeCount} />
+            </div>
+            <Button
+              className="pr-3 pl-3 hover:bg-blue-700 max-md:w-[calc(var(--height)/9*16)] max-sm:w-fit"
+              variant="outline"
+              asChild
+            >
+              <Link href={permalink}>記事を読む</Link>
+              {/* <LikeButton slug={slug} initialLikeCount={likeCount} /> */}
+            </Button>
+          </div>
+        </div>
+
+        <div
+          className={cn(
+            'pointer-events-none w-[calc(var(--height)/9*16)] max-sm:w-full',
+            'rounded-md p-0',
+            'col-start-2 row-start-2 row-end-4 self-end',
+            'max-md:row-start-2 max-md:row-end-3',
+            'max-sm:col-start-1 max-sm:col-end-3 max-sm:row-start-1 max-sm:row-end-2',
+          )}
+        >
+          {eyecatch && (
+            <Image
+              className="natural-shadow aspect-[16/9] w-full rounded-md object-cover"
+              src={eyecatch.src}
+              width={eyecatch.width}
+              height={eyecatch.height}
+              alt={title}
+            />
+          )}
+        </div>
+      </div>
+    </div>
   );
 }

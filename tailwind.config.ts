@@ -17,18 +17,9 @@ export default {
     },
 
     extend: {
-      typography: ({ theme }: any) => ({
+      typography: () => ({
         DEFAULT: {
           css: { maxWidth: 'none' },
-        },
-        slate: {
-          css: {
-            '--tw-prose-invert-headings': theme('colors.gray[100]'),
-            '--tw-prose-invert-links': theme('colors.gray[100]'),
-            '--tw-prose-invert-bold': theme('colors.gray[100]'),
-            '--tw-prose-invert-kbd': theme('colors.gray[100]'),
-            '--tw-prose-invert-code': theme('colors.gray[100]'),
-          },
         },
       }),
     },

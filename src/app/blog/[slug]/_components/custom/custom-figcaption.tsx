@@ -78,9 +78,7 @@ export default function CustomFigcaption(props: CustomFigcaptionProps) {
           className={cn(
             'absolute top-0 left-0 z-10 mt-0',
             'rounded-t-lg',
-            'h-11 w-full',
-            'bg-shiki-light-bg dark:bg-shiki-dark-bg',
-            'border-foreground/5 border border-b-0',
+            'h-10 w-full',
           )}
         >
           <div className="flex items-center gap-2 px-4 py-2.5">
@@ -92,7 +90,7 @@ export default function CustomFigcaption(props: CustomFigcaptionProps) {
               alt={'Logo Icon'}
               className="!my-0 size-5"
             />
-            <h6 className="font-inter text-foreground dark:text-foreground text-sm leading-snug">
+            <h6 className="font-inter text-background dark:text-foreground text-sm leading-snug">
               {props.children}
             </h6>
           </div>

@@ -20,6 +20,10 @@ const nextConfig = {
   // Configure pageExtensions
   pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
 
+  images: {
+    formats: ['image/avif', 'image/webp'],
+  },
+
   // Optionally, add any other Next.js config below
   reactStrictMode: true,
 

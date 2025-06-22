@@ -26,7 +26,7 @@ export default function CopyButton({ value, className }: CopyButtonProps) {
         });
       }}
       className={cn(
-        'text-muted-foreground grid size-5 place-content-center hover:text-gray-800 dark:hover:text-white',
+        'text-muted-foreground hover:text-background grid size-5 place-content-center dark:hover:text-white',
         className,
       )}
     >
