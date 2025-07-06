@@ -4,17 +4,20 @@
   "description": "A Next.js Blog project using Supabase",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "build:clean": "rm -rf .next && next build",
     "start": "next start",
     "lint": "next lint && pnpm run prisma:validate",
-    "lint:fix": "next lint --fix --",
+    "lint:fix": "next lint --fix",
     "format": "pnpm run prettier:check",
     "format:fix": "pnpm run prettier:write",
     "prettier:check": "pnpm exec prettier --check 'src/**/*.{ts,tsx,js,jsx,json}'",
-    "prettier:write": "pnpm exec prettier --write --",
+    "prettier:write": "pnpm exec prettier --write 'src/**/*.{ts,tsx,js,jsx,json}'",
     "supabase:start": "pnpm supabase start",
     "supabase:stop": "pnpm supabase stop",
     "prisma:dev": "dotenv -e .env.local -- pnpm exec prisma migrate dev",
