@@ -27,7 +27,11 @@
 /* * * * * * * * * * * * * * * * * * * */
 
 @layer base {
-  /* all mode */
+  /* * * * * * * * * * * * * * * * * * * */
+  /*                                     */
+  /*               all mode              */
+  /*                                     */
+  /* * * * * * * * * * * * * * * * * * * */
   :root {
     --header-height: 57px;
     --scroll-progress-border: 2px;
