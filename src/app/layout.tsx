@@ -9,7 +9,6 @@ import '@/styles/globals.css';
 // import VivoviLogo from '@/components/vivovi-logo';
 import { commitMono, crazyMetro, inter, notoSansJP } from '@/libs/font';
 import 'yakuhanjp/dist/css/yakuhanjp_s.css';
-// import SvgLogoAnimation from './(top)/_components/svg-logo-animation';
 import { ScrollbarWidthProvider } from './(top)/scrollbar-width-provider';
 
 export const metadata: Metadata = {
@@ -48,7 +47,6 @@ export default function RootLayout({
             <ScrollbarWidthProvider>
               <Header className="sticky top-0 left-0 z-100" />
               {/* <VivoviLogo /> */}
-              {/* <SvgLogoAnimation /> */}
               {children}
               <Footer className="sticky top-full" />
             </ScrollbarWidthProvider>

@@ -40,7 +40,7 @@ export default function CustomFigure(props: CustomFigureProps) {
 
   // CustomPreコンポーネントのpropsを拡張するためのオブジェクトを作成する
   const newCustomPreProps = {
-    ...customPreEl?.props,
+    ...(customPreEl?.props ?? {}),
     'has-figcaption': hasCustomFigcaption.toString(),
   };
 

@@ -37,7 +37,6 @@ export default async function RecentPosts({
 
   const sortPosts = sortByDateDescending(postsWithLikeCount);
   const recentPosts = sortPosts.slice(0, 4);
-  const recentPosts3 = sortPosts.slice(0, 3);
 
   return (
     <div className={cn('mx-auto', className)}>

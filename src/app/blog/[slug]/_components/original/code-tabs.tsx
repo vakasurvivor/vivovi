@@ -2,12 +2,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/utils/cn';
 import { getSvgIconCdnUrl } from '@/utils/get-svg-icon';
 import Image from 'next/image';
-import React from 'react';
 
-interface CustomTabProps {
-  children: React.ReactNode;
-}
-export default function CodeTabs({ children }: CustomTabProps) {
+import {
+  type ReactElement,
+  type ReactNode,
+  Children,
+  cloneElement,
+  isValidElement,
+} from 'react';
+
+export default function CodeTabs({ children }: { children: ReactNode }) {
   const childrenInfo = getChildrenInfo(children);
 
   return (
@@ -51,9 +55,9 @@ export default function CodeTabs({ children }: CustomTabProps) {
         </div>
       </TabsList>
 
-      {React.Children.map(children, (child, index) => (
+      {Children.map(children, (child, index) => (
         <TabsContent key={index} value={String(index + 1)}>
-          {React.cloneElement(child as React.ReactElement, { key: index })}
+          {cloneElement(child as ReactElement, { key: index })}
         </TabsContent>
       ))}
     </Tabs>
@@ -65,20 +69,27 @@ interface ChildrenInfo {
   cdnUrl: string;
 }
 
-// 各子要素の情報を取得する関数
-function getChildrenInfo(children: React.ReactNode): ChildrenInfo[] {
-  const childrenArray = React.Children.toArray(children);
+function getChildrenInfo(children: ReactNode): ChildrenInfo[] {
+  const childrenArray = Children.toArray(children).filter(
+    (child): child is ReactElement<any, any> => isValidElement(child),
+  );
 
-  // 子要素のpropsを取得する関数
-  function getChildProps(children: React.ReactNode, typeName: string) {
-    return (React.Children.toArray(children) as React.ReactElement[]).find(
+  function getChildProps(
+    children: ReactNode,
+    typeName: string,
+  ): Record<string, any> | undefined {
+    const matched = (
+      Children.toArray(children).filter(isValidElement) as ReactElement[]
+    ).find(
       element =>
         typeof element.type !== 'string' && element.type.name === typeName,
-    )?.props;
+    );
+
+    return matched?.props as Record<string, any>;
   }
 
   return childrenArray.map(child => {
-    const { props } = child as React.ReactElement;
+    const { props } = child;
     const customDivProps = getChildProps(props.children, 'CustomDiv');
     const customFigcaptionProps = getChildProps(
       props.children,
@@ -92,7 +103,7 @@ function getChildrenInfo(children: React.ReactNode): ChildrenInfo[] {
     } else {
       const language = customFigcaptionProps?.['data-language'];
       const cdnUrl = getSvgIconCdnUrl(language);
-      return { title: customFigcaptionProps.children as string, cdnUrl };
+      return { title: customFigcaptionProps?.children as string, cdnUrl };
     }
   });
 }

@@ -3,6 +3,7 @@ import {
   type ComponentPropsWithoutRef,
   type ReactElement,
   Children,
+  isValidElement,
 } from 'react';
 
 interface CustomUlProps extends ComponentPropsWithoutRef<'ul'> {}
@@ -12,8 +13,14 @@ export default function CustomUl(props: CustomUlProps) {
   const isToc = props.className?.includes('rehype-toc-level');
 
   if (!isToc) {
-    const elements = Children.toArray(props.children) as ReactElement[];
-    const filteredChildren = elements.filter((child: any) => child !== '\n');
+    // const elements = Children.toArray(props.children) as ReactElement[];
+    // const filteredChildren = elements.filter((child: any) => child !== '\n');
+
+    const elements = Children.toArray(props.children);
+    const filteredChildren = elements.filter(
+      (child): child is ReactElement<{ children?: React.ReactNode }> =>
+        isValidElement(child),
+    );
 
     return (
       <ul {...props} className={cn('list-none [&_*:last-child]:mb-0')}>

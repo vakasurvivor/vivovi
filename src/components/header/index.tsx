@@ -50,7 +50,7 @@ export default function Header({ className }: { className: string }) {
             : '-100%'
           : 0,
       }}
-      transition={{ duration: 0.3, easing: 'ease-out' }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
     >
       <div
         className={cn(

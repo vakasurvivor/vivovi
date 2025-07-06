@@ -1,13 +1,20 @@
-// app/api/posts/[slug]/like/route.ts
 import { prisma } from '@/libs/prismaClient';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse, URLPattern } from 'next/server';
+
+// URLPatternを使ってslugを抽出
+function extractSlug(request: NextRequest): string | null {
+  const pattern = new URLPattern({ pathname: '/api/posts/:slug/like' });
+  const match = pattern.exec(request.nextUrl.pathname);
+  return match?.pathname.groups.slug ?? null;
+}
 
 // いいねの数を取得するAPI
-export async function GET(
-  request: Request,
-  { params }: { params: { slug: string } },
-) {
-  const { slug } = params;
+export async function GET(request: NextRequest) {
+  const slug = extractSlug(request);
+
+  if (!slug) {
+    return NextResponse.json({ error: 'Slug not provided' }, { status: 400 });
+  }
 
   try {
     const post = await prisma.post.findUnique({
@@ -33,12 +40,13 @@ export async function GET(
   }
 }
 
-// いいねの数を更新（インクリメント）するAPI
-export async function POST(
-  request: Request,
-  { params }: { params: { slug: string } },
-) {
-  const { slug } = await params;
+// いいねの数をインクリメントするAPI
+export async function POST(request: NextRequest) {
+  const slug = extractSlug(request);
+
+  if (!slug) {
+    return NextResponse.json({ error: 'Slug not provided' }, { status: 400 });
+  }
 
   try {
     const post = await prisma.post.update({
@@ -53,10 +61,6 @@ export async function POST(
       },
     });
 
-    if (!post) {
-      return NextResponse.json({ error: 'Post not found' }, { status: 404 });
-    }
-
     return NextResponse.json({ likes: post.likes });
   } catch (error) {
     console.error('Error updating likes:', error);
@@ -69,11 +73,13 @@ export async function POST(
   }
 }
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: { slug: string } },
-) {
-  const { slug } = await params;
+// いいねの数をデクリメントするAPI
+export async function DELETE(request: NextRequest) {
+  const slug = extractSlug(request);
+
+  if (!slug) {
+    return NextResponse.json({ error: 'Slug not provided' }, { status: 400 });
+  }
 
   try {
     const post = await prisma.post.update({
@@ -87,10 +93,6 @@ export async function DELETE(
         likes: true,
       },
     });
-
-    if (!post) {
-      return NextResponse.json({ error: 'Post not found' }, { status: 404 });
-    }
 
     return NextResponse.json({ likes: post.likes });
   } catch (error) {
