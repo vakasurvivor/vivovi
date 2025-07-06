@@ -10,7 +10,7 @@
     "build:clean": "rm -rf .next && next build",
     "start": "next start",
     "lint": "next lint && pnpm run prisma:validate",
-    "lint:fix": "next lint --fix",
+    "lint:fix": "next lint --fix --",
     "format": "pnpm run prettier:check",
     "format:fix": "pnpm run prettier:write",
     "prettier:check": "pnpm exec prettier --check 'src/**/*.{ts,tsx,js,jsx,json}'",
@@ -30,7 +30,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,cjs,mjs}": [
-      "pnpm run lint:fix",
+      "pnpm run lint:fix --dir src",
       "pnpm run format:fix"
     ],
     "*.{css,md,json,yml,yaml}": [
