@@ -59,5 +59,6 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
+      - run: pnpm exec prisma generate
       - run: pnpm velite build --debug
       - run: pnpm run type-check
