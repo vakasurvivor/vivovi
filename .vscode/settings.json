@@ -56,6 +56,9 @@
     "source.organizeImports": "explicit"
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
   "editor.formatOnSave": true,
   "files.associations": {
     "*.css": "tailwindcss"

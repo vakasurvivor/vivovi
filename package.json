@@ -15,9 +15,9 @@
     "lint": "next lint && pnpm run prisma:validate",
     "lint:fix": "next lint --fix",
     "format": "pnpm run prettier:check",
-    "format:fix": "pnpm run prettier:write",
-    "prettier:check": "pnpm exec prettier --check 'src/**/*.{ts,tsx,js,jsx,json}'",
-    "prettier:write": "pnpm exec prettier --write 'src/**/*.{ts,tsx,js,jsx,json}'",
+    "format:fix": "pnpm run prettier:write && pnpm run prisma:format",
+    "prettier:check": "pnpm exec prettier --check 'src/**/*.{ts,tsx,js,jsx,json}' --cache",
+    "prettier:write": "pnpm exec prettier --write 'src/**/*.{ts,tsx,js,jsx,json}' --cache",
     "supabase:start": "pnpm supabase start",
     "supabase:stop": "pnpm supabase stop",
     "prisma:dev": "dotenv -e .env.local -- pnpm exec prisma migrate dev",
@@ -39,7 +39,8 @@
     "*.{css,md,json,yml,yaml}": [
       "pnpm run format:fix"
     ],
-    "prisma/schema.prisma": [
+    "**/*.prisma": [
+      "pnpm run prisma:validate",
       "pnpm run prisma:format"
     ]
   },
