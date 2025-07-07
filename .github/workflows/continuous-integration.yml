@@ -50,7 +50,7 @@ jobs:
           pnpm-version: ${{ env.PNPM_VERSION }}
       - run: pnpm run format
 
-  velite:
+  velite-build-type-check:
     needs: setup
     runs-on: ubuntu-latest
     steps:
@@ -60,14 +60,4 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
       - run: pnpm velite build --debug
-
-  type-check:
-    needs: [setup, velite]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          pnpm-version: ${{ env.PNPM_VERSION }}
       - run: pnpm run type-check
