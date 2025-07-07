@@ -16,6 +16,7 @@
     "lint:fix": "next lint --fix",
     "format": "pnpm run prettier:check",
     "format:fix": "pnpm run prettier:write && pnpm run prisma:format",
+    "type-check": "pnpm exec tsc --noEmit",
     "prettier:check": "pnpm exec prettier --check 'src/**/*.{ts,tsx,js,jsx,json}' --cache",
     "prettier:write": "pnpm exec prettier --write 'src/**/*.{ts,tsx,js,jsx,json}' --cache",
     "supabase:start": "pnpm supabase start",
