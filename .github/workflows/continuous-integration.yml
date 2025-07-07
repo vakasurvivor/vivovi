@@ -62,7 +62,7 @@ jobs:
       - run: pnpm velite build --debug
 
   type-check:
-    needs: setup
+    needs: [setup, velite]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
