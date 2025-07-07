@@ -51,7 +51,7 @@ async function syncPostSeedData() {
   // DB にのみ存在する slug を持つ投稿を抽出
   const slugsFromSeed = new Set(postsFromSeed.map(post => post.slug));
   const postsToDelete = Array.from(postsInDatabase).filter(
-    slug => !slugsFromSeed.has(slug),
+    slug => !slugsFromSeed.has(slug as string),
   );
 
   // 不要な投稿を一括削除
