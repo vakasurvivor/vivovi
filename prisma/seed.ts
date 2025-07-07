@@ -22,7 +22,7 @@ async function syncPostSeedData() {
     .findMany({
       select: { slug: true },
     })
-    .then(posts => new Set(posts.map(post => post.slug)));
+    .then((posts: { slug: string }[]) => new Set(posts.map(post => post.slug)));
 
   // 新規追加が必要な投稿のみ抽出
   const postsFromSeed = posts.map(({ title, slug }) => ({ title, slug }));
