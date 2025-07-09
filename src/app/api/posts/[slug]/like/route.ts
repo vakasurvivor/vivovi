@@ -1,16 +1,12 @@
 import { prisma } from '@/libs/prismaClient';
-import { NextRequest, NextResponse, URLPattern } from 'next/server';
-
-// URLPatternを使ってslugを抽出
-function extractSlug(request: NextRequest): string | null {
-  const pattern = new URLPattern({ pathname: '/api/posts/:slug/like' });
-  const match = pattern.exec(request.nextUrl.pathname);
-  return match?.pathname.groups.slug ?? null;
-}
+import { type NextRequest, NextResponse } from 'next/server';
 
 // いいねの数を取得するAPI
-export async function GET(request: NextRequest) {
-  const slug = extractSlug(request);
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> },
+) {
+  const { slug } = await params;
 
   if (!slug) {
     return NextResponse.json({ error: 'Slug not provided' }, { status: 400 });
@@ -41,8 +37,11 @@ export async function GET(request: NextRequest) {
 }
 
 // いいねの数をインクリメントするAPI
-export async function POST(request: NextRequest) {
-  const slug = extractSlug(request);
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> },
+) {
+  const { slug } = await params;
 
   if (!slug) {
     return NextResponse.json({ error: 'Slug not provided' }, { status: 400 });
@@ -74,8 +73,11 @@ export async function POST(request: NextRequest) {
 }
 
 // いいねの数をデクリメントするAPI
-export async function DELETE(request: NextRequest) {
-  const slug = extractSlug(request);
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> },
+) {
+  const { slug } = await params;
 
   if (!slug) {
     return NextResponse.json({ error: 'Slug not provided' }, { status: 400 });
