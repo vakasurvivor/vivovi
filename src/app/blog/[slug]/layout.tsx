@@ -91,7 +91,6 @@ const Post = ({
           'prose-p:[overflow-wrap:anywhere]',
           'prose-p:has-[img]:text-right',
           'prose-p:has-[img+sup]:text-xs',
-          // 'prose-p:has-[img+sup]:leading-none',
           'prose-p:has-[img+sup]:text-(--tw-prose-captions)',
         ],
         // a
@@ -130,7 +129,6 @@ const Post = ({
         // strong
         [
           'prose-strong:font-medium',
-          // 'dark:prose-strong:font-normal',
           'prose-strong:[&>a]:font-medium',
           'prose-strong:px-[1px]',
           'prose-strong:bg-linear-to-b',

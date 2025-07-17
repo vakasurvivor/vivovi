@@ -31,7 +31,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
-      - run: pnpm run lint
+      - run: next lint && pnpm exec prisma validate
         env:
           DEBUG_MESSAGE: ${{ secrets.PREVIEW_DEBUG_MESSAGE }}
 
@@ -46,7 +46,7 @@ jobs:
           pnpm-version: ${{ env.PNPM_VERSION }}
       - run: pnpm run format
 
-  velite-build-type-check:
+  type-check:
     needs: setup
     runs-on: ubuntu-latest
     steps:
@@ -55,6 +55,6 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
-      - run: pnpm exec prisma generate
-      - run: pnpm velite build --debug
+      - run: pnpm exec prisma generate # for type-check
+      - run: pnpm velite build --debug # for type-check
       - run: pnpm run type-check

@@ -1,6 +1,7 @@
 'use client';
 
 import { Post } from '#site/content';
+import Title from '@/components/title';
 import {
   Select,
   SelectContent,
@@ -16,7 +17,7 @@ import {
 import { cn } from '@/utils/cn';
 import { ArrowUpWideNarrow } from 'lucide-react';
 import { useState } from 'react';
-import PostCard from './postCard';
+import PostCard from './post-card';
 
 type PostWithLikeCount = Post & {
   likeCount: number;
@@ -25,9 +26,11 @@ type PostWithLikeCount = Post & {
 export default function SortPostsList({
   posts,
   className,
+  currentPage,
 }: {
   posts: PostWithLikeCount[];
   className?: string;
+  currentPage: number;
 }) {
   const [sortPosts, setSortPosts] = useState(sortByDateDescending(posts));
   const [isDateDesc, setIsDateDesc] = useState(true);
@@ -44,26 +47,38 @@ export default function SortPostsList({
     }
   }
 
+  const perPage = 5;
+  const startIndex = (currentPage - 1) * perPage;
+  const endIndex = startIndex + perPage;
+
   return (
     <>
-      <div className="bg-background mb-16 flex items-center justify-between rounded-md border p-4 shadow-md">
-        <h2 className="text-2xl font-bold">記事一覧</h2>
-        <Select onValueChange={value => handleSortPosts(value)}>
-          <SelectTrigger className={cn('w-[150px]')}>
-            <ArrowUpWideNarrow
-              className={cn(
-                'h-4 w-4',
-                isDateDesc ? 'text-blue-400' : 'text-gray-400',
-              )}
-            />
-            <SelectValue placeholder="降順" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="date">日付順</SelectItem>
-            <SelectItem value="updateDate">更新順</SelectItem>
-            <SelectItem value="likeCount">人気順</SelectItem>
-          </SelectContent>
-        </Select>
+      <div className="mb-12 rounded-md shadow-md">
+        <Title className="pt-30" subTitle="All Posts">
+          投稿一覧
+        </Title>
+
+        <div className="flex justify-end pt-6">
+          <Select
+            onValueChange={value => handleSortPosts(value)}
+            defaultValue={'date'}
+          >
+            <SelectTrigger className={cn('w-[150px]')}>
+              <ArrowUpWideNarrow
+                className={cn(
+                  'h-4 w-4',
+                  isDateDesc ? 'text-blue-400' : 'text-gray-400',
+                )}
+              />
+              <SelectValue placeholder="並び替え" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="date">日付順</SelectItem>
+              <SelectItem value="updateDate">更新順</SelectItem>
+              <SelectItem value="likeCount">人気順</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       <div
@@ -73,7 +88,7 @@ export default function SortPostsList({
           className,
         )}
       >
-        {sortPosts.map(post => (
+        {sortPosts.slice(startIndex, endIndex).map(post => (
           <PostCard key={post.permalink} post={post} />
         ))}
       </div>

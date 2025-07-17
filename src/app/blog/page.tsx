@@ -2,19 +2,27 @@ import { Post, posts } from '#site/content';
 import { prisma } from '@/libs/prismaClient';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import SortPostsList from './_components/sortPosts-list';
+import PostsPagination from './_components/posts-pagination';
+import SortPostsList from './_components/sort-posts-list';
 
 export const metadata: Metadata = {
   title: 'Blog',
-  description:
-    'VIVOVI - 備忘録、それとも忘備録。WEB制作・開発を中心とした技術ブログです。',
+  description: 'Blog | VIVOVI - 忘却に抗うための備忘録です … ん？忘備録か？',
 };
 
 type PostWithLikeCount = Post & {
   likeCount: number;
 };
+type SearchParams = { [key: string]: string | undefined };
 
-export default async function BlogPage() {
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
+  const { page = '1' } = await searchParams;
+  const LIMIT = 5;
+
   if (!posts) {
     notFound();
   }
@@ -34,11 +42,21 @@ export default async function BlogPage() {
     };
   });
 
+  const totalPosts = posts.filter(post => post.published).length;
+
   return (
     <div className="relative z-50 mt-8 rounded-md px-8 max-md:px-6 max-sm:px-4">
       <div className="mx-auto max-w-5xl">
-        <SortPostsList posts={postsWithLikeCount} />
+        <SortPostsList
+          posts={postsWithLikeCount}
+          currentPage={parseInt(page)}
+        />
       </div>
+      <PostsPagination
+        className="mt-6"
+        totalPages={Math.ceil(totalPosts / LIMIT)}
+        currentPage={parseInt(page)}
+      />
     </div>
   );
 }

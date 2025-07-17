@@ -2,10 +2,10 @@ import { Post } from '#site/content';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
 import { format } from 'date-fns';
-import { Eye, FilePen, Timer } from 'lucide-react';
+import { FilePen, Timer } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import LikeButton from './likeButton';
+import LikeButton from './like-button';
 
 type PostWithLikeCount = Post & {
   likeCount: number;
@@ -26,11 +26,12 @@ export default function postCard({
     createdAt,
     slug,
     likeCount,
+    metadata,
   } = post;
   return (
     <div
       className={cn(
-        'natural-border border-b border-dashed pb-7 max-sm:pb-4',
+        'natural-border border-b border-dashed pb-6 max-sm:pb-4',
         className,
       )}
     >
@@ -59,13 +60,9 @@ export default function postCard({
         <div className="col-1 row-3 mt-4 max-md:col-start-1 max-md:col-end-3 max-sm:row-start-4">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <p className="flex items-center gap-1 text-sm [font-feature-settings:'tnum']">
-                <Timer size={16} className="text-blue-600" />
-                <span>100</span> min
-              </p>
-              <p className="flex items-center gap-1 text-sm [font-feature-settings:'tnum']">
-                <Eye size={16} className="text-blue-600" />
-                <span>100</span> view
+              <p className="text-muted-foreground flex items-center gap-1 text-sm [font-feature-settings:'tnum']">
+                <Timer size={16} />
+                <span>{metadata.readingTime}</span> min
               </p>
               <LikeButton slug={slug} initialLikeCount={likeCount} />
             </div>
@@ -75,7 +72,6 @@ export default function postCard({
               asChild
             >
               <Link href={permalink}>記事を読む</Link>
-              {/* <LikeButton slug={slug} initialLikeCount={likeCount} /> */}
             </Button>
           </div>
         </div>
@@ -84,7 +80,7 @@ export default function postCard({
           className={cn(
             'pointer-events-none w-[calc(var(--height)/9*16)] max-sm:w-full',
             'rounded-md p-0',
-            'col-start-2 row-start-2 row-end-4 self-end',
+            'col-start-2 row-start-2 row-end-4 self-start',
             'max-md:row-start-2 max-md:row-end-3',
             'max-sm:col-start-1 max-sm:col-end-3 max-sm:row-start-1 max-sm:row-end-2',
           )}

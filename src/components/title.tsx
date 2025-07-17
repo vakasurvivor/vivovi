@@ -35,8 +35,8 @@ export default function Title({
             'text-foreground/90 @container relative py-3 pl-3 text-3xl font-medium',
             'before:absolute before:-z-1 before:inline-block before:content-[attr(data-label)]',
             'before:pointer-events-none before:top-0 before:left-0 before:-translate-y-full before:opacity-1',
-            'before:to-foreground before:from-foreground/30 before:bg-gradient-to-r before:bg-clip-text',
-            'before:text-[10.5cqi] before:text-nowrap before:text-transparent',
+            'before:to-foreground before:from-foreground/60 before:bg-gradient-to-r before:bg-clip-text',
+            'before:text-[min(16cqi,var(--text-8xl))] before:text-nowrap before:text-transparent',
           )}
           data-label={subTitle}
         >

@@ -2,11 +2,16 @@
 
 import { useMatchMedia } from '@/hooks/use-matchMedia';
 import { useEffect, useState } from 'react';
-import DesktopNav from './desktop-nav';
-import MobileNav from './mobile-nav';
+import DesktopNavigation from './desktop/desktop-navigation';
+import MobileNavigation from './mobile/mobile-navigation';
 
-export default function Nav() {
-  return <ComponentSwitcher desktop={<DesktopNav />} mobile={<MobileNav />} />;
+export default function Navigation() {
+  return (
+    <ComponentSwitcher
+      desktop={<DesktopNavigation />}
+      mobile={<MobileNavigation />}
+    />
+  );
 }
 
 interface ComponentSwitcherProps {
@@ -23,6 +28,7 @@ function ComponentSwitcher({
   // tailwindcssの設定を取得
 
   const [breakpointMd, setBreakpointMd] = useState<string | null>(null);
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setBreakpointMd(

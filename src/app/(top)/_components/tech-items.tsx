@@ -67,6 +67,7 @@ export default function TechItems({ className }: { className?: string }) {
                   {icon.icon({ hovered: hovered === icon.label })}
                 </Slot>
               </div>
+              <span className="sr-only">{icon.label}</span>
             </Link>
           </div>
         );

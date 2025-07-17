@@ -12,6 +12,33 @@ import remarkBreaks from 'remark-breaks';
 import remarkHeadingId from 'remark-heading-id';
 import { defineCollection, defineConfig, s } from 'velite';
 
+const site = defineCollection({
+  name: 'Site',
+  pattern: 'site/index.yml',
+  single: true,
+  schema: s.object({
+    links: s.array(
+      s.object({
+        text: s.string(),
+        link: s.string(),
+      }),
+    ),
+    socials: s.array(
+      s.object({
+        name: s.string(),
+        link: s.string(),
+      }),
+    ),
+    techStack: s.array(
+      s.object({
+        label: s.string(),
+        link: s.string(),
+        colors: s.array(s.string()),
+      }),
+    ),
+  }),
+});
+
 const posts = defineCollection({
   name: 'Post',
   pattern: 'posts/**/*.mdx',
@@ -31,6 +58,29 @@ const posts = defineCollection({
       content: s.mdx(),
     })
     .transform(data => ({ ...data, permalink: `/blog/${data.slug}` })),
+});
+
+export default defineConfig({
+  root: 'content',
+  output: {
+    data: '.velite',
+    assets: 'public/static',
+    base: '/static/',
+    name: '[name]-[hash:6].[ext]',
+    clean: true,
+  },
+  collections: { posts, site },
+
+  mdx: {
+    remarkPlugins: [remarkBreaks, remarkHeadingId],
+    rehypePlugins: [
+      rehypeSlug,
+      [rehypeAutolinkHeadings, rehypeAutolinkHeadingsOptions],
+      [rehypeToc, rehypeTocOptions],
+      rehypeSemanticBlockquotes,
+      [rehypePrettyCode, rehypePrettyCodeOptions],
+    ],
+  },
 });
 
 /** @type {import('rehype-autolink-headings').Options} */
@@ -66,26 +116,3 @@ const rehypePrettyCodeOptions = {
     transformerNotationErrorLevel(),
   ],
 };
-
-export default defineConfig({
-  root: 'content',
-  output: {
-    data: '.velite',
-    assets: 'public/static',
-    base: '/static/',
-    name: '[name]-[hash:6].[ext]',
-    clean: true,
-  },
-  collections: { posts },
-
-  mdx: {
-    remarkPlugins: [remarkBreaks, remarkHeadingId],
-    rehypePlugins: [
-      rehypeSlug,
-      [rehypeAutolinkHeadings, rehypeAutolinkHeadingsOptions],
-      [rehypeToc, rehypeTocOptions],
-      rehypeSemanticBlockquotes,
-      [rehypePrettyCode, rehypePrettyCodeOptions],
-    ],
-  },
-});

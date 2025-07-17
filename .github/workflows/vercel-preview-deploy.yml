@@ -4,6 +4,8 @@ on:
   push:
     branches-ignore:
       - main
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 env:
   NODE_VERSION: '22.17.0'
@@ -12,10 +14,16 @@ env:
 permissions:
   contents: read
   deployments: write
+  pull-requests: write
 
 jobs:
   deploy-preview:
     runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,39 +34,47 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
 
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
       - name: Install Vercel CLI
         run: pnpm add --global vercel@latest
 
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token=${{
-          secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          if ! vercel pull --yes --environment=preview --token=${{ env.VERCEL_TOKEN }}; then
+            echo "Failed to pull Vercel environment information"
+            exit 1
+          fi
 
       - name: Set Vercel Environment Variables
+        shell: bash
         run: |
-          vercel env rm DEBUG_MESSAGE preview --yes --token=${{ secrets.VERCEL_TOKEN }} || true
-          vercel env rm DATABASE_URL preview --yes --token=${{ secrets.VERCEL_TOKEN }} || true
-          vercel env rm DIRECT_URL preview --yes --token=${{ secrets.VERCEL_TOKEN }} || true
-          vercel env rm NEXT_PUBLIC_SUPABASE_URL preview --yes --token=${{ secrets.VERCEL_TOKEN }} || true
-          vercel env rm NEXT_PUBLIC_SUPABASE_ANON_KEY preview --yes --token=${{ secrets.VERCEL_TOKEN }} || true
-          echo "${{ secrets.PREVIEW_DEBUG_MESSAGE }}" | vercel env add DEBUG_MESSAGE preview --token=${{ secrets.VERCEL_TOKEN }}
-          echo "${{ secrets.PREVIEW_DATABASE_URL }}" | vercel env add DATABASE_URL preview --token=${{ secrets.VERCEL_TOKEN }}
-          echo "${{ secrets.PREVIEW_DIRECT_URL }}" | vercel env add DIRECT_URL preview --token=${{ secrets.VERCEL_TOKEN }}
-          echo "${{ secrets.PREVIEW_NEXT_PUBLIC_SUPABASE_URL }}" | vercel env add NEXT_PUBLIC_SUPABASE_URL preview --token=${{ secrets.VERCEL_TOKEN }}
-          echo "${{ secrets.PREVIEW_NEXT_PUBLIC_SUPABASE_ANON_KEY }}" | vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY preview --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          # Define environment variables
+          declare -A ENV_VARS=(
+            ["DEBUG_MESSAGE"]="${{ secrets.PREVIEW_DEBUG_MESSAGE }}"
+            ["DATABASE_URL"]="${{ secrets.PREVIEW_DATABASE_URL }}"
+            ["DIRECT_URL"]="${{ secrets.PREVIEW_DIRECT_URL }}"
+            ["NEXT_PUBLIC_SUPABASE_URL"]="${{ secrets.PREVIEW_NEXT_PUBLIC_SUPABASE_URL }}"
+            ["NEXT_PUBLIC_SUPABASE_ANON_KEY"]="${{ secrets.PREVIEW_NEXT_PUBLIC_SUPABASE_ANON_KEY }}"
+          )
+
+          # Set each environment variable
+          for key in "${!ENV_VARS[@]}"; do
+            echo "Setting $key..."
+            vercel env rm "$key" preview --yes --token=${{ env.VERCEL_TOKEN }} || true
+            echo "${ENV_VARS[$key]}" | vercel env add "$key" preview --token=${{ env.VERCEL_TOKEN }}
+          done
 
       - name: Verify Vercel Environment Variables
         run: |
           echo "Listing Vercel environment variables:"
-          vercel env ls preview --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel env ls preview --token=${{ env.VERCEL_TOKEN }}
 
       - name: Run Prisma Migrations
         run: pnpm prisma migrate deploy
@@ -67,10 +83,8 @@ jobs:
           DIRECT_URL: ${{ secrets.PREVIEW_DIRECT_URL }}
 
       - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel build --token=${{ env.VERCEL_TOKEN }}
         env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           DEBUG_MESSAGE: ${{ secrets.PREVIEW_DEBUG_MESSAGE }}
           DATABASE_URL: ${{ secrets.PREVIEW_DATABASE_URL }}
           DIRECT_URL: ${{ secrets.PREVIEW_DIRECT_URL }}
@@ -80,8 +94,6 @@ jobs:
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
         env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           DEBUG_MESSAGE: ${{ secrets.PREVIEW_DEBUG_MESSAGE }}
           DATABASE_URL: ${{ secrets.PREVIEW_DATABASE_URL }}
           DIRECT_URL: ${{ secrets.PREVIEW_DIRECT_URL }}

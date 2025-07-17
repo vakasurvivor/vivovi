@@ -1,4 +1,5 @@
 import { Post } from '#site/content';
+import { getBaseUrl } from './get-base-url';
 
 function generatePostJsonLd(post: Post) {
   const jsonLd = {
@@ -17,14 +18,14 @@ function generatePostJsonLd(post: Post) {
       name: 'VIVOVI',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://example.com/logo.png',
+        url: `${getBaseUrl()}/`,
       },
     },
     datePublished: post.createdAt,
     dateModified: post.updatedAt,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://example.com/blog/${post.slug}`,
+      '@id': `${getBaseUrl()}/blog/${post.slug}`,
     },
     // keywords: post.tags.join(', '),
   };

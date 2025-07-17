@@ -59,12 +59,21 @@ export default function TopPage() {
       </div>
 
       <div className="relative z-10 px-8 max-md:px-6 max-sm:px-4">
-        <RecentPosts posts={posts} className="mt-32 max-w-5xl" />
-        <div className="natural-shadow mx-auto my-20 h-[100px] max-w-5xl rounded-lg bg-blue-500/90">
+        <TechStack className="mt-28 max-w-5xl" />
+        <div className="natural-shadow to-shiki-background mx-auto mt-14 h-[200px] max-w-5xl rounded-lg bg-radial-[at_0%_0%] from-[#4079ed50]"></div>
+        <RecentPosts posts={posts} className="mt-28 max-w-5xl" />
+        <div className="natural-shadow relative mx-auto my-20 h-[500px] max-w-5xl rounded-lg">
           <h3>Blog</h3>
+          <div className="pointer-events-none absolute top-0 left-0 isolate h-full w-[calc(600/16*1rem)] select-none [mask:radial-gradient(50%_50%_at_50%_50%,#1c398e_50%,rgba(217,217,217,0)_100%)]">
+            <Image
+              alt="a"
+              width="500"
+              height="500"
+              className="absolute top-[calc(-300/16*1rem)] left-[calc(-150/16*1rem)] size-[calc(900/16*1rem)] max-w-none opacity-50"
+              src={'/img/background_vivovi_icon.svg'}
+            />
+          </div>
         </div>
-        <TechStack className="max-w-5xl" />
-        <div className="natural-shadow bg-shiki-background mx-auto mt-14 h-[100px] max-w-5xl rounded-lg"></div>
       </div>
       <svg aria-hidden="true" className="sr-only">
         <filter id="noiseFilter">

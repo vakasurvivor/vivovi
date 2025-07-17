@@ -1,0 +1,81 @@
+name: Vercel Preview Deployment
+
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+env:
+  NODE_VERSION: '22.17.0'
+  PNPM_VERSION: '10.12.4'
+
+permissions:
+  contents: read
+  deployments: write
+  pull-requests: write
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+
+    env: # ✅ job レベルで共通の env を定義
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      DEBUG_MESSAGE: ${{ secrets.PREVIEW_DEBUG_MESSAGE }}
+      DATABASE_URL: ${{ secrets.PREVIEW_DATABASE_URL }}
+      DIRECT_URL: ${{ secrets.PREVIEW_DIRECT_URL }}
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.PREVIEW_NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.PREVIEW_NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup environment
+        uses: ./.github/actions/setup
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          pnpm-version: ${{ env.PNPM_VERSION }}
+
+      - name: Install Vercel CLI
+        run: pnpm add --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=$VERCEL_TOKEN
+
+      - name: Set Vercel Environment Variables
+        run: |
+          VERCEL_ENV_VARS=(
+            DEBUG_MESSAGE
+            DATABASE_URL
+            DIRECT_URL
+            NEXT_PUBLIC_SUPABASE_URL
+            NEXT_PUBLIC_SUPABASE_ANON_KEY
+          )
+
+          for VAR in "${VERCEL_ENV_VARS[@]}"; do
+            vercel env rm "$VAR" preview --yes --token=$VERCEL_TOKEN || true
+          done
+
+          echo "$DEBUG_MESSAGE" | vercel env add DEBUG_MESSAGE preview --token=$VERCEL_TOKEN
+          echo "$DATABASE_URL" | vercel env add DATABASE_URL preview --token=$VERCEL_TOKEN
+          echo "$DIRECT_URL" | vercel env add DIRECT_URL preview --token=$VERCEL_TOKEN
+          echo "$NEXT_PUBLIC_SUPABASE_URL" | vercel env add NEXT_PUBLIC_SUPABASE_URL preview --token=$VERCEL_TOKEN
+          echo "$NEXT_PUBLIC_SUPABASE_ANON_KEY" | vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY preview --token=$VERCEL_TOKEN
+
+      - name: Verify Vercel Environment Variables
+        run: |
+          echo "Listing Vercel environment variables:"
+          vercel env ls preview --token=$VERCEL_TOKEN
+
+      - name: Run Prisma Migrations
+        run: pnpm prisma migrate deploy
+
+      - name: Build Project Artifacts
+        run: vercel build --token=$VERCEL_TOKEN
+
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --token=$VERCEL_TOKEN

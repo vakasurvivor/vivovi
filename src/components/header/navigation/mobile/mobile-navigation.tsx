@@ -1,66 +1,47 @@
-'use client';
-
-// Next.js
-import Link from 'next/link';
-// Components
-import Navigation from './navigation';
-// utils/hooks
-import { useMatchMedia } from '@/hooks/use-matchMedia';
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import { cn } from '@/utils/cn';
-// Animation
-import { ScrollContext } from '@/app/(top)/scroll-provider';
-import { motion, useScroll, useSpring } from 'motion/react';
-import { useContext, useEffect, useState } from 'react';
+import { Menu } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import SnsExternalLinks from '../sns-external-links';
+import ThemeToggle from '../theme-toggle-icon';
 
-export default function Header({ className }: { className: string }) {
-  const { isFooterInView } = useContext(ScrollContext);
+const links = [
+  {
+    href: '/',
+    title: 'Top',
+  },
+  {
+    href: '/blog',
+    title: 'Blog',
+  },
+  {
+    href: '/about',
+    title: 'About',
+  },
+];
 
-  // 判定
-  const [breakpoint, setBreakpoint] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const rootStyles = getComputedStyle(document.documentElement);
-      setBreakpoint(rootStyles.getPropertyValue('--breakpoint-md'));
-    }
-  }, []);
-  const displayMobile = useMatchMedia(`(width < ${breakpoint})`);
-
-  // Scroll Animation
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    damping: 30,
-    stiffness: 100,
-    restDelta: 0.001,
-  });
-
+export default function MobileNavigation() {
+  const pathname = usePathname();
   return (
-    <motion.header
-      className={cn(
-        'bg-background/40 w-full px-4',
-        'natural-border border-b',
-        'font-inter backdrop-blur-sm',
-        'h-(--header-height)',
-        className,
-      )}
-      animate={{
-        y: isFooterInView
-          ? displayMobile
-            ? 'calc((var(--header-height) - var(--scroll-progress-border)) * -1)'
-            : '-100%'
-          : 0,
-      }}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
-    >
-      <div
-        className={cn(
-          'mx-auto',
-          'h-14 max-w-5xl',
-          'flex items-center justify-between',
-        )}
-      >
-        <h1 className="font-bold">
-          <Link href="/" className="flex items-center gap-2">
+    <div className="flex items-center gap-4 opacity-90 dark:opacity-75">
+      <ThemeToggle />
+      <Sheet>
+        <SheetTrigger asChild>
+          <button>
+            <Menu size={20} />
+          </button>
+        </SheetTrigger>
+        <SheetContent
+          className="bg-background z-1000 flex flex-col justify-between border-none p-4"
+          side="top"
+        >
+          <SheetTitle className="flex items-center gap-2 text-base font-bold">
             <svg
               width="24"
               height="24"
@@ -78,23 +59,37 @@ export default function Header({ className }: { className: string }) {
               />
             </svg>
             VIVOVI
-          </Link>
-        </h1>
-        <Navigation />
-      </div>
+          </SheetTitle>
 
-      {displayMobile && (
-        <motion.div
-          className={cn(
-            'absolute inset-0 top-full origin-left',
-            'bg-muted-foreground h-(--scroll-progress-border)',
-          )}
-          style={{
-            scaleX,
-            translate: '0 -25%',
-          }}
-        />
-      )}
-    </motion.header>
+          <nav className="flex flex-col items-center gap-4 p-4 pb-0">
+            <ul className="flex w-full flex-col gap-4 text-lg">
+              {links.map((link, index) => {
+                return (
+                  <li
+                    className="dark:border-border/14 border-border/7 relative border-b"
+                    key={index}
+                  >
+                    <Link
+                      href={link.href}
+                      className={cn(
+                        'relative block w-full pb-2',
+                        'before:bg-accent-foreground before:absolute before:bottom-0 before:left-0 before:h-[1px] before:content-[""]',
+                        'before:origin-left before:transition-all before:duration-300 hover:before:w-full',
+                        pathname === link.href
+                          ? 'font-semibold before:w-full'
+                          : 'before:w-0',
+                      )}
+                    >
+                      <span className="inline-block">{link.title}</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+            <SnsExternalLinks />
+          </nav>
+        </SheetContent>
+      </Sheet>
+    </div>
   );
 }
