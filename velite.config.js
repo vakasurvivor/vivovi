@@ -60,29 +60,6 @@ const posts = defineCollection({
     .transform(data => ({ ...data, permalink: `/blog/${data.slug}` })),
 });
 
-export default defineConfig({
-  root: 'content',
-  output: {
-    data: '.velite',
-    assets: 'public/static',
-    base: '/static/',
-    name: '[name]-[hash:6].[ext]',
-    clean: true,
-  },
-  collections: { posts, site },
-
-  mdx: {
-    remarkPlugins: [remarkBreaks, remarkHeadingId],
-    rehypePlugins: [
-      rehypeSlug,
-      [rehypeAutolinkHeadings, rehypeAutolinkHeadingsOptions],
-      [rehypeToc, rehypeTocOptions],
-      rehypeSemanticBlockquotes,
-      [rehypePrettyCode, rehypePrettyCodeOptions],
-    ],
-  },
-});
-
 /** @type {import('rehype-autolink-headings').Options} */
 const rehypeAutolinkHeadingsOptions = {
   behavior: 'append',
@@ -116,3 +93,26 @@ const rehypePrettyCodeOptions = {
     transformerNotationErrorLevel(),
   ],
 };
+
+export default defineConfig({
+  root: 'content',
+  output: {
+    data: '.velite',
+    assets: 'public/static',
+    base: '/static/',
+    name: '[name]-[hash:6].[ext]',
+    clean: true,
+  },
+  collections: { posts, site },
+
+  mdx: {
+    remarkPlugins: [remarkBreaks, remarkHeadingId],
+    rehypePlugins: [
+      rehypeSlug,
+      [rehypeAutolinkHeadings, rehypeAutolinkHeadingsOptions],
+      [rehypeToc, rehypeTocOptions],
+      rehypeSemanticBlockquotes,
+      [rehypePrettyCode, rehypePrettyCodeOptions],
+    ],
+  },
+});
