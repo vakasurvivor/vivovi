@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 type PostWithLikeCount = Post & {
   likeCount: number;
 };
-type SearchParams = { [key: string]: string | undefined };
+type SearchParams = Promise<{ [key: string]: string | undefined }>;
 
 export default async function BlogPage({
   searchParams,
