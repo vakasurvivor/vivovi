@@ -1,7 +1,7 @@
 'use client';
 
 import { useGridCellAnimation } from '@/hooks/use-grid-cell-animation';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import { useRef } from 'react';
 
 export default function Title({

@@ -1,4 +1,4 @@
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import { fetchMetadata } from '@/utils/fetch-metadata';
 import Image from 'next/image';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import { Heart } from 'lucide-react';
 import { useEffect, useState } from 'react';
 

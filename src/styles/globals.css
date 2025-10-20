@@ -6,8 +6,8 @@
 @import './rehype-semantic-blockquotes.css' layer(utilities);
 @import './rehype-pretty-code.css' layer(utilities);
 
-@plugin "tailwindcss-animate";
-@plugin "@tailwindcss/typography";
+@plugin 'tailwindcss-animate';
+@plugin '@tailwindcss/typography';
 @plugin 'tailwind-scrollbar';
 
 @config '../../tailwind.config.ts';
@@ -38,6 +38,35 @@
     --playground-add-width: 200px;
   }
 
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+
+  * {
+    @apply border-border;
+    @apply scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-500 dark:scrollbar-thumb-gray-700;
+    @apply border-border outline-ring/50;
+  }
+
+  html,
+  body {
+    @apply bg-background text-foreground;
+    overflow-x: clip;
+  }
+
+  cite,
+  dfn {
+    font-style: normal;
+  }
+
+  mark {
+    padding-inline: 2px;
+  }
+
   /* * * * * * * * * * * * * * * * * * * */
   /*                                     */
   /*              light mode             */
@@ -45,53 +74,53 @@
   /* * * * * * * * * * * * * * * * * * * */
   :root[style*='color-scheme: light'] {
     /* shadcn/ui light */
-    --background: hsl(240, 7%, 97%);
-    --foreground: hsl(240, 7%, 5%);
+    --background: oklch(97.642% 0.00143 285.213);
+    --foreground: oklch(15.527% 0.00423 285.844);
 
-    --card: hsl(240, 7%, 97%);
-    --card-foreground: hsl(240, 7%, 5%);
+    --card: oklch(97.642% 0.00143 285.213);
+    --card-foreground: oklch(15.527% 0.00423 285.844);
 
-    --popover: hsl(240, 7%, 97%);
-    --popover-foreground: hsl(240 10% 3.9%);
+    --popover: oklch(97.642% 0.00143 285.213);
+    --popover-foreground: oklch(14.077% 0.0044 285.776);
 
-    --primary: hsl(240 5.9% 10%);
-    --primary-foreground: hsl(240, 7%, 95%);
+    --primary: oklch(21.033% 0.00588 285.832);
+    --primary-foreground: oklch(95.871% 0.00276 285.763);
 
-    --secondary: hsl(240 4.8% 95.9%);
-    --secondary-foreground: hsl(240 5.9% 10%);
+    --secondary: oklch(96.744% 0.00143 285.225);
+    --secondary-foreground: oklch(21.033% 0.00588 285.832);
 
-    --muted: hsl(240 4.8% 95.9%);
-    --muted-foreground: hsl(240 3.8% 46.1%);
+    --muted: oklch(96.744% 0.00143 285.225);
+    --muted-foreground: oklch(55.167% 0.01387 285.878);
 
-    --accent: hsl(240 4.8% 95.9%);
-    --accent-foreground: hsl(240 5.9% 10%);
+    --accent: oklch(96.744% 0.00143 285.225);
+    --accent-foreground: oklch(21.033% 0.00588 285.832);
 
-    --destructive: hsl(0, 84.2%, 60.2%);
-    --destructive-foreground: hsl(240, 7%, 95%);
+    --destructive: oklch(63.681% 0.20784 25.315);
+    --destructive-foreground: oklch(95.871% 0.00276 285.763);
 
-    --border: hsla(240, 7%, 10%);
-    --input: hsl(240, 5.9%, 90%);
-    --ring: hsla(240, 7%, 10%);
+    --border: oklch(21.033% 0.00588 285.832);
+    --input: oklch(91.973% 0.00413 285.946);
+    --ring: oklch(21.033% 0.00588 285.832);
 
-    --chart-1: hsl(12, 76%, 61%);
-    --chart-2: hsl(173, 58%, 39%);
-    --chart-3: hsl(197, 37%, 24%);
-    --chart-4: hsl(43, 74%, 66%);
-    --chart-5: hsl(27, 87%, 67%);
+    --chart-1: oklch(67.671% 0.15715 35.076);
+    --chart-2: oklch(63.075% 0.10093 183.889);
+    --chart-3: oklch(37.899% 0.04379 226.199);
+    --chart-4: oklch(83.297% 0.11844 88.35);
+    --chart-5: oklch(78.425% 0.12556 58.98);
 
     /* --sidebar-background: 0 0% 98%; */
-    --sidebar-background: hsl(218, 80%, 98%);
-    --sidebar-foreground: hsl(240, 5.3%, 26.1%);
-    --sidebar-primary: hsl(240, 5.9%, 10%);
+    --sidebar-background: oklch(98.127% 0.0075 260.893);
+    --sidebar-foreground: oklch(37.032% 0.01192 285.76);
+    --sidebar-primary: oklch(21.033% 0.00588 285.832);
     --sidebar-primary-foreground: hsl(0, 0%, 98%);
-    --sidebar-accent: hsl(240, 4.8%, 95.9%);
-    --sidebar-accent-foreground: hsl(240, 5.9%, 10%);
-    --sidebar-border: hsl(220, 13%, 91%);
-    --sidebar-ring: hsl(217.2, 91.2%, 59.8%);
+    --sidebar-accent: oklch(96.744% 0.00143 285.225);
+    --sidebar-accent-foreground: oklch(21.033% 0.00588 285.832);
+    --sidebar-border: oklch(92.758% 0.00592 264.656);
+    --sidebar-ring: oklch(62.31% 0.1881 259.83);
 
     /* rehype-pretty-code (shiki) */
-    --shiki: hsl(208, 35%, 93%);
-    --shiki-background: hsl(240, 7%, 16%);
+    --shiki: oklch(94.527% 0.01019 238.846);
+    --shiki-background: oklch(27.11% 0.01106 285.607);
   }
 
   /* * * * * * * * * * * * * * * * * * * */
@@ -254,45 +283,10 @@
 
 /* * * * * * * * * * * * * * * * * * * */
 /*                                     */
-/*         tailwindcss theme           */
-/*                                     */
-/* * * * * * * * * * * * * * * * * * * */
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
-
-  * {
-    @apply border-border;
-    @apply scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-500 dark:scrollbar-thumb-gray-700;
-  }
-
-  html,
-  body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-    overflow-x: clip;
-  }
-
-  cite,
-  dfn {
-    font-style: normal;
-  }
-
-  mark {
-    padding-inline: 2px;
-  }
-}
-
-/* * * * * * * * * * * * * * * * * * * */
-/*                                     */
 /*        tailwindcss components       */
 /*                                     */
 /* * * * * * * * * * * * * * * * * * * */
+
 @layer components {
   .natural-border {
     @apply dark:border-border/14 border-border/7;
@@ -301,3 +295,36 @@
     @apply dark:ring-ring/14 ring-ring/7 shadow-md ring;
   }
 }
+
+/* :root {
+  --sidebar: hsl(0 0% 98%);
+  --sidebar-foreground: hsl(240 5.3% 26.1%);
+  --sidebar-primary: hsl(240 5.9% 10%);
+  --sidebar-primary-foreground: hsl(0 0% 98%);
+  --sidebar-accent: hsl(240 4.8% 95.9%);
+  --sidebar-accent-foreground: hsl(240 5.9% 10%);
+  --sidebar-border: hsl(220 13% 91%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+}
+
+.dark {
+  --sidebar: hsl(240 5.9% 10%);
+  --sidebar-foreground: hsl(240 4.8% 95.9%);
+  --sidebar-primary: hsl(224.3 76.3% 48%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(240 3.7% 15.9%);
+  --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
+  --sidebar-border: hsl(240 3.7% 15.9%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+}
+
+@theme inline {
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+} */

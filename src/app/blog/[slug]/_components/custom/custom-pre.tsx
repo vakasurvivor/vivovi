@@ -1,5 +1,5 @@
 import CopyButton from '@/components/copy-button';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import { type ComponentPropsWithoutRef } from 'react';
 import Children from 'react-children-utilities';
 

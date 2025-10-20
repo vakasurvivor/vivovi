@@ -9,90 +9,71 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
+import { getPaginationSequence } from '@/utils/get-pagination-sequence';
+import { parseAsInteger, useQueryState } from 'nuqs';
 
 interface PaginationProps {
-  totalPages: number;
-  currentPage: number;
+  totalPosts: number;
+  LIMIT: number;
   className?: string;
 }
 
 export default function PostsPagination({
-  totalPages,
-  currentPage,
+  totalPosts,
+  LIMIT,
   className,
 }: PaginationProps) {
-  const totalPagesArray = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const [currentPage, setPage] = useQueryState(
+    'page',
+    parseAsInteger.withDefault(1),
+  );
+  const totalPages = Math.ceil(totalPosts / LIMIT);
 
   return (
     <Pagination className={cn(className)}>
       <PaginationContent>
-        {currentPage > 1 && (
-          <PaginationItem>
-            <PaginationPrevious href={`/blog?page=${currentPage - 1}`} />
-          </PaginationItem>
-        )}
+        <PaginationItem>
+          <PaginationPrevious
+            className={cn(
+              currentPage !== 1
+                ? 'opacity-100'
+                : 'pointer-events-none cursor-default opacity-0',
+            )}
+            onClick={() => setPage(currentPage - 1)}
+            href="#"
+          />
+        </PaginationItem>
 
-        {currentPage === totalPages - 4 && (
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-        )}
-
-        {currentPage < totalPages - 4 &&
-          Array.from(
-            { length: 4 },
-            (_, i) => totalPagesArray[currentPage - 1 + i],
-          ).map((page, i) => {
+        {getPaginationSequence(totalPages, currentPage, {
+          frontExpand: 6,
+          backExpand: 6,
+        }).map((page, index) => {
+          if (page === 'ellipsis') {
             return (
-              <PaginationItem key={i}>
-                <PaginationLink
-                  href={`/blog?page=${page}`}
-                  isActive={page === currentPage}
-                >
-                  {page}
-                </PaginationLink>
+              <PaginationItem key={`ellipsis-${index}`}>
+                <PaginationEllipsis />
               </PaginationItem>
             );
-          })}
+          }
 
-        {currentPage >= totalPages - 4 &&
-          Array.from(
-            { length: 5 },
-            (_, i) => totalPagesArray[totalPages - 5 + i],
-          ).map((page, i) => {
-            return (
-              <PaginationItem key={i}>
-                <PaginationLink
-                  href={`/blog?page=${page}`}
-                  isActive={page === currentPage}
-                >
-                  {page}
-                </PaginationLink>
-              </PaginationItem>
-            );
-          })}
+          return (
+            <PaginationItem key={page}>
+              <PaginationLink
+                onClick={() => setPage(page as number)}
+                href="#"
+                isActive={page === currentPage}
+              >
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+          );
+        })}
 
         {currentPage !== totalPages && (
-          <>
-            {currentPage < totalPages - 4 && (
-              <>
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-
-                <PaginationItem>
-                  <PaginationLink href={`/blog?page=${totalPages}`}>
-                    {totalPages}
-                  </PaginationLink>
-                </PaginationItem>
-              </>
-            )}
-
-            <PaginationItem>
-              <PaginationNext href={`/blog?page=${currentPage + 1}`} />
-            </PaginationItem>
-          </>
+          <PaginationItem>
+            <PaginationNext onClick={() => setPage(currentPage + 1)} href="#" />
+          </PaginationItem>
         )}
       </PaginationContent>
     </Pagination>

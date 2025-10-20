@@ -1,6 +1,6 @@
 import { Post } from '#site/content';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import { format } from 'date-fns';
 import { FilePen, Timer } from 'lucide-react';
 import Image from 'next/image';

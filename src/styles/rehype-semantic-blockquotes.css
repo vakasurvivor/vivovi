@@ -33,7 +33,7 @@ figure[data-blockquote-container] {
       }
 
       &:last-of-type::after {
-        content: '」\00A0（AI翻訳）';
+        content: '」\00A0（機械翻訳）';
       }
     }
   }

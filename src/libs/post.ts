@@ -15,6 +15,7 @@ const sortByDateDescending = <T extends SortablePost>(posts: Array<T>) => {
       new Date(a.createdAt as string).getTime(),
   );
 };
+
 const sortByDateAscending = <T extends SortablePost>(posts: Array<T>) => {
   return posts.sort(
     (a, b) =>
@@ -22,6 +23,7 @@ const sortByDateAscending = <T extends SortablePost>(posts: Array<T>) => {
       new Date(b.createdAt as string).getTime(),
   );
 };
+
 // 人気順
 const sortByLikeCountDescending = <T extends SortablePost>(posts: Array<T>) => {
   return posts.sort((a, b) => b.likeCount - a.likeCount);

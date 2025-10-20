@@ -1,0 +1,15 @@
+pages:
+  - title: Top
+    link: /
+  - title: Blog
+    link: /blog
+  - title: Registry
+    link: /registry
+
+socials:
+  - name: GitHub
+    link: https://github.com
+  - name: X
+    link: https://x.com
+  - name: Discord
+    link: https://discord.com

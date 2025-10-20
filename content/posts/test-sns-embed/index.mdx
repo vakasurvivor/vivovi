@@ -1,0 +1,97 @@
+---
+slug: test-sns-embed
+title: Test Post （ SNS Embed Check ）🚧
+description: next/third-parties による YouTube と react-tweet による X の埋め込み機能を確認。※ ポートフォリオの提出期間が終了したら、published を false に設定し直して、本番環境では非表示にすること。
+target: vakasurvivor
+createdAt: 2025-07-24
+categories:
+    - MDX
+tags:
+    - YouTube
+    - X
+    - iframe
+eyecatch: img/eyecatch.jpg
+---
+
+### 参照項
+
+該当する機能や外観を実装するために、閲覧すべき外部参照を以下に示す。
+
+#### Library
+
+- [@next/third-parties](https://www.npmjs.com/package/@next/third-parties)
+- [react-tweet](https://github.com/vercel/react-tweet)
+
+#### Document
+
+- [YouTubeEmbed - Next.js Docs](https://nextjs.org/docs/app/guides/third-party-libraries#youtube-embed)
+- [react-tweet - Homepage](https://react-tweet.vercel.app/)
+- [iframe - MDN Web Docs](https://developer.mozilla.org/ja/docs/Web/HTML/Reference/Elements/iframe)
+
+#### Reference
+
+- [lite-youtube-embed](https://github.com/paulirish/lite-youtube-embed) (@next/third-parties/google の内部で使用されているライブラリ)
+
+
+### 現状と課題
+
+`@next/third-parties`を活用した YouTube の動画の埋め込みは特に問題なく作動する。
+
+`react-tweet`を活用した X（旧 Twitter）の埋め込みは、外観上は問題なく作動するが、`next-themes`との兼ね合いで、テーマ設定のハイドレーションエラーが発生する。
+
+```tsx title="概念的な実装例" caption="react"
+'use client';
+
+import { cn } from '@/utils';
+import { useTheme } from 'next-themes';
+import { Tweet } from 'react-tweet';
+
+interface XProps {
+  url: string;
+  className?: string;
+}
+
+export default function XTweet({ url, className }: XProps) {
+  const { resolvedTheme } = useTheme();
+  const tweetId = url.split('/').pop() as string;
+
+  if (!resolvedTheme) {
+    return null;
+  }
+
+  return (
+    <div
+      className={cn('mx-auto my-8 w-fit rounded-xl shadow-md', className)}
+      // ↓ これがハイドレーションエラーの原因
+      data-theme={resolvedTheme} // [!code error]
+    >
+      <Tweet id={tweetId} />
+    </div>
+  );
+}
+
+```
+
+#### 解決すべき問題
+
+- [ ] Xの埋め込みは、テーマ設定のハイドレーションエラーが発生する。見た目には影響がしない。
+
+#### 理想の状態
+
+### 表示例
+
+#### YouTube 埋め込み
+
+- 通常動画
+
+https://www.youtube.com/watch?v=yXA7RZ8DirQ
+
+- ショート動画
+
+https://www.youtube.com/watch?v=SdryxwMzdGY
+
+#### X 埋め込み
+
+https://x.com/MLB/status/1948118180003541411
+
+https://x.com/MLB/status/1948815711088116157

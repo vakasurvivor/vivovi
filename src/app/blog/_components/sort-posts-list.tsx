@@ -14,9 +14,10 @@ import {
   sortByLikeCountDescending,
   sortByUpdateDateDescending,
 } from '@/libs/post';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import { ArrowUpWideNarrow } from 'lucide-react';
-import { useState } from 'react';
+import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs';
+import { useMemo } from 'react';
 import PostCard from './post-card';
 
 type PostWithLikeCount = Post & {
@@ -25,73 +26,79 @@ type PostWithLikeCount = Post & {
 
 export default function SortPostsList({
   posts,
+  LIMIT,
   className,
-  currentPage,
 }: {
   posts: PostWithLikeCount[];
+  LIMIT: number;
   className?: string;
-  currentPage: number;
 }) {
-  const [sortPosts, setSortPosts] = useState(sortByDateDescending(posts));
-  const [isDateDesc, setIsDateDesc] = useState(true);
+  const [{ sort, page }, setQueryStates] = useQueryStates(
+    {
+      sort: parseAsString.withDefault('date'),
+      page: parseAsInteger.withDefault(1),
+    },
+    {
+      history: 'push',
+    },
+  );
 
-  function handleSortPosts(value: string) {
-    if (value === 'date') {
-      setSortPosts(() => [...sortByDateDescending(posts)]);
+  const sortedPosts = useMemo(() => {
+    switch (sort) {
+      case 'updatedAt':
+        return sortByUpdateDateDescending(posts);
+      case 'likeCount':
+        return sortByLikeCountDescending(posts);
+      default:
+        return sortByDateDescending(posts);
     }
-    if (value === 'updateDate') {
-      setSortPosts(() => [...sortByUpdateDateDescending(posts)]);
-    }
-    if (value === 'likeCount') {
-      setSortPosts(() => [...sortByLikeCountDescending(posts)]);
-    }
+  }, [sort, posts]);
+
+  const startIndex = (page - 1) * LIMIT;
+  const endIndex = startIndex + LIMIT;
+
+  function handleSortChange(value: string) {
+    setQueryStates({ sort: value });
   }
 
-  const perPage = 5;
-  const startIndex = (currentPage - 1) * perPage;
-  const endIndex = startIndex + perPage;
+  // console.log('Current sort:', sort);
+  // console.log(
+  //   'Sorted posts:',
+  //   sortedPosts.map(p => p.title),
+  // );
 
   return (
-    <>
-      <div className="mb-12 rounded-md shadow-md">
+    <div className={cn(className)}>
+      <div className="mb-12">
         <Title className="pt-30" subTitle="All Posts">
           投稿一覧
         </Title>
 
         <div className="flex justify-end pt-6">
-          <Select
-            onValueChange={value => handleSortPosts(value)}
-            defaultValue={'date'}
-          >
+          <Select onValueChange={handleSortChange} value={sort}>
             <SelectTrigger className={cn('w-[150px]')}>
               <ArrowUpWideNarrow
                 className={cn(
                   'h-4 w-4',
-                  isDateDesc ? 'text-blue-400' : 'text-gray-400',
+                  sort === 'date' ? 'text-blue-400' : 'text-gray-400',
                 )}
               />
-              <SelectValue placeholder="並び替え" />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="date">日付順</SelectItem>
-              <SelectItem value="updateDate">更新順</SelectItem>
+              <SelectItem value="updatedAt">更新順</SelectItem>
               <SelectItem value="likeCount">人気順</SelectItem>
             </SelectContent>
           </Select>
         </div>
       </div>
 
-      <div
-        className={cn(
-          'grid gap-16 max-md:gap-10',
-          // 'max-md:grid-cols-2 max-sm:grid-cols-1',
-          className,
-        )}
-      >
-        {sortPosts.slice(startIndex, endIndex).map(post => (
+      <div className="grid gap-16 max-md:gap-10">
+        {sortedPosts.slice(startIndex, endIndex).map(post => (
           <PostCard key={post.permalink} post={post} />
         ))}
       </div>
-    </>
+    </div>
   );
 }

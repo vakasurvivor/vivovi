@@ -1,4 +1,4 @@
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import SideScrollToc from './_components/side-scroll-toc';
 
 export default function PostPageLayout({
@@ -102,17 +102,21 @@ const Post = ({
           'prose-a:underline-offset-2',
           'prose-a:transition-colors',
           'prose-a:duration-300',
-          'prose-a:hover:text-blue-600',
-          'dark:prose-a:hover:text-blue-500',
           'prose-a:hover:decoration-transparent',
+          'prose-a:visited:text-purple-900',
+          'prose-a:visited:hover:text-purple-950',
+          'prose-a:dark:visited:text-purple-300',
+          'prose-a:dark:visited:hover:text-purple-400',
+          'prose-a:text-blue-800',
+          'prose-a:hover:text-blue-900',
+          'prose-a:dark:text-blue-300',
+          'prose-a:dark:hover:text-blue-400',
         ],
-        // ul / ol
-        ['prose-ul:pl-6', 'prose-ol:pl-6'],
         // li
         [
           'prose-li:marker:font-semibold',
-          'prose-li:marker:text-blue-600',
-          'dark:prose-li:marker:text-blue-500',
+          'prose-li:marker:text-blue-800',
+          'dark:prose-li:marker:text-blue-400',
         ],
         // blockquote
         ['prose-blockquote:font-normal', 'prose-blockquote:border-none'],
@@ -128,14 +132,14 @@ const Post = ({
         ],
         // strong
         [
-          'prose-strong:font-medium',
-          'prose-strong:[&>a]:font-medium',
+          'prose-strong:font-semibold',
+          'prose-strong:[&>a]:font-semibold',
           'prose-strong:px-[1px]',
           'prose-strong:bg-linear-to-b',
           'prose-strong:from-transparent',
-          'prose-strong:from-65%',
+          'prose-strong:from-70%',
+          'prose-strong:to-70%',
           'prose-strong:to-purple-300',
-          'prose-strong:to-65%',
           'dark:prose-strong:to-purple-900',
         ],
         // b

@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import { getSvgIconCdnUrl } from '@/utils/get-svg-icon';
 import Image from 'next/image';
 

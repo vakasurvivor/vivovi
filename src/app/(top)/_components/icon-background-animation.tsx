@@ -1,7 +1,7 @@
 'use client';
 
 import { useGridCellAnimation } from '@/hooks/use-grid-cell-animation';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import { motion } from 'motion/react';
 import { useRef } from 'react';
 

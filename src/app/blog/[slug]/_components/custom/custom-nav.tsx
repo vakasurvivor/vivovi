@@ -7,7 +7,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { useMatchMedia } from '@/hooks/use-matchMedia';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import { TableOfContents } from 'lucide-react';
 import { useEffect, useState, type ComponentPropsWithoutRef } from 'react';
 

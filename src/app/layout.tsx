@@ -4,6 +4,7 @@ import { commitMono, crazyMetro, inter, notoSansJP } from '@/libs/font';
 import '@/styles/globals.css';
 import { getBaseUrl } from '@/utils/get-base-url';
 import type { Metadata } from 'next';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import 'yakuhanjp/dist/css/yakuhanjp_s.css';
 import { ScrollProvider } from './(top)/scroll-provider';
 import { ScrollbarWidthProvider } from './(top)/scrollbar-width-provider';
@@ -107,24 +108,26 @@ export default function RootLayout({
       <body
         className={'bg-background text-foreground min-h-dvh w-full font-sans'}
       >
-        <ThemeProvider
-          themes={['light', 'dark']}
-          defaultTheme="dark"
-          enableSystem={false}
-          // 切り替え時にすべての「CSS transition」を無効にする
-          disableTransitionOnChange={true}
-          attribute="class"
-          storageKey="acme-theme"
-        >
-          <ScrollProvider>
-            <ScrollbarWidthProvider>
-              <Header className="sticky top-0 left-0 z-100" />
-              {/* <VivoviLogo /> */}
-              {children}
-              <Footer className="sticky top-full" />
-            </ScrollbarWidthProvider>
-          </ScrollProvider>
-        </ThemeProvider>
+        <NuqsAdapter>
+          <ThemeProvider
+            themes={['light', 'dark']}
+            defaultTheme="dark"
+            enableSystem={false}
+            // 切り替え時にすべての「CSS transition」を無効にする
+            disableTransitionOnChange={true}
+            attribute="class"
+            storageKey="acme-theme"
+          >
+            <ScrollProvider>
+              <ScrollbarWidthProvider>
+                <Header className="sticky top-0 left-0 z-100" />
+                {/* <VivoviLogo /> */}
+                {children}
+                <Footer className="sticky top-full" />
+              </ScrollbarWidthProvider>
+            </ScrollProvider>
+          </ThemeProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );

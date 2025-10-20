@@ -1,0 +1,643 @@
+---
+slug: list-marker-svg
+title: React TypeScript tailwindcss li要素のリストマーカーをsvgで管理する
+description: li要素のリストマーカーをsvgで管理する
+createdAt: 2025-08-04
+tags: [React, SVG, TailwindCSS]
+eyecatch: eyecatch.png
+---
+
+### はじめに
+
+<UlPlayground />
+
+`<li>{:html}`のリストマーカに任意的変更を加えることは、よくある実装のひとつかと思います。当記事では、Reactのコンポーネント志向を前提に、tailwindcssを使用して、拡張的にリストマーカを変更するアプローチを紹介します。前提条件として、主に下記の技術スタックを使用します。
+
+- React
+- TypeScript
+- Tailwindcss
+
+<Callout type='warning' title='tailwindcss 使用上の注意点'>
+
+```css title="style.css"
+@tailwind base;
+```
+
+`@tailwind base;{:css}`をcssファイルに含めると、tailwindcssは独自のリセットcssである[Preflight](https://tailwindcss.com/docs/preflight)を自動的に適用されます。modern-normalize上に構築されたPreflightは、ブラウザー間の不一致を解消し、デザインシステムの制約内で作業しやすいように設計されています。
+
+https://tailwindcss.com/docs/preflight#lists-are-unstyled
+
+```css title="Preflight (modern-normalize)" caption="tailwindcss"
+ol,
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+```
+
+Preflightによって`<ol>{:html}`と`<ul>{:html}`は、具体的には上記のような実装がされています。ブラウザーのデフォルトスタイルが上書きされ、リストマーカーはもちろん、余白やパディングもありません。この点に注意してください。一般的なスタイルを復元するには、以下のようなユーティリティーを追加してください。
+
+{/* prettier-ignore */}
+```html title="index.html"
+<ul>
+  <li>吾輩は猫である。名前はまだ無い。</li>
+  <li>国境の長いトンネルを抜けると雪国であった。</li>
+</ul>
+
+<!-- 一般的なスタイルを復元する -->
+<ul class="ml-7 list-disc [&>li]:pl-1"><!-- [!code ++] -->
+  <li>吾輩は猫である。名前はまだ無い。</li>
+  <li>国境の長いトンネルを抜けると雪国であった。</li>
+</ul>
+```
+
+<StackBlitz url="https://stackblitz.com/edit/stackblitz-starters-b8yw4k?embed=1&file=index.html&hideNavigation=1&view=preview" ctl={1} />
+
+</Callout>
+
+### リストマーカーを変更するアプローチ
+
+`<ul>{:html}`は、数的な順序がなく、その配置順に意味を持たない項目を持つリストを表します。その子要素である`<li>{:html}`は、通常いくつかの形式によるリストマーカーを伴って表示されます。
+
+リストマーカーをデフォルトの「・」から任意の記号に変更したい場合、様々なアプローチが考えられますが、大きくは以下の二点が挙げられます。https://developers-jp.googleblog.com/2023/09/budoux-adobe.html
+
+1. #### リストマーカーを文字として表示する
+
+   `<li>{:html}`のリストマーカーを編集できる`list-style-*:{:css}`と疑似要素`::marker{:css}`を併用して、Unicodeの特殊文字（絵文字を含むさまざまな記号）を表示するアプローチです。
+
+   簡単な手順ですが`::marker{:css}`は、テキスト関連の設定を中心とした限定的な疑似要素です。そのため`::before{:css}`や`::after{:css}`と比較すると、位置の微調整、トランディション、アニメーションなどが指定できません。拡張性を重視するため、このアプローチは取り上げません。
+
+   代わりに、MDNの該当ページを記載します。こちらで取り上げている事例が参考になるかと思います。
+
+   - [`list-style`](https://developer.mozilla.org/ja/docs/Web/CSS/list-style)
+   - [`::marker`](https://developer.mozilla.org/ja/docs/Web/CSS/::marker)
+
+   https://developer.mozilla.org/ja/docs/Web/CSS/list-style
+
+   https://developer.mozilla.org/ja/docs/Web/CSS/::marker
+
+2. #### リストマーカーを図形として表示する
+
+   `<ul>`に`list-style: none;`を指定すると、`<li>`のリストマーカーを打ち消すことができます。さらに、疑似要素`::before`を使用して、透過情報を持つ`.png`や、拡張性が高い`.svg`をリストマーカーの代替として表示するアプローチです。
+
+   前述のアプロ―チと比べると、実装は複雑になりますが、微調整が効きます。当記事ではこちらのアプローチを採用します。
+
+### リストマーカーを図形として表示する
+
+#### svg形式がオススメ
+
+リストマーカーを図形として表示するアプローチに際して、具体的に達成したいことは以下の2点です。
+
+- 大きさ・位置・色のCSSで制御できる
+
+bakasurvivor/vitejs-vite-ggfexx
+
+特に色をcssで指定するには、図形を画像（.jpg .png）ではなく、svg形式で取り込むことがおススメです。maskを使用して、間接的に色を指定することができます。
+
+- レスポンシブ対応をしている
+- ::before || ::after
+  - [background-image](https://developer.mozilla.org/ja/docs/Web/CSS/background-image)
+  - [mask-image](https://developer.mozilla.org/ja/docs/Web/CSS/mask-image)
+
+```ts {10} title="li.tsx"
+<ul className={cn('list-none text-base ml-7')}>
+  <li className={cn(
+      'relative',
+      'text-justify',
+      'mb-4',
+      'pl-1',
+      'before:absolute',
+      'before:content-[""]',
+      'before:w-6',
+      'before:h-(--svg-height)',
+      'before:left-0',
+      'before:-translate-x-full',
+      'before:bg-blue-600',
+      'before:[mask-image:url(/arrow-right.svg)]',
+      'before:[mask-size:contain]',
+      'before:[mask-repeat:no-repeat]',
+      'before:[mask-position:right]',
+    )}
+  >
+    // ..
+```
+
+<Callout type='info' title='cn( )ってなに？'>
+
+```ts title="utils/cn.ts"
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+```
+
+- clsx
+- tailwind-merge
+
+https://github.com/lukeed/clsx
+
+https://github.com/dcastil/tailwind-merge
+
+</Callout>
+
+```css {16} title="style.css" caption="tailwindcss"
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+//..
+
+@layer utilities {
+  .mask-url { /* [!code ++] */
+    mask-position: center; /* [!code --] */
+    mask-repeat: no-repeat;/* [!code error] */
+    /* mask-image url()関数の記入例
+    ========================================================*/
+    /* ✘Bad <svg>要素を記入する場合 */
+    mask-image: url('data:image/svg+xml, <svg ･･･> ･･･ </svg>'); /* [!code warning] */
+    /* ✔Good svgファイルを参照する場合 */
+    mask-image: url('/img/smple.svg');
+  }
+}
+
+//..
+```
+
+<Callout type='info'>
+```ts showLineNumbers
+<li className={cn(
+    'relative',
+    'before:content-[""]',
+    'before:absolute',
+    'before:-translate-x-full',
+    'before:size-5',
+    'before:inst-0',
+    'before:bg-blue-600',
+    'before:mask-url'
+  )}
+>
+  // ..
+</li>
+```
+</Callout>
+
+<Callout type='tips'>
+```ts showLineNumbers
+<li className={cn(
+    'relative',
+    'before:content-[""]',
+    'before:absolute',
+    'before:-translate-x-full',
+    'before:size-5',
+    'before:inst-0',
+    'before:bg-blue-600',
+    'before:mask-url'
+  )}
+>
+  // ..
+</li>
+```
+</Callout>
+
+<Callout type='warning'>
+```ts showLineNumbers
+<li className={cn(
+    'relative',
+    'before:content-[""]',
+    'before:absolute',
+    'before:-translate-x-full',
+    'before:size-5',
+    'before:inst-0',
+    'before:bg-blue-600',
+    'before:mask-url'
+  )}
+>
+  // ..
+</li>
+```
+</Callout>
+
+<Callout type='danger'>
+```ts showLineNumbers
+<li className={cn(
+    'relative',
+    'before:content-[""]',
+    'before:absolute',
+    'before:-translate-x-full',
+    'before:size-5',
+    'before:inst-0',
+    'before:bg-blue-600',
+    'before:mask-url'
+  )}
+>
+  // ..
+</li>
+```
+</Callout>
+
+```ts title="li.tsx"
+<ul className='list-none'>
+  <li className={cn(
+      'relative',
+      'before:absolute',
+      'before:content-[""]',
+      'before:inset-0',
+      'before:-translate-x-full',
+      'before:size-8 max-sm:before:size-7',
+      'before:bg-blue-600',
+      'before:mask-url', // [!code --]
+      'before:[mask-position:center]', // [!code ++]
+      'before:[mask-repeat:no-repeat]', // [!code ++]
+      'before:[mask-image:url("/img/arrow_right.svg")]', // [!code ++]
+    )}
+  >
+    // ..
+
+```
+
+```ts title="custom-ul.tsx" caption="react" showLineNumbers
+import { useEffect, useRef } from 'react';
+import { useMatchMedia } from './hooks/useMatchMedia';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from './utils/cn';
+
+/**
+ * ulStyle Variant
+ */
+type ulStyleProps = VariantProps<typeof ulStyle>;
+const ulStyle = cva(
+  [
+    // ul
+    'list-none',
+    'text-base',
+    'ml-7',
+    [
+      // ul > li
+      '[&>li]:relative',
+      '[&>li]:text-justify',
+      '[&>li]:pl-1',
+      '[&>li]:mb-4',
+      [
+        // ul > li::before
+        '[&>li]:before:absolute',
+        '[&>li]:before:content-[""]',
+        '[&>li]:before:w-6',
+        '[&>li]:before:h-(--svg-height)',
+        '[&>li]:before:left-0',
+        '[&>li]:before:-translate-x-full',
+        // { mask-* }
+        '[&>li]:before:[mask-size:contain]',
+        '[&>li]:before:[mask-repeat:no-repeat]',
+        '[&>li]:before:[mask-position:right]',
+        // transitionを適用
+        '[&>li]:before:transition-all',
+      ],
+    ],
+  ],
+  {
+    variants: {
+      svgType: {
+        arrow: [
+          '[&>li]:before:[mask-image:url(/arrow-right.svg)]',
+          // :hover 位置を移動
+          '[&>li]:hover:before:-translate-x-[120%]',
+          // :hover 背景色を変化
+          '[&>li]:before:bg-linear-to-r from-teal-300 from-40% to-blue-600',
+          '[&>li]:hover:before:from-pink-300',
+          '[&>li]:hover:before:from-40%',
+          '[&>li]:hover:before:to-red-600',
+        ],
+
+        pencil: [
+          [
+            // ul > li::before
+            '[&>li]:before:[mask-image:url(/pencil.svg)]',
+            '[&>li]:before:bg-black',
+            // :hover 位置を移動
+            '[&>li]:hover:before:-translate-x-[120%]',
+          ],
+          [
+            // ul > li::after
+            '[&>li]:after:absolute',
+            '[&>li]:after:content-[""]',
+            '[&>li]:after:left-0',
+            '[&>li]:after:top-0',
+            '[&>li]:after:w-6',
+            '[&>li]:after:h-(--svg-height)',
+            // { mask-* }
+            '[&>li]:after:[mask-image:url(/pencil-line.svg)]',
+            '[&>li]:after:[mask-size:contain]',
+            '[&>li]:after:[mask-repeat:no-repeat]',
+            '[&>li]:after:[mask-position:right]',
+
+            '[&>li]:after:transition-all',
+            // :hover 位置を移動
+            '[&>li]:after:-translate-x-full',
+            '[&>li]:hover:after:-translate-x-[120%]',
+            // :hover 透過度を変化
+            '[&>li]:after:opacity-0',
+            '[&>li]:hover:after:opacity-100',
+            // :hover 背景色を変化
+            '[&>li]:after:bg-black',
+            '[&>li]:hover:after:bg-red-600',
+          ],
+        ],
+
+        map: [
+          '[&>li]:before:[mask-image:url(/map-pin.svg)]',
+          // :hover animationを適用
+          '[&>li]:hover:before:animate-wiggle',
+          // :hover 背景色を変化
+          '[&>li]:before:bg-linear-to-r from-slate-800 from-40% to-slate-800',
+          '[&>li]:hover:before:from-pink-400',
+          '[&>li]:hover:before:from-40%',
+          '[&>li]:hover:before:to-red-700',
+        ],
+      },
+    },
+    defaultVariants: {
+      svgType: 'arrow',
+    },
+  }
+);
+
+interface CustomUlProps extends ulStyleProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+export default function CustomUl({
+  svgType = 'arrow',
+  className,
+  children,
+}: CustomUlProps) {
+  const ulRef = useRef(null);
+  const isMaxSm = useMatchMedia('(width < 640px)');
+  const isMaxlg = useMatchMedia('(width < 1024px)');
+
+  useEffect(() => {
+    if (ulRef.current) {
+      const liEl = ulRef.current.querySelector('li');
+      if (liEl) {
+        const computedStyle = getComputedStyle(liEl);
+        const fontSize = parseFloat(computedStyle.fontSize);
+        const lineHeight = computedStyle.lineHeight;
+
+        let liLineHeight;
+        if (lineHeight === 'normal') {
+          liLineHeight = 1.2 * fontSize;
+        } else if (lineHeight.includes('px')) {
+          liLineHeight = parseFloat(lineHeight);
+        } else {
+          liLineHeight = parseFloat(lineHeight) * fontSize;
+        }
+
+        // ul要素にCSS変数を設定
+        ulRef.current.style.setProperty('--svg-height', `${liLineHeight}px`);
+      }
+    }
+  }, [isMaxSm, isMaxlg]);
+
+  return (
+    <ul ref={ulRef} className={cn(ulStyle({ svgType }), className)}>
+      {children}
+    </ul>
+  );
+}
+```
+
+```ts title="custom-ul.tsx（import 抜粋）" caption="react" showLineNumbers
+import { useEffect, useRef } from 'react';
+import { useMatchMedia } from './hooks/useMatchMedia';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from './utils/cn';
+
+// ..
+```
+
+```ts title="utils/cn.ts"
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+```
+
+{/* prettier-ignore */}
+```ts title="hooks/useMatchMedia.tsx" caption="react"
+import { useCallback, useMemo, useSyncExternalStore } from 'react';
+
+export function useMatchMedia(mediaQuery: string, initialState = true): boolean {
+  const matchMediaList = useMemo(
+    () =>
+      typeof window === 'undefined' ? undefined : window.matchMedia(mediaQuery),
+    [mediaQuery]
+  );
+
+  const subscribe = useCallback(
+    (onStoreChange: () => void) => {
+      matchMediaList?.addEventListener('change', onStoreChange);
+      return () => matchMediaList?.removeEventListener('change', onStoreChange);
+    },
+    [matchMediaList],
+  );
+
+  return useSyncExternalStore(
+    subscribe,
+    () => matchMediaList?.matches ?? initialState,
+    () => initialState,
+  );
+}
+```
+
+```ts title="custom-ul.tsx（cva部分）" caption="react" showLineNumbers{4}
+// ..
+
+/**
+ * ulStyle Variant
+ */
+type ulStyleProps = VariantProps<typeof ulStyle>;
+const ulStyle = cva(
+  [
+    // ul
+    'list-none',
+    'text-base',
+    'ml-7',
+    [
+      // ul > li
+      '[&>li]:relative',
+      '[&>li]:text-justify',
+      '[&>li]:pl-1',
+      '[&>li]:mb-4',
+      [
+        // ul > li::before
+        '[&>li]:before:absolute',
+        '[&>li]:before:content-[""]',
+        '[&>li]:before:w-6',
+        '[&>li]:before:h-(--svg-height)',
+        '[&>li]:before:left-0',
+        '[&>li]:before:-translate-x-full',
+        // { mask-* }
+        '[&>li]:before:[mask-size:contain]',
+        '[&>li]:before:[mask-repeat:no-repeat]',
+        '[&>li]:before:[mask-position:right]',
+        // transitionを適用
+        '[&>li]:before:transition-all',
+      ],
+    ],
+  ],
+  {
+    variants: {
+      svgType: {
+        arrow: [
+          '[&>li]:before:[mask-image:url(/arrow-right.svg)]',
+          // :hover 位置を移動
+          '[&>li]:hover:before:-translate-x-[120%]',
+          // :hover 背景色を変化
+          'from-teal-300 from-40% to-blue-600 [&>li]:before:bg-linear-to-r',
+          '[&>li]:hover:before:from-pink-300',
+          '[&>li]:hover:before:from-40%',
+          '[&>li]:hover:before:to-red-600',
+        ],
+
+        pencil: [
+          [
+            // ul > li::before
+            '[&>li]:before:[mask-image:url(/pencil.svg)]',
+            '[&>li]:before:bg-black',
+            // :hover 位置を移動
+            '[&>li]:hover:before:-translate-x-[120%]',
+          ],
+          [
+            // ul > li::after
+            '[&>li]:after:absolute',
+            '[&>li]:after:content-[""]',
+            '[&>li]:after:left-0',
+            '[&>li]:after:top-0',
+            '[&>li]:after:w-6',
+            '[&>li]:after:h-(--svg-height)',
+            // { mask-* }
+            '[&>li]:after:[mask-image:url(/pencil-line.svg)]',
+            '[&>li]:after:[mask-size:contain]',
+            '[&>li]:after:[mask-repeat:no-repeat]',
+            '[&>li]:after:[mask-position:right]',
+
+            '[&>li]:after:transition-all',
+            // :hover 位置を移動
+            '[&>li]:after:-translate-x-full',
+            '[&>li]:hover:after:-translate-x-[120%]',
+            // :hover 透過度を変化
+            '[&>li]:after:opacity-0',
+            '[&>li]:hover:after:opacity-100',
+            // :hover 背景色を変化
+            '[&>li]:after:bg-black',
+            '[&>li]:hover:after:bg-red-600',
+          ],
+        ],
+
+        map: [
+          '[&>li]:before:[mask-image:url(/map-pin.svg)]',
+          // :hover animationを適用
+          '[&>li]:hover:before:animate-wiggle',
+          // :hover 背景色を変化
+          'from-slate-800 from-40% to-slate-800 [&>li]:before:bg-linear-to-r',
+          '[&>li]:hover:before:from-pink-400',
+          '[&>li]:hover:before:from-40%',
+          '[&>li]:hover:before:to-red-700',
+        ],
+      },
+    },
+    defaultVariants: {
+      svgType: 'arrow',
+    },
+  },
+);
+
+// ..
+```
+
+```ts title="custom-ul.tsx（コンポーネント部分）" caption="react" showLineNumbers{104}
+// ..
+
+interface CustomUlProps extends ulStyleProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+export default function CustomUl({
+  svgType = 'arrow',
+  className,
+  children,
+}: CustomUlProps) {
+  const ulRef = useRef(null);
+  const isMaxSm = useMatchMedia('(width < 640px)');
+  const isMaxlg = useMatchMedia('(width < 1024px)');
+
+  useEffect(() => {
+    if (ulRef.current) {
+      const liEl = ulRef.current.querySelector('li');
+      if (liEl) {
+        const computedStyle = getComputedStyle(liEl);
+        const fontSize = parseFloat(computedStyle.fontSize);
+        const lineHeight = computedStyle.lineHeight;
+
+        let liLineHeight;
+        if (lineHeight === 'normal') {
+          liLineHeight = 1.2 * fontSize;
+        } else if (lineHeight.includes('px')) {
+          liLineHeight = parseFloat(lineHeight);
+        } else {
+          liLineHeight = parseFloat(lineHeight) * fontSize;
+        }
+
+        // ul要素にCSS変数を設定
+        ulRef.current.style.setProperty('--svg-height', `${liLineHeight}px`);
+      }
+    }
+  }, [isMaxSm, isMaxlg]);
+
+  return (
+    <ul ref={ulRef} className={cn(ulStyle({ svgType }), className)}>
+      {children}
+    </ul>
+  );
+}
+```
+
+```ts title="App.tsx" caption="react" showLineNumbers
+import CustomUl from './custom-ul.tsx';
+
+export default function App() {
+  return (
+    <div className="min-h-screen grid place-items-center mx-4">
+      <div className="mx-auto w-fit max-w-[38ch]">
+        <div className="mb-8">
+          <CustomUl
+            svgType="arrow"
+            className="max-sm:text-base max-lg:text-xl text-3xl"
+          >
+            <li>吾輩は猫である。名前はまだ無い。</li>
+            <li>国境の長いトンネルを抜けると雪国であった。</li>
+          </CustomUl>
+
+          <CustomUl svgType="pencil" className="max-sm:text-base text-xl">
+            <li>吾輩は猫である。名前はまだ無い。</li>
+            <li>国境の長いトンネルを抜けると雪国であった。</li>
+          </CustomUl>
+
+          <CustomUl svgType="map" className="text-base">
+            <li>吾輩は猫である。名前はまだ無い。</li>
+            <li>国境の長いトンネルを抜けると雪国であった。</li>
+          </CustomUl>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+<StackBlitz url="https://stackblitz.com/edit/vitejs-vite-ggfexx?embed=1&file=README.md&view=preview" ctl={1} />

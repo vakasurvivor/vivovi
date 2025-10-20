@@ -1,5 +1,5 @@
 import { posts } from '#site/content';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import RecentPosts from './_components/recent-posts';
@@ -61,11 +61,10 @@ export default function TopPage() {
 
       <div className="relative z-10 px-8 max-md:px-6 max-sm:px-4">
         <TechStack className="mt-28 max-w-5xl" />
-        <div className="natural-shadow to-shiki-background mx-auto mt-14 h-[200px] max-w-5xl rounded-lg bg-radial-[at_0%_0%] from-[#4079ed50]"></div>
         <RecentPosts posts={posts} className="mt-28 max-w-5xl" />
         <section
           className={cn(
-            'natural-shadow dark:border-border/14 border-border/7 relative mx-auto my-20 h-[400px] max-w-5xl overflow-hidden rounded-lg bg-blue-700 p-12',
+            'natural-shadow dark:border-border/14 border-border/7 relative mx-auto my-20 max-w-5xl overflow-hidden rounded-lg bg-blue-700 p-12',
             'before:pointer-events-none before:absolute before:inset-0 before:bg-gradient-to-b before:from-white before:to-transparent before:opacity-20',
           )}
         >

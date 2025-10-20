@@ -1,0 +1,190 @@
+---
+slug: test-code-highlight
+title: Test Post （ Code Highlight Check ）🚧
+description: Rehype Pretty Code が提供している Shiki の Code Highlight を確認。※ ポートフォリオの提出期間が終了したら、published を false に設定し直して、本番環境では非表示にすること。
+target: vakasurvivor
+createdAt: 2025-07-22
+categories:
+    - MDX
+    - test
+tags:
+    - CodeSandbox
+    - Sandpack
+    - iframe
+eyecatch: img/eyecatch.png
+---
+
+### 参照項
+
+該当する機能やスタイルを実装するために、閲覧すべき参照項を以下に示す。
+
+#### Library
+
+- [rehype-pretty-code - GitHub](https://github.com/rehype-pretty/rehype-pretty-code)
+
+#### Document
+
+- [Rehype Pretty Code - Website](https://rehype-pretty.pages.dev/)
+- [Shiki - Website](https://shiki.style/)
+
+#### Reference
+
+- [MdxOptions](https://velite.js.org/reference/types#markdownoptions)
+
+https://www.youtube.com/watch?v=LJL3nLBPrmA
+
+### 現状と課題
+`@giscus/react`を活用して、指定したリポジトリの Discussions と連携するコメント機能を導入したが、`<iframe>`のスタイル調整には面倒な手順を要する。
+
+`theme`に渡す文字列`"○○○"`は、用意された規定値からの選択が推奨されている。これは、giscus が公開している`https://giscus.app/themes/○○○.css`を使用することを意味する。
+
+```tsx title="概念的な実装例" caption="react"
+'use client';
+
+import Giscus from '@giscus/react';
+
+export default function Comment() {
+  return (
+    <Giscus
+      id="comments"
+      // …
+      // 必要なプロパティを適切に設定
+      // …
+      theme='light'
+      lang="ja"
+      loading="lazy"
+    />
+  );
+}
+```
+
+具体的には、`<Giscus/>`コンポーネントによって埋め込まれた`<iframe>`。その内部の`<link>`の`href`属性で外部参照する挙動となる。そのため、カスタムテーマを適用するためには、二つの方法が用意されている。
+
+1. カスタムテーマを作成し、giscus（OSS）に`https://giscus.app/themes/○○○.css`で公開してくれるよう申請し、規定値から選択できるようにする。
+2. カスタムテーマを作成し、静的ファイルとして独自にホスティングする。そのurlを`<Giscus/>`コンポーネントの`theme`に渡す。
+
+
+現実的な選択肢として、後者を選択。当サイトは、Next.js（App Router）で開発しているため、例えば`/public/style/`の配下に、カスタムテーマとして作成した`giscus-custom-theme.css`を配置すると、外部からURLとして参照可能になる。
+
+本番環境では、問題なく参照できるが、開発環境においては`http://localhost:3000/style/giscus-custom-theme.css`としてURLが解決されるため、`<iframe>`内から参照できない。
+
+#### 解決すべき問題
+
+- [ ] 一定の高さを超えるコードブロックは、折りたためるようにする。
+- [x] コードの表示用には、Interと馴染む等幅フォントを。
+- [x] 右端には、軽いグラデーションの透過を。
+- [x] コードのコピー機能を実装する。
+
+#### 理想の状態
+
+### 表示例
+
+```html title="標準表示"
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VIVOVI Tech Blog</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/index.js" defer></script>
+  </head>
+  <body>
+    <!-- … -->
+  </body>
+</html>
+```
+
+```html title="行数表示" showLineNumbers
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VIVOVI Tech Blog</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/index.js" defer></script>
+  </head>
+  <body>
+    <!-- … -->
+  </body>
+</html>
+```
+
+```html title="行数表示 + 特定行の装飾" showLineNumbers {4-8}
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VIVOVI Tech Blog</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/index.js" defer></script>
+  </head>
+  <body>
+    <h1>Hello World</h1><!-- [!code ++] -->
+
+    <h1>Hello World</h1><!-- [!code --] -->
+
+    <h1>Hello World</h1><!-- [!code warning] -->
+
+    <h1>Hello World</h1><!-- [!code error] -->
+  </body>
+</html>
+```
+
+```html title="行数表示 + 特定行の装飾 + 特定行のフォーカス" showLineNumbers {4-8}
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VIVOVI Tech Blog</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/index.js" defer></script>
+  </head>
+  <body>
+    <h1>Hello World</h1><!-- [!code ++] [!code focus] -->
+
+    <h1>Hello World</h1><!-- [!code --] -->
+
+    <h1>Hello World</h1><!-- [!code warning] -->
+
+    <h1>Hello World</h1><!-- [!code error] -->
+  </body>
+</html>
+```
+
+```css title="行数表示" showLineNumbers
+body {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 100dvh;
+}
+```
+
+```html title="example.html"
+<h1>Example Text</h1>
+```
+```css title="example.css"
+body {
+  box-sizing: border-box;
+}
+```
+```js title="example.js"
+const x = 1;
+```
+```ts title="example.ts"
+const x:number = 1;
+```
+```bash title="ダメな例"
+pnpm add  @giscus/react
+```
+```tsx title="example.tsx" caption="react"
+function MyButton() {
+  return (
+    <button>I'm a button</button>
+  );
+}
+```

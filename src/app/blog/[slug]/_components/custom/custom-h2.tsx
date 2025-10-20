@@ -9,10 +9,12 @@ export default function CustomH2(props: ComponentPropsWithoutRef<'h2'>) {
     );
 
     return (
-      <>
-        <h3 {...restProps}>{newChildren}</h3>
-        <hr className="mb-5" />
-      </>
+      <h3
+        className="mt-8 mb-5 border-b border-[var(--tw-prose-hr)] py-2"
+        {...restProps}
+      >
+        {newChildren}
+      </h3>
     );
   }
 

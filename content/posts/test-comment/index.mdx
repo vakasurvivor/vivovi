@@ -1,0 +1,81 @@
+---
+slug: test-comment
+title: Test Post （ Comment Check ）🚧
+description: GitHub Discussions と連携をする @giscus/react が提供しているコメント機能を確認。※ ポートフォリオの提出期間が終了したら、published を false に設定し直して、本番環境では非表示にすること。
+target: vakasurvivor
+createdAt: 2025-07-26
+categories:
+    - MDX
+tags:
+    - giscus
+    - iframe
+eyecatch: img/eyecatch.jpg
+---
+
+### 参照項
+
+該当する機能や外観を実装するために、閲覧すべき外部参照を以下に示す。
+
+#### Library
+
+- [@giscus/react](https://github.com/giscus/giscus-component)
+
+#### Document
+
+- [giscus](https://giscus.app/)
+- [GitHub Discussions](https://docs.github.com/en/discussions)
+- [iframe - MDN Web Docs](https://developer.mozilla.org/ja/docs/Web/HTML/Reference/Elements/iframe)
+- [CORS - MDN Web Docs](https://developer.mozilla.org/ja/docs/Web/HTTP/Guides/CORS)
+
+#### Reference
+
+カスタムテーマを実装するにあたっては、まず以下の項目を参照すべし。
+
+- [data-theme](https://github.com/giscus/giscus/blob/main/ADVANCED-USAGE.md#data-theme)
+- [Creating new themes](https://github.com/giscus/giscus/blob/main/CONTRIBUTING.md#creating-new-themes)
+
+### 現状と課題
+`@giscus/react`を活用して、指定したリポジトリの Discussions と連携するコメント機能を導入したが、`<iframe>`のスタイル調整には面倒な手順を要する。
+
+`theme`に渡す文字列`"○○○"`は、用意された規定値からの選択が推奨されている。これは、giscus が公開している`https://giscus.app/themes/○○○.css`を使用することを意味する。
+
+```tsx title="概念的な実装例" caption="react"
+'use client';
+
+import Giscus from '@giscus/react';
+
+export default function Comment() {
+  return (
+    <Giscus
+      id="comments"
+      // …
+      // 必要なプロパティを適切に設定
+      // …
+      theme='light'
+      lang="ja"
+      loading="lazy"
+    />
+  );
+}
+```
+
+具体的には、`<Giscus/>`コンポーネントによって埋め込まれた`<iframe>`。その内部の`<link>`の`href`属性で外部参照する挙動となる。そのため、カスタムテーマを適用するためには、二つの方法が用意されている。
+
+1. カスタムテーマを作成し、giscus（OSS）に`https://giscus.app/themes/○○○.css`で公開してくれるよう申請し、規定値から選択できるようにする。
+2. カスタムテーマを作成し、静的ファイルとして独自にホスティングする。そのurlを`<Giscus/>`コンポーネントの`theme`に渡す。
+
+
+現実的な選択肢として、後者を選択。当サイトは、Next.js（App Router）で開発しているため、例えば`/public/style/`の配下に、カスタムテーマとして作成した`giscus-custom-theme.css`を配置すると、外部からURLとして参照可能になる。
+
+本番環境では、問題なく参照できるが、開発環境においては`http://localhost:3000/style/giscus-custom-theme.css`としてURLが解決されるため、`<iframe>`内から参照できない。
+
+#### 解決すべき問題
+
+- [ ] `<iframe>`の外観をカスタマイズするために、giscus の仕様に準拠したカスタムテーマを作成する。
+- [ ] 開発環境でも動作するためには、作成したカスタムテーマは GitHub Pages など、外部に事前ホストする必要がある。
+
+#### 理想の状態
+
+### 表示例
+
+コメント機能 ↓

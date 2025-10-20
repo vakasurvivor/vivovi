@@ -1,4 +1,4 @@
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import Image, { type ImageProps } from 'next/image';
 import { ComponentPropsWithoutRef } from 'react';
 

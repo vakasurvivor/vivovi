@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Navigation from './navigation';
 // utils/hooks
 import { useMatchMedia } from '@/hooks/use-matchMedia';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 // Animation
 import { ScrollContext } from '@/app/(top)/scroll-provider';
 import { motion, useScroll, useSpring } from 'motion/react';

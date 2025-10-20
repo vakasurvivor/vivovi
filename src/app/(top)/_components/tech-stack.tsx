@@ -1,5 +1,5 @@
 import Title from '@/components/title';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import TechItems from './tech-items';
 
 export default function TechStack({ className }: { className?: string }) {

@@ -13,16 +13,8 @@ export const metadata: Metadata = {
 type PostWithLikeCount = Post & {
   likeCount: number;
 };
-type SearchParams = Promise<{ [key: string]: string | undefined }>;
 
-export default async function BlogPage({
-  searchParams,
-}: {
-  searchParams: SearchParams;
-}) {
-  const { page = '1' } = await searchParams;
-  const LIMIT = 5;
-
+export default async function BlogPage() {
   if (!posts) {
     notFound();
   }
@@ -45,18 +37,13 @@ export default async function BlogPage({
   const totalPosts = posts.filter(post => post.published).length;
 
   return (
-    <div className="relative z-50 mt-8 rounded-md px-8 max-md:px-6 max-sm:px-4">
-      <div className="mx-auto max-w-5xl">
-        <SortPostsList
-          posts={postsWithLikeCount}
-          currentPage={parseInt(page)}
-        />
-      </div>
-      <PostsPagination
-        className="mt-6"
-        totalPages={Math.ceil(totalPosts / LIMIT)}
-        currentPage={parseInt(page)}
+    <div className="relative z-50 mx-auto mt-8 max-w-5xl px-8 max-md:px-6 max-sm:px-4">
+      <SortPostsList
+        className="min-h-dvh"
+        posts={postsWithLikeCount}
+        LIMIT={5}
       />
+      <PostsPagination className="my-6" totalPosts={totalPosts} LIMIT={5} />
     </div>
   );
 }

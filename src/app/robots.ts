@@ -5,8 +5,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        allow: ['/', '/api/og/'], // ただしOG画像生成APIは許可
-        disallow: ['/api/'], // API全体禁止
+        allow: ['/', '/api/og/'],
+        disallow: ['/api/'],
       },
     ],
     sitemap: 'https://vivovi.com/sitemap.xml',

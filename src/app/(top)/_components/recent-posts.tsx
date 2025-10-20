@@ -3,7 +3,7 @@ import Title from '@/components/title';
 import { Button } from '@/components/ui/button';
 import { sortByDateDescending } from '@/libs/post';
 import { prisma } from '@/libs/prismaClient';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import { format } from 'date-fns';
 import { CalendarDays, ChartNoAxesColumn, Timer } from 'lucide-react';
 import Image from 'next/image';
@@ -44,11 +44,11 @@ export default async function RecentPosts({
         最近の投稿
       </Title>
 
-      <div className={cn('mt-12 space-y-16')}>
+      <div className={cn('mt-12')}>
         <div className="grid auto-rows-min grid-cols-3 gap-x-8 max-md:block">
           <LatestPostCard className="col-[1/3] row-[1/4]" posts={recentPosts} />
           <SubPostCard
-            className="col-[3/4] row-[1/2] border-b max-md:mt-14 max-md:px-3 max-md:py-5"
+            className="col-[3/4] row-[1/2] border-b max-md:mt-12 max-md:px-3 max-md:py-5"
             posts={recentPosts}
           />
           <SubPostCard

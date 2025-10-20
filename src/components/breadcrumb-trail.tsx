@@ -7,7 +7,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import Link from 'next/link';
 
 export default function BreadcrumbTrail({

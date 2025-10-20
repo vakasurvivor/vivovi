@@ -12,14 +12,14 @@ import remarkBreaks from 'remark-breaks';
 import remarkHeadingId from 'remark-heading-id';
 import { defineCollection, defineConfig, s } from 'velite';
 
-const site = defineCollection({
-  name: 'Site',
-  pattern: 'site/index.yml',
+const SITE_CONFIG = defineCollection({
+  name: 'SiteConfig',
+  pattern: 'site-config/index.yml',
   single: true,
   schema: s.object({
-    links: s.array(
+    pages: s.array(
       s.object({
-        text: s.string(),
+        title: s.string(),
         link: s.string(),
       }),
     ),
@@ -27,13 +27,6 @@ const site = defineCollection({
       s.object({
         name: s.string(),
         link: s.string(),
-      }),
-    ),
-    techStack: s.array(
-      s.object({
-        label: s.string(),
-        link: s.string(),
-        colors: s.array(s.string()),
       }),
     ),
   }),
@@ -103,7 +96,7 @@ export default defineConfig({
     name: '[name]-[hash:6].[ext]',
     clean: true,
   },
-  collections: { posts, site },
+  collections: { posts, SITE_CONFIG },
 
   mdx: {
     remarkPlugins: [remarkBreaks, remarkHeadingId],

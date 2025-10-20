@@ -1,7 +1,8 @@
 'use client';
-import { cn } from '@/utils/cn';
+
+import { cn } from '@/utils';
 import { useTheme } from 'next-themes';
-import { XEmbed } from 'react-social-media-embed';
+import { Tweet } from 'react-tweet';
 
 interface XProps {
   url: string;
@@ -9,16 +10,19 @@ interface XProps {
 }
 
 export default function XTweet({ url, className }: XProps) {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const tweetId = url.split('/').pop() as string;
 
+  if (!resolvedTheme) {
+    return null;
+  }
+
   return (
-    <div className={cn('mx-auto my-8 max-w-[500px] shadow-md', className)}>
-      <XEmbed
-        url={url}
-        width={'100%'}
-        twitterTweetEmbedProps={{ tweetId, options: { theme: theme } }}
-      />
+    <div
+      className={cn('mx-auto my-8 w-fit rounded-xl shadow-md', className)}
+      data-theme={resolvedTheme}
+    >
+      <Tweet id={tweetId} />
     </div>
   );
 }

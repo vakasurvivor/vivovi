@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import { Slot } from '@radix-ui/react-slot';
 import { AnimatePresence } from 'motion/react';
 import Link from 'next/link';

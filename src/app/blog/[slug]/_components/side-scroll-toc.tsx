@@ -2,7 +2,7 @@
 
 import { useMatchMedia } from '@/hooks/use-matchMedia';
 import { useToc } from '@/hooks/use-toc';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import { useEffect, useLayoutEffect, useState } from 'react';
 
 interface SideScrollTocProps {

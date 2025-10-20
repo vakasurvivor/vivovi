@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import Link from 'next/link';
 
 export default function NotFound() {

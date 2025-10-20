@@ -1,7 +1,7 @@
 import DiscordIcon from '@/components/discord-icon';
 import GitHubIcon from '@/components/github-icon';
 import XIcon from '@/components/x-icon';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import Link from 'next/link';
 
 const icons = [

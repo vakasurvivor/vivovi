@@ -1,7 +1,7 @@
 import { Post, posts } from '#site/content';
 import BreadcrumbTrail from '@/components/breadcrumb-trail';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import { generatePostJsonLd } from '@/utils/jsonLd';
 import { format } from 'date-fns';
 import {
@@ -15,6 +15,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import Comment from './_components/comment';
 import { MDXContent } from './_components/mdx-content';
 
 // Next.jsの標準APIを使用して、全記事のURLを事前生成する(SSG)
@@ -65,6 +66,7 @@ export default async function PostPage({ params }: ParamsProps) {
       />
       <Header post={post} />
       <Content content={post.content} components={components} />
+      <Comment />
     </>
   );
 }
@@ -200,8 +202,8 @@ const Content = ({
   components: Record<string, React.ComponentType> | null;
 }) => {
   return (
-    <div id="content">
+    <section id="content" className="mb-16">
       <MDXContent code={content} components={components} />
-    </div>
+    </section>
   );
 };

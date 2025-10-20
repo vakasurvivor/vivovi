@@ -113,9 +113,9 @@ pre code:where([data-theme][data-line-numbers]) {
 
     /* 装飾行 */
     /* normal highlight */
-    /* &[data-highlighted-line]::before {
-      @apply text-blue-500;
-    } */
+    &[data-highlighted-line]::before {
+      @apply text-blue-400;
+    }
     /* + add highlight */
     /* &.add::before {
       @apply text-green-500;
@@ -167,7 +167,7 @@ pre
     [data-theme][data-line-numbers][data-line-numbers-max-digits='2']
   ) {
   span[data-line]::before {
-    min-width: fit-content;
+    min-width: 17px;
   }
 
   &:has(span:is(.add, .remove, .warning, .error)) {
@@ -279,9 +279,9 @@ div[role='tabpanel'] {
   /* Customコンポーネントを非表示 */
   div[data-rehype-pretty-code-title],
   figcaption:is(
-      [data-rehype-pretty-code-title],
-      [data-rehype-pretty-code-caption]
-    ) {
+    [data-rehype-pretty-code-title],
+    [data-rehype-pretty-code-caption]
+  ) {
     display: none;
   }
 }

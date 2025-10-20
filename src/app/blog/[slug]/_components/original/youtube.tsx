@@ -1,4 +1,4 @@
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import { YouTubeEmbed } from '@next/third-parties/google';
 interface YouTubeProps {
   videoid: string;

@@ -35,7 +35,9 @@ const metascraperInstance = metascraper([
 // fetchMetadata
 const fetchMetadata = async (url: string): Promise<LinkCardData | null> => {
   try {
-    const res = await fetch(url, { cache: 'force-cache' });
+    const res = await fetch(url, {
+      cache: 'force-cache',
+    });
     if (!res.ok) throw new Error(`HTTP error status: ${res.status}`);
 
     const html = await res.text();
