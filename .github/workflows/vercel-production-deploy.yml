@@ -60,14 +60,20 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
-      - name: Run Prisma Migrations And Seed Data
-        run: pnpm prisma migrate deploy && pnpm db:seed:prod
+      - name: Run Prisma Migrations
+        run: pnpm prisma migrate deploy
         env:
           DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
           DIRECT_URL: ${{ secrets.PRODUCTION_DIRECT_URL }}
 
       - name: Generate and Build Content
         run: pnpm exec prisma generate && pnpm velite build --debug
+        env:
+          DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PRODUCTION_DIRECT_URL }}
+
+      - name: Run Prisma Seed Data
+        run: pnpm db:seed:prod
         env:
           DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
           DIRECT_URL: ${{ secrets.PRODUCTION_DIRECT_URL }}
