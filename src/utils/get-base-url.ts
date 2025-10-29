@@ -1,15 +1,12 @@
-export const getBaseUrl = () => {
-  const productionUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-  const previewUrl = process.env.VERCEL_URL;
+export const getBaseURL = (options?: { useCommitURL?: boolean }) => {
+  const isProduction = process.env.NEXT_PUBLIC_VERCEL_ENV === 'production';
+  const url = isProduction
+    ? process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
+    : options?.useCommitURL
+      ? process.env.NEXT_PUBLIC_VERCEL_URL
+      : process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL;
 
-  if (process.env.VERCEL_ENV === 'production' && productionUrl) {
-    return `https://${productionUrl}`;
-  }
-
-  if (process.env.VERCEL_ENV === 'preview' && previewUrl) {
-    return `https://${previewUrl}`;
-  }
-
-  // ローカル開発環境
-  return `http://localhost:${process.env.PORT || 3000}`;
+  return url
+    ? `https://${url}`
+    : `http://localhost:${process.env.PORT || 3000}`;
 };

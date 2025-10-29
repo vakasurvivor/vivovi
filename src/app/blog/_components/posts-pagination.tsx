@@ -62,7 +62,9 @@ export default function PostsPagination({
               <PaginationLink
                 onClick={() => setPage(page as number)}
                 href="#"
-                isActive={page === currentPage}
+                className={cn(
+                  page === currentPage && 'text-accent-foreground bg-blue-700',
+                )}
               >
                 {page}
               </PaginationLink>
@@ -70,11 +72,17 @@ export default function PostsPagination({
           );
         })}
 
-        {currentPage !== totalPages && (
-          <PaginationItem>
-            <PaginationNext onClick={() => setPage(currentPage + 1)} href="#" />
-          </PaginationItem>
-        )}
+        <PaginationItem>
+          <PaginationNext
+            className={cn(
+              currentPage !== totalPages
+                ? 'opacity-100'
+                : 'pointer-events-none cursor-default opacity-0',
+            )}
+            onClick={() => setPage(currentPage + 1)}
+            href="#"
+          />
+        </PaginationItem>
       </PaginationContent>
     </Pagination>
   );

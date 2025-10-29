@@ -4,47 +4,43 @@ import { cn } from '@/utils';
 import * as SwitchPrimitives from '@radix-ui/react-switch';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { usePathname } from 'next/navigation';
-import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { forwardRef } from 'react';
 
 interface ThemeToggleProps {
   className?: string;
 }
 
-const disabledRoutes = ['/', '/blog'];
-
 export default function ThemeToggle({ className }: ThemeToggleProps) {
-  const { resolvedTheme, setTheme } = useTheme();
-  const [isDark, setIsDark] = useState(resolvedTheme === 'dark');
-  const pathname = usePathname();
+  const { theme, forcedTheme, resolvedTheme, systemTheme, themes, setTheme } =
+    useTheme();
+
+  // console.group('🎨 Next Theme State');
+  // console.log(`theme: ${theme}`);
+  // console.log(`resolvedTheme: ${resolvedTheme}`);
+  // console.log(`systemTheme: ${systemTheme}`);
+  // console.log(`forcedTheme: ${forcedTheme}`);
+  // console.log(`themes: ${themes}`);
+  // console.groupEnd();
 
   const handleToggleTheme = () => {
-    const newTheme = isDark ? 'light' : 'dark';
+    const newTheme = resolvedTheme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
-    setIsDark(!isDark);
   };
 
-  useEffect(() => {
-    if (disabledRoutes.includes(pathname) && resolvedTheme !== 'dark') {
-      setTheme('dark');
-    }
-  }, [pathname, resolvedTheme, setTheme]);
-
-  if (disabledRoutes.includes(pathname)) {
+  if (forcedTheme) {
     return null;
   }
 
   return (
     <Switch
-      checked={isDark}
+      checked={resolvedTheme === 'dark'}
       onCheckedChange={handleToggleTheme}
       className={cn(className)}
     />
   );
 }
 
-const Switch = React.forwardRef<
+const Switch = forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
 >(({ className, ...props }, ref) => {

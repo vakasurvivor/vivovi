@@ -43,7 +43,7 @@ export default async function BlogPage() {
         posts={postsWithLikeCount}
         LIMIT={5}
       />
-      <PostsPagination className="my-6" totalPosts={totalPosts} LIMIT={5} />
+      <PostsPagination className="my-8" totalPosts={totalPosts} LIMIT={5} />
     </div>
   );
 }

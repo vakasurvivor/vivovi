@@ -1,4 +1,5 @@
 import { posts } from '#site/content';
+import Title from '@/components/title';
 import { cn } from '@/utils';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -62,33 +63,39 @@ export default function TopPage() {
       <div className="relative z-10 px-8 max-md:px-6 max-sm:px-4">
         <TechStack className="mt-28 max-w-5xl" />
         <RecentPosts posts={posts} className="mt-28 max-w-5xl" />
-        <section
-          className={cn(
-            'natural-shadow dark:border-border/14 border-border/7 relative mx-auto my-20 max-w-5xl overflow-hidden rounded-lg bg-blue-700 p-12',
-            'before:pointer-events-none before:absolute before:inset-0 before:bg-gradient-to-b before:from-white before:to-transparent before:opacity-20',
-          )}
-        >
-          <div className="pointer-events-none absolute top-0 left-0 isolate h-full w-[calc(600/16*1rem)] select-none">
-            <Image
-              alt="a"
-              width="500"
-              height="500"
-              className="absolute top-[calc(-300/16*1rem)] left-[calc(-150/16*1rem)] size-[calc(900/16*1rem)] max-w-none opacity-90"
-              src={'/img/background_vivovi_icon.svg'}
-            />
-          </div>
-          <div>
-            <h3 className="text-3xl">
-              <span className="text-7xl font-semibold">VIVOVI</span> is Tech
-              Blog
-            </h3>
-            <p className="my-6 text-lg">
-              Web技術に関するフロントエンド領域を中心として、日々の学習や実務での知見を記事として投稿する予定です。
-            </p>
-            <Link href="/blog">記事一覧へ</Link>
-          </div>
-        </section>
+        <div className="mx-auto mt-28 max-w-5xl pt-20">
+          <Title subTitle="shadcn/ui CLI">Registry</Title>
+          <p className="text-foreground/30 mt-6 text-sm">
+            shadcn
+            CLIを使用して独自のコードレジストリを実行できます。独自のレジストリを実行することで、カスタムコンポーネント、フック、ページ、設定、ルール、その他のファイルを任意のプロジェクトに配布できます。
+          </p>
+          <section
+            className={cn(
+              'natural-shadow dark:border-border/14 border-border/7 relative mx-auto my-20 max-w-5xl overflow-hidden rounded-lg bg-blue-700 p-12',
+              'before:pointer-events-none before:absolute before:inset-0 before:bg-gradient-to-b before:from-white before:to-transparent before:opacity-20',
+            )}
+          >
+            <div className="pointer-events-none absolute top-0 left-0 isolate h-full w-[calc(600/16*1rem)] select-none">
+              <Image
+                alt="a"
+                width="500"
+                height="500"
+                className="absolute top-[calc(-300/16*1rem)] left-[calc(-150/16*1rem)] size-[calc(900/16*1rem)] max-w-none opacity-90"
+                src={'/img/background_vivovi_icon.svg'}
+              />
+            </div>
+            <div>
+              <h3 className="text-3xl">VIVOVI Registry</h3>
+              <p className="my-6 text-lg">
+                shadcn
+                CLIを使用して独自のコードレジストリを実行できます。独自のレジストリを実行することで、カスタムコンポーネント、フック、ページ、設定、ルール、その他のファイルを任意のプロジェクトに配布できます。
+              </p>
+              <Link href="/registry">記事一覧へ</Link>
+            </div>
+          </section>
+        </div>
       </div>
+
       <svg aria-hidden="true" className="sr-only">
         <filter id="noiseFilter">
           <feTurbulence

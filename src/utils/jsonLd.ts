@@ -1,5 +1,5 @@
 import { Post } from '#site/content';
-import { getBaseUrl } from './get-base-url';
+import { getBaseURL } from './get-base-url';
 
 function generatePostJsonLd(post: Post) {
   const jsonLd = {
@@ -18,14 +18,14 @@ function generatePostJsonLd(post: Post) {
       name: 'VIVOVI',
       logo: {
         '@type': 'ImageObject',
-        url: `${getBaseUrl()}/`,
+        url: `${getBaseURL()}/`,
       },
     },
     datePublished: post.createdAt,
     dateModified: post.updatedAt,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${getBaseUrl()}/blog/${post.slug}`,
+      '@id': `${getBaseURL()}/blog/${post.slug}`,
     },
     // keywords: post.tags.join(', '),
   };
