@@ -30,7 +30,9 @@
     "prisma:studio": "dotenv -e .env.local -- pnpm exec prisma studio",
     "prisma:format": "pnpm exec prisma format",
     "prisma:validate": "dotenv -e .env.local -- pnpm exec prisma validate",
-    "prepare": "husky"
+    "prepare": "husky",
+    "db:seed": "dotenv -e .env.local -- prisma db seed",
+    "db:seed:prod": "prisma db seed"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,cjs,mjs}": [
