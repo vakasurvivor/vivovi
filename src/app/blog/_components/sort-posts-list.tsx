@@ -58,14 +58,8 @@ export default function SortPostsList({
   const endIndex = startIndex + LIMIT;
 
   function handleSortChange(value: string) {
-    setQueryStates({ sort: value });
+    setQueryStates({ sort: value, page: 1 });
   }
-
-  // console.log('Current sort:', sort);
-  // console.log(
-  //   'Sorted posts:',
-  //   sortedPosts.map(p => p.title),
-  // );
 
   return (
     <div className={cn(className)}>
@@ -77,12 +71,7 @@ export default function SortPostsList({
         <div className="flex justify-end pt-6">
           <Select onValueChange={handleSortChange} value={sort}>
             <SelectTrigger className={cn('w-[150px]')}>
-              <ArrowUpWideNarrow
-                className={cn(
-                  'h-4 w-4',
-                  sort === 'date' ? 'text-blue-400' : 'text-gray-400',
-                )}
-              />
+              <ArrowUpWideNarrow className={cn('h-4 w-4')} />
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
