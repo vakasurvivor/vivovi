@@ -49,9 +49,6 @@ jobs:
   type-check:
     needs: setup
     runs-on: ubuntu-latest
-    env:
-      DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
-      DIRECT_URL: ${{ secrets.PRODUCTION_DIRECT_URL }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
@@ -59,5 +56,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
       - run: pnpm exec prisma generate # for type-check
+        env:
+          DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PRODUCTION_DIRECT_URL }}
       - run: pnpm velite build --debug # for type-check
       - run: pnpm run type-check
