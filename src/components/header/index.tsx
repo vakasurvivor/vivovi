@@ -21,6 +21,7 @@ export default function Header({ className }: { className: string }) {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const rootStyles = getComputedStyle(document.documentElement);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setBreakpoint(rootStyles.getPropertyValue('--breakpoint-md'));
     }
   }, []);

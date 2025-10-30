@@ -1,5 +1,5 @@
 import { posts } from '#site/content';
-import { prisma } from '@/libs/prismaClient';
+import { prisma } from '@/lib/prismaClient';
 
 // シード処理のメイン関数
 async function main() {

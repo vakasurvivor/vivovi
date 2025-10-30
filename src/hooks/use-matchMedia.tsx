@@ -21,6 +21,7 @@ export function useMatchMedia(
   );
 
   useLayoutEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMatches(matchMediaList!.matches);
   }, [matchMediaList]);
 

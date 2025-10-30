@@ -13,11 +13,11 @@ import { cn } from '@/utils';
 import { getPaginationSequence } from '@/utils/get-pagination-sequence';
 import { parseAsInteger, useQueryState } from 'nuqs';
 
-interface PaginationProps {
+type PaginationProps = {
+  className?: string;
   totalPosts: number;
   LIMIT: number;
-  className?: string;
-}
+};
 
 export default function PostsPagination({
   totalPosts,
@@ -28,6 +28,7 @@ export default function PostsPagination({
     'page',
     parseAsInteger.withDefault(1),
   );
+
   const totalPages = Math.ceil(totalPosts / LIMIT);
 
   return (

@@ -31,6 +31,7 @@ function ComponentSwitcher({
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setBreakpointMd(
         getComputedStyle(document.documentElement).getPropertyValue(
           '--breakpoint-md',

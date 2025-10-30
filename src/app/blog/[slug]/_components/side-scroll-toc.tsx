@@ -15,6 +15,7 @@ export default function SideScrollToc({ className }: SideScrollTocProps) {
   // CSS変数からブレークポイントを取得するためにuseEffectを使用
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setBreakpointMd(
         getComputedStyle(document.documentElement).getPropertyValue(
           '--breakpoint-xl',

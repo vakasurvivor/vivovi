@@ -1,5 +1,5 @@
 import { Post, posts } from '#site/content';
-import { prisma } from '@/libs/prismaClient';
+import { prisma } from '@/lib/prismaClient';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';

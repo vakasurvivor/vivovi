@@ -101,6 +101,7 @@ export const useToc = ({
     }
 
     // 見出しの配列を状態として設定する。
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHeadings(
       headingElements.map(heading => ({
         id: heading.id || heading.textContent!,

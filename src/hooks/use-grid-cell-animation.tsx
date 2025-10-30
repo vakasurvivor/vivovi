@@ -1,4 +1,4 @@
-import { GridCellAnimator } from '@/libs/grid-cell-animator';
+import { GridCellAnimator } from '@/lib/grid-cell-animator';
 import { debounce } from 'es-toolkit';
 import { type RefObject, useEffect } from 'react';
 
@@ -37,7 +37,7 @@ export function useGridCellAnimation(
     return () => {
       cleanup?.();
     };
-  }, []);
+  }, [canvasRef, containerRef, gridCellColors]);
 }
 
 type GridCellAnimationProps = {
@@ -96,7 +96,7 @@ function offscreenCanvasGridCellAnimation({
 
   const offscreenCanvas = canvasEl.transferControlToOffscreen();
   const worker = new Worker(
-    new URL('../libs/grid-cell-animator-worker.ts', import.meta.url),
+    new URL('../lib/grid-cell-animator-worker.ts', import.meta.url),
     { type: 'module' },
   );
 

@@ -9,22 +9,18 @@ import {
 import { useMatchMedia } from '@/hooks/use-matchMedia';
 import { cn } from '@/utils';
 import { TableOfContents } from 'lucide-react';
-import { useEffect, useState, type ComponentPropsWithoutRef } from 'react';
+import { useMemo, type ComponentPropsWithoutRef } from 'react';
 
 interface CustomNavProps extends ComponentPropsWithoutRef<'nav'> {}
 
 export default function CustomNav(props: CustomNavProps) {
   const hasToc = props.className === 'rehype-toc';
 
-  const [breakpointXl, setBreakpointMd] = useState<string | null>(null);
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setBreakpointMd(
-        getComputedStyle(document.documentElement).getPropertyValue(
-          '--breakpoint-xl',
-        ),
-      );
-    }
+  const breakpointXl = useMemo(() => {
+    if (typeof window === 'undefined') return null;
+    return getComputedStyle(document.documentElement).getPropertyValue(
+      '--breakpoint-xl',
+    );
   }, []);
 
   const isPcSize = useMatchMedia(`(width >= ${breakpointXl})`);

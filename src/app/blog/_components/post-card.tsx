@@ -28,6 +28,7 @@ export default function postCard({
     likeCount,
     metadata,
   } = post;
+
   return (
     <div
       className={cn(

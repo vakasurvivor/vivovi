@@ -1,6 +1,6 @@
 import Footer from '@/components/footer';
 import Header from '@/components/header';
-import { commitMono, crazyMetro, inter, notoSansJP } from '@/libs/font';
+import { commitMono, crazyMetro, inter, notoSansJP } from '@/lib/font';
 import '@/styles/globals.css';
 import { getBaseURL } from '@/utils/get-base-url';
 import type { Metadata } from 'next';
@@ -8,6 +8,7 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import 'yakuhanjp/dist/css/yakuhanjp_s.css';
 import { ScrollProvider } from './(top)/scroll-provider';
 import { ScrollbarWidthProvider } from './(top)/scrollbar-width-provider';
+import { TanstackQueryProvider } from './(top)/tanstack-query-provider';
 import { ThemeProvider } from './(top)/theme-provider';
 
 export const metadata: Metadata = {
@@ -109,18 +110,20 @@ export default function RootLayout({
       <body
         className={'bg-background text-foreground min-h-dvh w-full font-sans'}
       >
-        <ThemeProvider>
-          <NuqsAdapter>
-            <ScrollProvider>
-              <ScrollbarWidthProvider>
-                <Header className="sticky top-0 left-0 z-100" />
-                {/* <VivoviLogo /> */}
-                {children}
-                <Footer className="sticky top-full" />
-              </ScrollbarWidthProvider>
-            </ScrollProvider>
-          </NuqsAdapter>
-        </ThemeProvider>
+        <TanstackQueryProvider>
+          <ThemeProvider>
+            <NuqsAdapter>
+              <ScrollProvider>
+                <ScrollbarWidthProvider>
+                  <Header className="sticky top-0 left-0 z-100" />
+                  {/* <VivoviLogo /> */}
+                  {children}
+                  <Footer className="sticky top-full" />
+                </ScrollbarWidthProvider>
+              </ScrollProvider>
+            </NuqsAdapter>
+          </ThemeProvider>
+        </TanstackQueryProvider>
       </body>
     </html>
   );

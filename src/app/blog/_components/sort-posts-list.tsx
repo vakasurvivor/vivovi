@@ -1,5 +1,4 @@
 'use client';
-
 import { Post } from '#site/content';
 import Title from '@/components/title';
 import {
@@ -13,7 +12,7 @@ import {
   sortByDateDescending,
   sortByLikeCountDescending,
   sortByUpdateDateDescending,
-} from '@/libs/post';
+} from '@/lib/post';
 import { cn } from '@/utils';
 import { ArrowUpWideNarrow } from 'lucide-react';
 import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs';
@@ -25,29 +24,24 @@ type PostWithLikeCount = Post & {
 };
 
 export default function SortPostsList({
+  className,
   posts,
   LIMIT,
-  className,
 }: {
+  className?: string;
   posts: PostWithLikeCount[];
   LIMIT: number;
-  className?: string;
 }) {
-  const [{ sort, page }, setQueryStates] = useQueryStates(
-    {
-      sort: parseAsString.withDefault('date'),
-      page: parseAsInteger.withDefault(1),
-    },
-    {
-      history: 'push',
-    },
-  );
+  const [{ sort, page }, setQueryStates] = useQueryStates({
+    sort: parseAsString.withDefault('create-at'),
+    page: parseAsInteger.withDefault(1),
+  });
 
   const sortedPosts = useMemo(() => {
     switch (sort) {
-      case 'updatedAt':
+      case 'updated-at':
         return sortByUpdateDateDescending(posts);
-      case 'likeCount':
+      case 'like-count':
         return sortByLikeCountDescending(posts);
       default:
         return sortByDateDescending(posts);
@@ -57,10 +51,6 @@ export default function SortPostsList({
   const startIndex = (page - 1) * LIMIT;
   const endIndex = startIndex + LIMIT;
 
-  function handleSortChange(value: string) {
-    setQueryStates({ sort: value, page: 1 });
-  }
-
   return (
     <div className={cn(className)}>
       <div className="mb-12">
@@ -69,15 +59,20 @@ export default function SortPostsList({
         </Title>
 
         <div className="flex justify-end pt-6">
-          <Select onValueChange={handleSortChange} value={sort}>
+          <Select
+            value={sort}
+            onValueChange={(value: string) => {
+              setQueryStates({ sort: value });
+            }}
+          >
             <SelectTrigger className={cn('w-[150px]')}>
               <ArrowUpWideNarrow className={cn('h-4 w-4')} />
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="date">日付順</SelectItem>
-              <SelectItem value="updatedAt">更新順</SelectItem>
-              <SelectItem value="likeCount">人気順</SelectItem>
+              <SelectItem value="create-at">日付順</SelectItem>
+              <SelectItem value="updated-at">更新順</SelectItem>
+              <SelectItem value="like-count">人気順</SelectItem>
             </SelectContent>
           </Select>
         </div>

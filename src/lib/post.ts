@@ -2,14 +2,14 @@ import { Post } from '#site/content';
 
 // 汎用的な型 T を定義し、createdAt または updatedAt プロパティを持つことを制約する
 type SortablePost = Post & {
-  likeCount: number;
   createdAt: string;
   updatedAt?: string;
+  likeCount: number;
 };
 
 // 日付順
 const sortByDateDescending = <T extends SortablePost>(posts: Array<T>) => {
-  return posts.sort(
+  return [...posts].sort(
     (a, b) =>
       new Date(b.createdAt as string).getTime() -
       new Date(a.createdAt as string).getTime(),
@@ -17,7 +17,7 @@ const sortByDateDescending = <T extends SortablePost>(posts: Array<T>) => {
 };
 
 const sortByDateAscending = <T extends SortablePost>(posts: Array<T>) => {
-  return posts.sort(
+  return [...posts].sort(
     (a, b) =>
       new Date(a.createdAt as string).getTime() -
       new Date(b.createdAt as string).getTime(),
@@ -26,11 +26,11 @@ const sortByDateAscending = <T extends SortablePost>(posts: Array<T>) => {
 
 // 人気順
 const sortByLikeCountDescending = <T extends SortablePost>(posts: Array<T>) => {
-  return posts.sort((a, b) => b.likeCount - a.likeCount);
+  return [...posts].sort((a, b) => b.likeCount - a.likeCount);
 };
 
 const sortByLikeCountAscending = <T extends SortablePost>(posts: Array<T>) => {
-  return posts.sort((a, b) => a.likeCount - b.likeCount);
+  return [...posts].sort((a, b) => a.likeCount - b.likeCount);
 };
 
 // 閲覧順
@@ -40,7 +40,7 @@ const sortByLikeCountAscending = <T extends SortablePost>(posts: Array<T>) => {
 const sortByUpdateDateDescending = <T extends SortablePost>(
   posts: Array<T>,
 ) => {
-  return posts.sort(
+  return [...posts].sort(
     (a, b) =>
       new Date(b.updatedAt as string).getTime() -
       new Date(a.updatedAt as string).getTime(),
@@ -48,7 +48,7 @@ const sortByUpdateDateDescending = <T extends SortablePost>(
 };
 
 const sortByUpdateDateAscending = <T extends SortablePost>(posts: Array<T>) => {
-  return posts.sort(
+  return [...posts].sort(
     (a, b) =>
       new Date(a.updatedAt as string).getTime() -
       new Date(b.updatedAt as string).getTime(),

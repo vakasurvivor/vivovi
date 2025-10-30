@@ -1,4 +1,4 @@
-import { prisma } from '@/libs/prismaClient';
+import { prisma } from '@/lib/prismaClient';
 import { type NextRequest, NextResponse } from 'next/server';
 
 // いいねの数を取得するAPI

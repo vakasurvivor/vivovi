@@ -1,8 +1,8 @@
 import { Post } from '#site/content';
 import Title from '@/components/title';
 import { Button } from '@/components/ui/button';
-import { sortByDateDescending } from '@/libs/post';
-import { prisma } from '@/libs/prismaClient';
+import { sortByDateDescending } from '@/lib/post';
+import { prisma } from '@/lib/prismaClient';
 import { cn } from '@/utils';
 import { format } from 'date-fns';
 import { CalendarDays, ChartNoAxesColumn, Timer } from 'lucide-react';
